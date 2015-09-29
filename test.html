@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<htmllang="en">
+<head>
+<title>## DC Calendar test</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="https://cdn.rawgit.com/necolas/normalize.css/master/normalize.css" />
+<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,700,100,100italic' rel='stylesheet' type='text/css'>
+<style>
+html { box-sizing: border-box; font-size:62.5%; }
+*, *:before, *:after { box-sizing: inherit; }
+* { font-family: 'Roboto', arial, helvetica, sans-serif; font-weight:400; }
+body { padding:40px 0; background: #fafafa; font-size:1.6rem; color:#333; }
+#c { width:500px; padding:40px; margin:0 auto; min-height:1000px; background:#fff; border:1px solid #eee; border-top-width:2px; }
+h1 { margin-top:0; font-size: 4.2rem; font-weight:300; }
+h1 b { font-weight: 500; }
+</style>
+<style>
+input { padding:5px 10px; }
+#t { border-collapse: collapse; margin-top:40px; cursor: default; }
+#t td { border:1px solid #ddd; padding:5px; text-align:center; vertical-align:middle; }
+#t td:hover i { background: #eee; }
+#t td i { font-style:normal; }
+#t td i {
+	display:block;
+	position:relative;
+	width:34px;
+	height:34px;
+	line-height:34px;
+	border-radius:50%;
+	transition: all .2s ease;
+}
+
+#t thead td { background: #eee; }
+
+.sel1,.sel2, .range { color:#fff; }
+#t td.range i { background: #9cf; }
+#t td.sel1 i { background: #4cf; }
+#t td.sel2 i { background: hotpink; }
+
+.sel1 i, .sel2 i { animation: bounce .2s ease-in-out 1; }
+
+@keyframes bounce {
+	0% { transform: translateY(0); }
+	20% { transform: translateY(-5px); }
+	50% { transform: translateY(5px); }
+	100% { transform: translateY(0px); }
+}
+
+</style>
+</head>
+<body>
+<div id="c">
+
+<h1><b>range</b>Calendar</h1>
+
+<input type="text" class="date">
+
+<div id="cal">
+<table id="t">
+	<thead>
+	<tr>
+		<td>M</td>
+		<td>T</td>
+		<td>W</td>
+		<td>T</td>
+		<td>F</td>
+		<td>S</td>
+		<td>S</td>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+	</tr>
+	<tr>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+	</tr>
+	<tr>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+	</tr>
+	<tr>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+	</tr>
+	<tr>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+		<td><i>9</i></td>
+	</tr>
+	</tbody>
+</table>
+</div>
+
+</div><!-- /#c -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script>
+// INIT
+;(function($, window, document, undefined) {
+
+	'use strict';
+
+	// helpers
+	function _id(e) { return document.getElementById(e); }
+	function _e(e) { return document.querySelector(e); }
+	function _ee(e) { return document.querySelectorAll(e); }
+	function _for(e,f) { var i, len=e.length; for(i=0;i<len;i++){ f(e[i]); }}
+	function log(e, before) { before=before||''; console.log(before+e); }
+	
+	function selectBetween(from,to){
+		
+	}
+	
+	function userSelect(e){
+		
+		var sel1 = _id('sel1'),
+			sel2 = _id('sel2');		
+			
+		// first exist
+		if( sel1 === null ){
+			e.id = 'sel1';
+			e.classList.add('sel1');
+			//log('select second option');
+		}
+		
+		// second exist
+		else if( sel2 === null && e.id !== 'sel1' ){ // prevent making #2 to #1
+			e.id = 'sel2';
+			e.classList.add('sel2');
+			//log('range complete');
+				
+			var par = e.parentNode,			// tr
+				parPar = par.parentNode;	// tbody
+				//rowLen = parPar.querySelectorAll('tr').length,
+				
+				var td = parPar.querySelectorAll('td'),
+					go = false,
+					stop = false,
+					i=0,
+					s1i=0,
+					s2i=999;
+			
+			_for(td, function(e){
+				i++;
+				
+				if( e.id == 'sel1' ) { go=1; s1i = i; }
+				if( e.id == 'sel2' ) { stop=1; s2i = i; }
+				
+				if( s1i < s2i && go ){
+					if(go){ e.classList.add('range'); }
+				} 
+				if(stop){ go=0; }
+				
+			})			
+			
+			
+		}
+		
+		// both selections exist
+		else {
+			sel1.removeAttribute('class');
+			sel1.removeAttribute('id');
+			if(sel2 !== null){
+				sel2.removeAttribute('class');
+				sel2.removeAttribute('id');
+			}
+			
+			//userSelect(e);
+		}
+		
+	}
+
+	
+	var tb = _e('tbody');
+	$(tb).on('click', 'td', function(){ userSelect(this); });
+
+
+
+})(jQuery, window, document); // end() init
+</script>
+</body>
+</html>
