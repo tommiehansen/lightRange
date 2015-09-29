@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <htmllang="en">
 <head>
-<title>## DC Calendar test</title>
+<title># LightRange</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="https://cdn.rawgit.com/necolas/normalize.css/master/normalize.css" />
 <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,700,100,100italic' rel='stylesheet' type='text/css'>
@@ -11,8 +11,10 @@ html { box-sizing: border-box; font-size:62.5%; }
 * { font-family: 'Roboto', arial, helvetica, sans-serif; font-weight:400; }
 body { padding:40px 0; background: #fafafa; font-size:1.6rem; color:#333; }
 #c { width:500px; padding:40px; margin:0 auto; min-height:1000px; background:#fff; border:1px solid #eee; border-top-width:2px; }
-h1 { margin-top:0; font-size: 4.2rem; font-weight:300; }
+h1 { margin:0; font-size: 4.2rem; font-weight:300; line-height:100%; }
 h1 b { font-weight: 500; }
+p { line-height:150%; }
+p.sub { margin:5px 0 40px; color:#aaa; font-weight:300; text-transform: uppercase; }
 </style>
 <style>
 input { padding:5px 10px; }
@@ -51,7 +53,8 @@ input { padding:5px 10px; }
 <body>
 <div id="c">
 
-<h1><b>range</b>Calendar</h1>
+<h1><b>LightRange</h1>
+<p class="sub">Select A then B, then maybe A again</p>
 
 <!--<input type="text" class="date">-->
 
@@ -135,10 +138,6 @@ input { padding:5px 10px; }
 	function _for(e,f) { var i, len=e.length; for(i=0;i<len;i++){ f(e[i]); }}
 	function log(e, before) { before=before||''; console.log(before+e); }
 	
-	function selectBetween(from,to){
-		
-	}
-	
 	function userSelect(e,main){
 		
 		var sel1 = _id('sel1'),
@@ -202,6 +201,60 @@ input { padding:5px 10px; }
 	
 	var tb = _e('tbody');
 	$(tb).on('click', 'td', function(){ userSelect(this,tb); });
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*-----------------------------------------------------
+		
+		GET MONTH DATA
+		
+	-----------------------------------------------------*/
+	
+	var monthInformation = function(year, month){
+        /* Create a date. Usually month in JS is 0-11 index based but here is a hack that can be used to calculate total days in a month */
+        var date = new Date(year, month, 0);
+        /* Get the total number of days in a month */
+        this.totalDays = date.getDate();
+        /* End day of month. Like Saturday is end of month etc. 0 means Sunday and 6 means Saturday */
+        this.endDay = date.getDay();
+        date.setDate(1);
+        /* Start day of month. Like Saturday is start of month etc. 0 means Sunday and 6 means Saturday */
+        this.startDay = date.getDay();
+        /* Here we generate days for 42 cells of a Month */
+        var days = new Array(42);
+        /* Here we calculate previous month dates for placeholders if starting day is not Sunday */
+        var prevMonthDays = 0;
+        var prevMonth = new Date(year, month, 0);
+        prevMonth.setMonth(prevMonth.getMonth() - 1);
+        if(this.startDay !== 0) prevMonthDays  = prevMonth.getDate() - this.startDay;
+        /* This is placeholder for next month. If month does not end on Saturday, placeholders for next days to fill other cells */
+        var count = 0;
+        // 42 = 7 columns * 6 rows. This is the standard number. Verify it with any standard Calendar
+        for(var i = 0; i < 42; i += 1) {
+            var day = {};
+            /* So start day is not Sunday, so we can display previous month dates. For that below we identify previous month dates */
+            if(i < this.startDay) {
+                day.date = (prevMonthDays = prevMonthDays + 1);
+            /* belong to next month dates. So, month does not end on Saturday. So here we get next month dates as placeholders */
+            } else if(i > this.totalDays + (this.startDay - 1)) { 
+                day.date = (count = count + 1);
+            /* belong to current month dates. */    
+            } else {
+                day.date = (i - this.startDay) + 1;
+            }
+            days[i] = day.date;
+        }
+        this.days = days;
+    };
+	
+	var q = monthInformation.call(2015, 1);
+	console.log( q );
 
 
 
