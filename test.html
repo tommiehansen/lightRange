@@ -53,7 +53,7 @@ input { padding:5px 10px; }
 
 <h1><b>range</b>Calendar</h1>
 
-<input type="text" class="date">
+<!--<input type="text" class="date">-->
 
 <div id="cal">
 <table id="t">
@@ -118,6 +118,8 @@ input { padding:5px 10px; }
 </table>
 </div>
 
+<div id="action"></div>
+
 </div><!-- /#c -->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <script>
@@ -137,7 +139,7 @@ input { padding:5px 10px; }
 		
 	}
 	
-	function userSelect(e){
+	function userSelect(e,main){
 		
 		var sel1 = _id('sel1'),
 			sel2 = _id('sel2');		
@@ -153,13 +155,12 @@ input { padding:5px 10px; }
 		else if( sel2 === null && e.id !== 'sel1' ){ // prevent making #2 to #1
 			e.id = 'sel2';
 			e.classList.add('sel2');
-			//log('range complete');
 				
+			// selection is complete
 			var par = e.parentNode,			// tr
-				parPar = par.parentNode;	// tbody
-				//rowLen = parPar.querySelectorAll('tr').length,
+				parPar = main;				// tbody (main)
 				
-				var td = parPar.querySelectorAll('td'),
+				var td = main.querySelectorAll('td'),
 					go = false,
 					stop = false,
 					i=0,
@@ -184,6 +185,8 @@ input { padding:5px 10px; }
 		
 		// both selections exist
 		else {
+			var td = 
+			_for()
 			sel1.removeAttribute('class');
 			sel1.removeAttribute('id');
 			if(sel2 !== null){
@@ -198,7 +201,7 @@ input { padding:5px 10px; }
 
 	
 	var tb = _e('tbody');
-	$(tb).on('click', 'td', function(){ userSelect(this); });
+	$(tb).on('click', 'td', function(){ userSelect(this,tb); });
 
 
 
