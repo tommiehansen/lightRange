@@ -12,10 +12,39 @@
 	
 	
 	// default stuff : get from data-values later on (even though slower)
-	var monthArr	= ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+	var monthArr	= ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 	var dayArr		= ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+	var dayLongArr	= ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 	var month, year;
 	
+	
+	function lurker(date,fromTo){
+		fromTo=fromTo||'from'; // default = from
+		
+		// BASE DATE + VARs
+		var date = new Date(date),
+			y = date.getFullYear().toString(),
+			m = date.getMonth(),
+			d = date.getDate().toString(),
+			day = date.getDay(),
+			main = _id('fromTo'),
+			cur;
+		
+		if( fromTo == 'from' ){ cur = _id('dateFrom'); } else { cur = _id('dateTo'); }
+		
+		// Text selectors
+		var $cur = $(cur);
+		var r_date 		= $cur.find('.r_date'),
+			r_monthYear = $cur.find('.r_monthYear'),
+			r_day		= $cur.find('.r_day');
+		
+		
+		// Set texts
+		r_date.text(d);
+		r_monthYear.text( monthArr[m] + ' ' + y);
+		r_day.text( dayLongArr[day] );
+		
+	}
 	
 	
 	/*-----------------------------------------------------
@@ -34,12 +63,16 @@
 		if( sel1 === null ){
 			e.id = 'sel1';
 			e.classList.add('sel1');
+			lurker( e.getAttribute('data-date'));
 		}
 		
 		// second exist
 		else if( sel2 === null && e.id !== 'sel1' ){ // prevent making #2 to #1
 			e.id = 'sel2';
 			e.classList.add('sel2');
+			
+			// set texts
+			lurker( e.getAttribute('data-date'), 'to');
 				
 			// selection is complete
 			var par = e.parentNode,			// tr
@@ -105,7 +138,6 @@
 	
 	// year, month, mainSelector to append to
 	function getMonth(year, month, main){
-		
 		var m = {};
 		monthInformation.call(m, year, month); // returns object to m
 		
@@ -140,13 +172,13 @@
 				
 				switch(true){
 					case key < startDay && nextMonth != 1:
-						curDate = nextYear + '-' + (nextMonth-1) + '-' + days[key];		// previous month = month-1
+						curDate = nextYear + '-' + nextMonth + '-' + days[key];		// previous month = month-1
 						break;
 					case key < startDay && nextMonth == 1:
 						curDate = (nextYear-1) + '-' + 12 + '-' + days[key];			// previous month is december the year before
 						break;
 					case key >= nextMonthStart && nextMonth != 12:
-						curDate = nextYear + '-' + (nextMonth+1) + '-' + days[key];		// next month = month+1
+						curDate = nextYear + '-' + nextMonth + '-' + days[key];		// next month = month+1
 						break;
 					case key >= nextMonthStart && nextMonth == 12:
 						curDate = nextYear+1 + '-' + 1 + '-' + days[key];				// next month is january next year
@@ -207,15 +239,16 @@
 	-----------------------------------------------------*/
 	
 	
+	
 	// init on load
-	var month = 10,
-		year = 2015,
-		main = _id('dp');
+	var main = _id('dp'); // datePicker main div
+		
+	var now = new Date();
+	var month = now.getMonth()+1, // getMonth() wants non-zero-based index
+		date = now.getDate(),
+		year = now.getFullYear();
 		
 	getMonth(year, month, main);
-	
-	
-	
 	
 	
 	
