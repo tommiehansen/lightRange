@@ -1,0 +1,122 @@
+input { padding:5px 10px; }
+#cal { width: 640px; margin-top:60px; }
+#dp table { border-collapse: collapse; cursor: default; }
+#dp table { width:50%; float:left; }
+
+#dp td { border:1px solid #ddd; text-align:center; vertical-align:middle; }
+#dp td:hover i { background: #eee; }
+#dp td i { font-style:normal; }
+#dp td i {
+	display:block;
+	position:relative;
+	
+	width:34px;
+	height:34px;
+	line-height:34px;
+	
+	border-radius:50%;
+	transition: all .2s ease;
+}
+
+
+
+/* PADDING */
+#dp td { padding: 5px; }
+
+/* special td stuff */
+.notCurMonth { color: #aaa; }
+.sel1, .sel2, .range { color:#fff; }
+#dp td.range i { background: #9cf; }
+#dp td.sel1 i { background: #4cf; }
+#dp td.sel2 i { background: hotpink; }
+
+#dp thead td { background: #eee; color: #888; text-transform: uppercase; }
+
+
+
+/* nav header etc */
+#disp {
+	position:relative;
+	text-transform: uppercase;
+	text-align:center;
+	height: 60px;
+	line-height: 60px;
+	font-size: 1.8rem;
+	background: hotpink;
+	color: #fff;
+	 -moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer */
+	-khtml-user-select: none; /* KHTML browsers (e.g. Konqueror) */
+	-webkit-user-select: none; /* Chrome, Safari, and Opera */
+	-webkit-touch-callout: none; /* Disable Android and iOS callouts*/
+	user-select:none;
+	touch-callout:none;
+}
+#month { display: inline; font-weight:300; }
+#disp .nav {
+	color:#fff;
+	float:right;
+	width:15%;
+	cursor:pointer;
+	font-size:2.9rem;
+	width: 40px;
+	height: 40px;
+	line-height: 36px;
+	border-radius:50%;
+	margin: 10px 10px 0 0;
+}
+#disp #prev { float:left; margin-right:0; margin-left: 10px; }
+
+#disp .nav:hover { background: rgba(255,255,255,0.1); }
+#disp .nav:active { transform: scale(0.9); }
+
+
+
+/* desktop / mobile classes */
+.hideDesk { display:none; }
+.hideSmall {}
+
+
+/* Media queries */
+@media(max-width: 800px){
+	.hideSmall { display:none; }
+	.hideDesk { display:inline; }
+	#dp table { width:100%; }
+	#dp table:nth-child(2) { display:none; }
+	#cal { width:320px; }
+}
+
+
+
+/* TEMP */
+
+.fromTo { margin:0 0 20px; }
+.fromTo * { display:block; font-style:normal; text-decoration:none; margin:0; padding:0; line-height:100%; font-weight:300; } /* normalize */
+
+
+
+.fromTo div {
+	width:50%;
+	display:inline-block;
+	vertical-align:top;
+}
+
+.fromTo .r_head { font-size:12px; color: #aaa; margin-bottom: 5px; }
+
+
+_.fromTo .dateBox { text-align:right; padding-right:20px; }
+_.fromTo #dateTo { text-align: left; padding-left: 20px; }
+
+.r_date {
+	font-size: 42px;
+	float: left;
+	font-weight: 300;
+	margin-right: 8px;
+	letter-spacing:-1px;
+}
+
+.r_monthYear { font-size:18px; margin: 3px 0 2px 0; font-weight: 400; }
+.r_day { color: #999; font-size: 14px; }
+
+
+.hasDate .r_monthYear { color: #333; }
