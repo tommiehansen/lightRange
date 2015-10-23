@@ -6,15 +6,15 @@
 <link rel="stylesheet" href="https://cdn.rawgit.com/necolas/normalize.css/master/normalize.css" />
 <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,700,100,100italic' rel='stylesheet' type='text/css'>
 <style>
-html { box-sizing: border-box; font-size:62.5%; }
-*, *:before, *:after { box-sizing: inherit; }
+html {  font-size:62.5%; }
+*, *:before, *:after { box-sizing: box-sizing: border-box; }
 * { font-family: 'Roboto', arial, helvetica, sans-serif; font-weight:400; }
 body { padding:40px 0; background: #fafafa; font-size:1.6rem; color:#333; }
-#c { width: 720px; padding:40px; margin:0 auto; min-height:1000px; background:#fff; border:1px solid #eee; border-top-width:2px; }
-h1 { margin:0; font-size: 4.2rem; font-weight:300; line-height:100%; }
-h1 b { font-weight: 500; }
+#c { width: 720px; padding:60px; padding-right:0; margin:0 auto; min-height:1000px; background:#fff; border:1px solid #eee; border-top-width:2px; }
+h1 { margin:0; font-size: 3.7rem; font-weight:200; line-height:100%; }
+h1 b { font-weight: 300; }
 p { line-height:150%; }
-p.sub { margin:5px 0 40px; color:#aaa; font-weight:300; text-transform: uppercase; }
+p.sub { margin:5px 0 40px; color:#aaa; font-weight:300; text-transform: uppercase; border-bottom:1px dashed #ddd; padding-bottom:20px; }
 span { font-weight: 300; }
 
 /* TEMP-TIP */
@@ -40,7 +40,7 @@ td { position:relative; }
 <div id="c">
 
 <h1><b>LightRange</h1>
-<p class="sub">Date range selection under 5kb</p>
+<p class="sub">Responsive date range selection under 5kb</p>
 
 <!--<input type="text" class="date">-->
 
@@ -48,14 +48,16 @@ td { position:relative; }
 	<div class="fromTo" id="fromTo">
 		<div id="dateFrom" class="dateBox">
 			<i class="r_head">DEPARTURE</i>
-			
+
 			<i class="r_date"></i>
+			<i class="r_space">&nbsp;</i><!-- spacer class to keep min-height of elem -->
 			<div>
 				<i class="r_monthYear">Select a date</i>
 				<i class="r_day"></i>
 			</div>
 			
-		</div><div id="dateTo" class="dateBox">
+			
+		</div><div id="dateTo" class="dateBox off">
 			<i class="r_head">ARRIVAL</i>
 			<i class="r_date"></i>
 			<div>
@@ -73,6 +75,8 @@ td { position:relative; }
 
 </div><!-- /#c -->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://cdn.rawgit.com/julianshapiro/velocity/master/velocity.min.js"></script>
+<script src="https://cdn.rawgit.com/julianshapiro/velocity/master/velocity.ui.min.js"></script>
 <script type="text/javascript" src="test.js"></script>
 </body>
 </html>

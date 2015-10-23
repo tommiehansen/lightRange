@@ -2,10 +2,12 @@ input { padding:5px 10px; }
 #cal { width: 640px; margin-top:60px; }
 #dp table { border-collapse: collapse; cursor: default; }
 #dp table { width:50%; float:left; }
+#dp:after { clear:both; display:block; content:''; } /* temp clear */
+#dp { border:1px solid #ddd; }
 
-#dp td { border:1px solid #ddd; text-align:center; vertical-align:middle; }
+#dp td { text-align:center; vertical-align:middle; }
 #dp td:hover i { background: #eee; }
-#dp td i { font-style:normal; }
+#dp td i { font-style:normal; font-weight:300; }
 #dp td i {
 	display:block;
 	position:relative;
@@ -23,14 +25,33 @@ input { padding:5px 10px; }
 /* PADDING */
 #dp td { padding: 5px; }
 
-/* special td stuff */
+
+
+/* SPECIAL td stuff */
 .notCurMonth { color: #aaa; }
 .sel1, .sel2, .range { color:#fff; }
-#dp td.range i { background: #9cf; }
+#dp td.range i { background: #8cf; }
 #dp td.sel1 i { background: #4cf; }
-#dp td.sel2 i { background: hotpink; }
+#dp td.sel2 i { background: hotpink; background:orange; }
 
-#dp thead td { background: #eee; color: #888; text-transform: uppercase; }
+.sel1 i, .sel2 i { animation: bounce .2s ease-in-out 1; }
+
+
+
+#dp thead td { 
+	background:#fff;
+	color:#aaa;
+	font-size:12px;
+	padding-top:10px;
+	padding-bottom:10px;
+	font-weight: 300; 
+	text-transform: uppercase;
+}
+
+#cal td:last-child { border-right:1px solid #ddd; }
+#cal table:last-child td { border:0; }
+
+#cal td.notCurMonth { background: #fafafa; }
 
 
 
@@ -107,7 +128,7 @@ input { padding:5px 10px; }
 _.fromTo .dateBox { text-align:right; padding-right:20px; }
 _.fromTo #dateTo { text-align: left; padding-left: 20px; }
 
-.r_date {
+.r_date, .r_space {
 	font-size: 42px;
 	float: left;
 	font-weight: 300;
@@ -115,8 +136,23 @@ _.fromTo #dateTo { text-align: left; padding-left: 20px; }
 	letter-spacing:-1px;
 }
 
+.r_space { /* min-height spacer */
+	float:right;
+	width:1px;
+	overflow:hidden;
+}
+
 .r_monthYear { font-size:18px; margin: 3px 0 2px 0; font-weight: 400; }
 .r_day { color: #999; font-size: 14px; }
 
 
-.hasDate .r_monthYear { color: #333; }
+.dateBox.off i { color: #ccc; }
+
+
+
+@keyframes bounce {
+	0% { transform: translateY(0); }
+	20% { transform: translateY(-3px); }
+	50% { transform: translateY(3px); }
+	100% { transform: translateY(0px); }
+}

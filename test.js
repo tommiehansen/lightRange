@@ -1,3 +1,7 @@
+if(window.ActiveXObject || "ActiveXObject" in window){
+	alert('bad browser detected.');
+}
+
 // INIT
 ;(function($, window, document, undefined) {
 
@@ -13,36 +17,60 @@
 	
 	// default stuff : get from data-values later on (even though slower)
 	var monthArr	= ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-	var dayArr		= ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+	var dayArr		= ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 	var dayLongArr	= ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 	var month, year;
 	
 	
 	function lurker(date,fromTo){
-		fromTo=fromTo||'from'; // default = from
 		
-		// BASE DATE + VARs
-		var date = new Date(date),
-			y = date.getFullYear().toString(),
-			m = date.getMonth(),
-			d = date.getDate().toString(),
-			day = date.getDay(),
-			main = _id('fromTo'),
-			cur;
+		var main = _id('fromTo'),
+			y, m, d, day, cur, mNice, dayNice;
 		
-		if( fromTo == 'from' ){ cur = _id('dateFrom'); } else { cur = _id('dateTo'); }
+		
+		// check if we're not resetting the texts
+		if(date !== 'reset'){
+			
+			fromTo=fromTo||'from'; // default = from
+			
+			// BASE DATE + VARs
+			var date = new Date(date);
+				
+			y = date.getFullYear().toString();
+			m = date.getMonth();
+			d = date.getDate().toString();
+			day = date.getDay();
+			
+			mNice = monthArr[m] + ' ' + y;
+			dayNice = dayLongArr[day];
+			
+			if( fromTo == 'from' ){
+				cur = _id('dateFrom');
+				_id('dateTo').classList.remove('off');
+			} else { cur = _id('dateTo'); }
+			
+		}
+		else {
+			cur = main;
+			d='';
+			mNice = 'Select a date'; // make this multi-lang capable via data-attributes
+			dayNice = '';
+			
+			_id('dateTo').classList.add('off');
+		}
 		
 		// Text selectors
 		var $cur = $(cur);
 		var r_date 		= $cur.find('.r_date'),
 			r_monthYear = $cur.find('.r_monthYear'),
 			r_day		= $cur.find('.r_day');
-		
-		
+			
+			
 		// Set texts
 		r_date.text(d);
-		r_monthYear.text( monthArr[m] + ' ' + y);
-		r_day.text( dayLongArr[day] );
+		r_monthYear.text(mNice);
+		r_day.text(dayNice);
+		
 		
 	}
 	
@@ -66,7 +94,7 @@
 			lurker( e.getAttribute('data-date'));
 		}
 		
-		// second exist
+		// first exist but not second
 		else if( sel2 === null && e.id !== 'sel1' ){ // prevent making #2 to #1
 			e.id = 'sel2';
 			e.classList.add('sel2');
@@ -103,13 +131,14 @@
 		
 		// both selections exist
 		else {
+			lurker('reset');
 			var td = main.querySelectorAll('td');
 			_for(td, function(e){ e.classList.remove('range'); })
-			sel1.removeAttribute('class');
-			sel1.removeAttribute('id');
+			sel1.classList.remove('sel1');
+			sel1.id='';
 			if(sel2 !== null){
-				sel2.removeAttribute('class');
-				sel2.removeAttribute('id');
+				sel2.classList.remove('sel2');
+				sel2.id='';
 			}
 		}
 		
@@ -172,16 +201,16 @@
 				
 				switch(true){
 					case key < startDay && nextMonth != 1:
-						curDate = nextYear + '-' + nextMonth + '-' + days[key];		// previous month = month-1
+						curDate = nextYear + '-' + (nextMonth-1) + '-' + days[key];		// previous month = month-1
 						break;
 					case key < startDay && nextMonth == 1:
-						curDate = (nextYear-1) + '-' + 12 + '-' + days[key];			// previous month is december the year before
+						curDate = (nextYear-1) + '-' + 12 + '-' + days[key];		// previous month is december the year before
 						break;
 					case key >= nextMonthStart && nextMonth != 12:
-						curDate = nextYear + '-' + nextMonth + '-' + days[key];		// next month = month+1
+						curDate = nextYear + '-' + (nextMonth+1) + '-' + days[key];		// next month = month+1
 						break;
 					case key >= nextMonthStart && nextMonth == 12:
-						curDate = nextYear+1 + '-' + 1 + '-' + days[key];				// next month is january next year
+						curDate = nextYear+1 + '-' + 1 + '-' + days[key];			// next month is january next year
 						break;
 				}
 				
@@ -200,14 +229,13 @@
 		//appendMonth(main, str);
 		
 		
-		var table = $(main).find('table');
+		var table = main.querySelectorAll('table');
 		
 		if( table.length === 0 ){
 			$(main).html(str);
 			
 			// get another calendar
 			month=month+1;
-			//if(month>11){month=1;}
 			getMonth(year, month, main);
 		}
 		
@@ -317,6 +345,9 @@
 	})
 	
 	
+	
+	/*
+	
 	var tip=null;
 	// TEMP HOVER TO SHOW DATA-DATE
 	$(main).on('mouseenter', 'tbody td', function(){
@@ -329,6 +360,8 @@
 	.on('mouseleave', 'tbody td', function(){
 		$(tip).remove();
 	});
+	
+	*/
 
 
 })(jQuery, window, document); // end() init
