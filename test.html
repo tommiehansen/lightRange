@@ -45,16 +45,17 @@ td { position:relative; }
 <!--<input type="text" class="date">-->
 
 <div id="cal">
+
 	<div class="fromTo" id="fromTo">
 		<div id="dateFrom" class="dateBox">
 			<i class="r_head">DEPARTURE</i>
-
 			<i class="r_date"></i>
 			<i class="r_space">&nbsp;</i><!-- spacer class to keep min-height of elem -->
 			<div>
 				<i class="r_monthYear">Select a date</i>
 				<i class="r_day"></i>
 			</div>
+			
 			
 			
 		</div><div id="dateTo" class="dateBox off">
@@ -66,17 +67,22 @@ td { position:relative; }
 			</div>
 		</div>
 	</div>
-	<div id="disp"><div id="prev" class="nav">&larr;</div><div id="month">Hello world</div><div id="next" class="nav">&rarr;</div></div>
-	<div id="dp"></div>
-	<p><em>KEYBOARD NAV</em>◄ MONTHS ► <br>▲ YEARS ▼</p>
+	
+	<div id="r_cals">
+		<div id="r_nav">
+			<i class="nav next" id="next">►</i>
+			<i class="nav prev off" id="prev">◄</i>
+		</div>
+		<div id="dp"></div>
+	</div>
+	
+	<p><em>KEYBOARD NAV</em>◄ MONTHS ►</p>
 </div>
 
 
 
 </div><!-- /#c -->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script src="https://cdn.rawgit.com/julianshapiro/velocity/master/velocity.min.js"></script>
-<script src="https://cdn.rawgit.com/julianshapiro/velocity/master/velocity.ui.min.js"></script>
 <script type="text/javascript" src="test.js"></script>
 </body>
 </html>

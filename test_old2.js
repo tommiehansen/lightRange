@@ -164,152 +164,13 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 
 
 	// month info,fork off of github
-	var monthData=function(year,month){var date=new Date(year,month,0);this.totalDays=date.getDate();this.endDay=date.getDay();date.setDate(0);this.startDay=date.getDay(0);this.days=[];this.nextMonthStart=false;var prevMonthDays=0;if(this.startDay!==0)prevMonthDays=(new Date(year,month-1,0)).getDate()-this.startDay;var count=0;for(var i=0;i<42;i++){var day={};if(i<this.startDay)day.date=prevMonthDays=prevMonthDays+1;else if(i>this.totalDays+(this.startDay-1)){day.date=count=count+1;if(!this.nextMonthStart)this.nextMonthStart=i}else day.date=i-this.startDay+1;this.days[this.days.length]=day.date}};
+	var monthInformation=function(year,month){var date=new Date(year,month,0);this.totalDays=date.getDate();this.endDay=date.getDay();date.setDate(0);this.startDay=date.getDay(0);this.days=[];this.nextMonthStart=false;var prevMonthDays=0;if(this.startDay!==0)prevMonthDays=(new Date(year,month-1,0)).getDate()-this.startDay;var count=0;for(var i=0;i<42;i++){var day={};if(i<this.startDay)day.date=prevMonthDays=prevMonthDays+1;else if(i>this.totalDays+(this.startDay-1)){day.date=count=count+1;if(!this.nextMonthStart)this.nextMonthStart=i}else day.date=i-this.startDay+1;this.days[this.days.length]=day.date}};
 	
-	
-	/* monthdata wihout previous/next months 
-	var monthData = function(year, month) {
-		var date = new Date(year, month, 0);
-		this.totalDays = date.getDate();
-		this.endDay = date.getDay();
-		date.setDate(0);
-		this.startDay = date.getDay(0);
-		this.days = [];
-		this.nextMonthStart = false;
-		var prevMonthDays = 0;
-		//if (this.startDay !== 0) prevMonthDays = (new Date(year, month - 1, 0)).getDate() - this.startDay;
-		var count = 0;
-		for (var i = 0; i < 42; i++) {
-			var day = {};
-			if (i < this.startDay) day.date = ''; //day.date = prevMonthDays = prevMonthDays + 1;
-			else if (i > this.totalDays + (this.startDay - 1)) {
-				//day.date = count = count + 1;
-				day.date='';
-				if (!this.nextMonthStart) this.nextMonthStart = i
-			} else day.date = i - this.startDay + 1;
-			this.days[this.days.length] = day.date
-		}
-	};
-	*/
 	
 	// year, month, mainSelector to append to
-	function getMonth(year, month, main, numCalendar){
-		numCalendar = numCalendar||1; // number or just 1
-		
-		// BASE VARs / VAR cache
-		var ni = 0,
-			i = 0,
-			monthNice,
-			dayNice,
-			m,
-			days,
-			startDay,
-			endDay,
-			totalDays,
-			nextMonth,
-			nextMonthStart,
-			nextYear,
-			curDate,
-			key,
-			out = '';
-			
-		// begin loop
-		for(ni;ni<numCalendar;ni++){
-			
-			// increase month
-			month++;
-			if(month === 13) { month=1; year++; }
-			
-			// month data
-			m = {};
-			monthData.call(m, year, month); // returns object to m, wants 1-12 index
-			
-			// SET VARs
-			days			= m.days;
-			startDay		= m.startDay;
-			endDay			= m.endDay;
-			totalDays		= m.totalDays;
-			nextMonthStart 	= m.nextMonthStart;
-			monthNice 		= monthArr[month-1]; // zero-based index
-			
-			
-			if(month > 12) { nextMonth = 1; nextYear = year+1; } else { nextMonth=month; nextYear = year; }
-			
-			
-			// BEGIN out
-			out += '<div class="r_month">';
-			out += '<em class="r_title">' + monthNice + ' <span>' + year + '</span></em>';
-			out += '<table>';
-					
-				// weekdays
-				out += '<thead><tr>';
-				_for(dayArr, function(e){ out += '<td>' + e + '</td>'; })
-				out += '</tr></thead>';
-					
-				// days
-				out += '<tbody>';
-				for(key in days){
-					
-					i++;
-					curDate = nextYear + '-' + nextMonth + '-' + days[key];
-					
-					// start row
-					if(i === 1) out += '<tr>';					
-					
-						// not in current month
-						if( key < startDay || ( key >= nextMonthStart ) )  {
-							
-							switch(true){
-								case key < startDay && nextMonth != 1:
-									curDate = nextYear + '-' + (nextMonth-1) + '-' + days[key];		// previous month = month-1
-									break;
-								case key < startDay && nextMonth == 1:
-									curDate = (nextYear-1) + '-' + 12 + '-' + days[key];		// previous month is december the year before
-									break;
-								case key >= nextMonthStart && nextMonth != 12:
-									curDate = nextYear + '-' + (nextMonth+1) + '-' + days[key];		// next month = month+1
-									break;
-								case key >= nextMonthStart && nextMonth == 12:
-									curDate = nextYear+1 + '-' + 1 + '-' + days[key];			// next month is january next year
-									break;
-							}
-							
-							out += '<td class="notCurMonth" data-date="'+ curDate +'"><i>'+days[key]+'</i></td>';
-							
-						}
-						
-						// the rest, current month
-						else {
-							out += '<td data-date="'+ curDate +'"><i>'+days[key]+'</i></td>';
-						}
-					
-
-					// end row
-					if(i === 7) { out += '</tr>'; i=0; }
-					
-				}
-				out += '</tbody>';
-			out += '</table>';
-			out += '</div>'; // end r_month
-			
-
-			
-			
-			
-			
-			
-			// LOG LOG LOG
-			if(ni<4){
-				
-				//console.log( monthNice );
-				//console.log(m);
-			}
-			
-		} // end loop
-		
-		$('#dp').html(out);
-		
-		/*
+	function getMonth(year, month, main){
+		var m = {};
+		monthInformation.call(m, year, month); // returns object to m
 		
 		var days = m.days,
 			startDay = m.startDay,
@@ -318,16 +179,18 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 			nextMonthStart = m.nextMonthStart,
 			len = days.length,
 			key, str = '', i=0;
-		
-		
-		// weekdays
+	
+		// table header
+		var nextMonth, nextYear; // support double calendar view
+		if(month > 12) { nextMonth = 1; nextYear = year+1; } else { nextMonth=month; nextYear = year; }
+		_id('month').innerHTML = monthArr[month-2] + '<span class="hideDesk"> ' + year + '</span><span class="hideSmall"> &mdash; ' + monthArr[nextMonth-1] + ' ' + nextYear +'</span>'; // month-array is zero-based index
 		str += '<table>';	
 		str += '<thead><tr>';
 		_for(dayArr, function(e){ str += '<td>' + e + '</td>'; })
 		str += '</tr></thead></tbody>'
 		
-		// table cells
 		var curDate;
+		// table cells
 		for(key in days){
 			i++;
 			
@@ -365,13 +228,25 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 		str += '</tbody></table>';
 		
 		
+		//appendMonth(main, str);
+		
+		
 		var table = main.querySelectorAll('table');
 		
-		$(main).html(str);
-	
-	*/
-	
-	} // getMonth() end
+		if( table.length === 0 ){
+			$(main).html(str);
+			
+			// get another calendar
+			month=month+1;
+			getMonth(year, month, main);
+		}
+		
+		// table exist
+		else {
+			$(main).append(str);
+		}
+		
+	}
 	
 	
 	
@@ -399,13 +274,15 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 	var main = _id('dp'); // datePicker main div
 		
 	var now = new Date();
-	var month = now.getMonth(), // getMonth() wants non-zero-based index
+	var month = now.getMonth()+1, // getMonth() wants non-zero-based index
 		date = now.getDate(),
-		year = now.getFullYear(),
-		totalMonths = 24;
+		year = now.getFullYear();
 		
-	// getmonth year, month, mainSelector, number of months
-	getMonth(year, month, main, totalMonths);
+	getMonth(year, month, main, 2); // year, month, mainSelector, number of calendars
+	
+	
+	
+	
 	
 	
 	
@@ -421,47 +298,18 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 
 	$(main).on('click', 'tbody td', function(){ userSelect(this, main); });
 	
-	var rNav = $('#r_nav'),
-		dp = _id('dp');
-	
-	rNav.on('click', '.nav', function(e){
+	var disp = $('#disp');
+	disp.on('click', '.nav', function(){
 		
-		var curX,
-			curId = this.id;
-			
-		if( dp.className == '' ) { curX = 0; dp.className = 0; }
-		else {
-			curX = dp.className;
-			curX = parseInt(curX);
-		}
+		main.innerHTML = '';
+		if(this.id == 'next'){ month++; }
+		else { month--; }
 		
-		var len = totalMonths;
-			len = (len/2)-1+'00';
-			len = '-' + len
+		if(month > 12) { month=1; year++; }
+		if(month < 1) { month=12; year--; }
 		
-		if(curId == 'next' && curX > len ){
-			curX = curX-50;
-			_id('prev').classList.remove('off');
-		}
-		else if(curId == 'next' && curX <= len) {
-			this.classList.add('off');
-		}
-		
-		if(curId == 'prev' && curX < 0 ){
-			curX = curX+50;
-			_id('next').classList.remove('off');
-			
-		}
-		else if(curId == 'prev' && curX > len) {
-			this.classList.add('off');
-		}
-		
-		// 12/2 = 6 views total.
-		// 6 = @ 600% the views are gone!
-		// (12/2)-1+'00%' = max slide
-		
-		dp.style.transform = 'translateX(' + curX + '%)';
-		dp.className = curX;
+		// get month
+		getMonth(year, month, main);
 
 	})
 	
@@ -480,17 +328,27 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 			e.preventDefault();
 			break;
 		case arrow.up:
+			year++;
+			month--;
+			$(_id('next')).trigger('click');
+			e.preventDefault();
 			break;
 		case arrow.down:
+			year--;
+			month--;
+			$(_id('next')).trigger('click');
+			e.preventDefault();
 			break;
 		}
+		
+		
 		
 	})
 	
 	
 	
-	/*
 	
+	/*
 	var tip=null;
 	// TEMP HOVER TO SHOW DATA-DATE
 	$(main).on('mouseenter', 'tbody td', function(){
@@ -504,7 +362,6 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 		$(tip).remove();
 	});
 	*/
-	
 	
 	
 

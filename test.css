@@ -1,13 +1,29 @@
 input { padding:5px 10px; }
 #cal { width: 640px; margin-top:60px; }
-#dp table { border-collapse: collapse; cursor: default; }
-#dp table { width:50%; float:left; }
+#cal {
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+#dp table { border-collapse: collapse; cursor: default; width:100%; }
+
+#dp .r_month { width:50%; display:inline-block; }
+#dp { transition: transform .2s ease-in-out; transform: translateZ(0); }
+#r_nav { z-index: 1; }
+
 #dp:after { clear:both; display:block; content:''; } /* temp clear */
-#dp { border:1px solid #ddd; }
+
+#r_cals { white-space: nowrap; overflow-x: hidden; border:1px solid #ddd; }
+
+
+#cal em, #cal i { font-style:normal; }
 
 #dp td { text-align:center; vertical-align:middle; }
 #dp td:hover i { background: #eee; }
-#dp td i { font-style:normal; font-weight:300; }
+#dp td i { font-weight:300; }
 #dp td i {
 	display:block;
 	position:relative;
@@ -21,6 +37,23 @@ input { padding:5px 10px; }
 }
 
 
+/* MONTH TITLE */
+.r_title {
+	display:block;
+	text-align: center;
+	font-size: 14px;
+	text-transform: uppercase;
+	padding: 15px 0;
+	line-height:100%;
+	font-weight:400;
+	background: #fafafa;
+	color:#666;
+}
+
+.r_title span {
+	font-weight: 300;
+	color:#aaa;
+}
 
 /* PADDING */
 #dp td { padding: 5px; }
@@ -55,42 +88,6 @@ input { padding:5px 10px; }
 
 
 
-/* nav header etc */
-#disp {
-	position:relative;
-	text-transform: uppercase;
-	text-align:center;
-	height: 60px;
-	line-height: 60px;
-	font-size: 1.8rem;
-	background: hotpink;
-	color: #fff;
-	 -moz-user-select: none; /* Firefox */
-	-ms-user-select: none; /* Internet Explorer */
-	-khtml-user-select: none; /* KHTML browsers (e.g. Konqueror) */
-	-webkit-user-select: none; /* Chrome, Safari, and Opera */
-	-webkit-touch-callout: none; /* Disable Android and iOS callouts*/
-	user-select:none;
-	touch-callout:none;
-}
-#month { display: inline; font-weight:300; }
-#disp .nav {
-	color:#fff;
-	float:right;
-	width:15%;
-	cursor:pointer;
-	font-size:2.9rem;
-	width: 40px;
-	height: 40px;
-	line-height: 36px;
-	border-radius:50%;
-	margin: 10px 10px 0 0;
-}
-#disp #prev { float:left; margin-right:0; margin-left: 10px; }
-
-#disp .nav:hover { background: rgba(255,255,255,0.1); }
-#disp .nav:active { transform: scale(0.9); }
-
 
 
 /* desktop / mobile classes */
@@ -98,55 +95,72 @@ input { padding:5px 10px; }
 .hideSmall {}
 
 
+
 /* Media queries */
 @media(max-width: 800px){
 	.hideSmall { display:none; }
 	.hideDesk { display:inline; }
+	/*
 	#dp table { width:100%; }
-	#dp table:nth-child(2) { display:none; }
+	_#dp table:nth-child(2) { display:none; }
 	#cal { width:320px; }
+	*/
+	
 }
 
 
 
 /* TEMP */
 
-.fromTo { margin:0 0 20px; }
 .fromTo * { display:block; font-style:normal; text-decoration:none; margin:0; padding:0; line-height:100%; font-weight:300; } /* normalize */
 
 
-
+.fromTo {
+	padding:15px 15px;
+	padding:20px;
+	background: #666;
+	background: #3cc;
+	background: royalblue;
+	background: hotpink;
+	color: #fff;
+}
 .fromTo div {
-	width:50%;
-	display:inline-block;
 	vertical-align:top;
 }
 
-.fromTo .r_head { font-size:12px; color: #aaa; margin-bottom: 5px; }
+.fromTo .r_head { font-size:12px; color: rgba(255,255,255,0.7); margin-bottom: 5px; }
 
+.fromTo .dateBox { width: 200px;  width:50%; }
+.fromTo .dateBox { display: inline-block; }
+#dateTo { border:0; margin-right:0; }
 
-_.fromTo .dateBox { text-align:right; padding-right:20px; }
-_.fromTo #dateTo { text-align: left; padding-left: 20px; }
+.r_monthYear { }
+
+.fromTo:after { content:''; clear:both; display:block; }
 
 .r_date, .r_space {
 	font-size: 42px;
-	float: left;
+	float:left;
+	display:block;
 	font-weight: 300;
-	margin-right: 8px;
-	letter-spacing:-1px;
+	letter-spacing:-2px;
+	margin-right:10px; 
 }
+
+#dateTo .r_date {}
 
 .r_space { /* min-height spacer */
 	float:right;
 	width:1px;
 	overflow:hidden;
+	display:inline-block;
 }
 
-.r_monthYear { font-size:18px; margin: 3px 0 2px 0; font-weight: 400; }
-.r_day { color: #999; font-size: 14px; }
+.r_monthYear { font-size:18px; margin: 8px 0 2px 0; font-weight: 400; }
+.r_day { color: rgba(255,255,255,0.7); font-size: 14px; }
 
 
-.dateBox.off i { color: #ccc; }
+.dateBox.off i { color: rgba(255,255,255,0.5); }
 
 
 
@@ -156,3 +170,22 @@ _.fromTo #dateTo { text-align: left; padding-left: 20px; }
 	50% { transform: translateY(3px); }
 	100% { transform: translateY(0px); }
 }
+
+
+/* cal nav */
+#r_cals { position:relative; }
+
+#r_nav {
+	position:absolute;
+	top:2px;
+	font-size:24px;
+	width:100%;
+	color:#aaa;
+}
+
+#r_nav i { display: inline-block; padding:9px 10px; line-height:100%; cursor: default; }
+#r_nav .prev { }
+#r_nav .next { float:right; }
+#r_nav i:hover { color:#333; }
+#r_nav i:active { transform:scale(0.9); }
+#r_nav i.off { color:#ccc; cursor: not-allowed; }
