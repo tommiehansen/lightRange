@@ -398,8 +398,8 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 	// init on load
 	var main = _id('dp'); // datePicker main div
 		
-	var now = new Date();
-	var month = now.getMonth(), // getMonth() wants non-zero-based index
+	var now = new Date()
+	var month = now.getMonth(),
 		date = now.getDate(),
 		year = now.getFullYear(),
 		totalMonths = 24;
