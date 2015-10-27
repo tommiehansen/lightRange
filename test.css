@@ -1,4 +1,4 @@
-input { padding:5px 10px; }
+.clear { clear: both; }
 #cal { width: 640px; margin-top:60px; }
 #cal {
 	-webkit-touch-callout: none;
@@ -8,15 +8,31 @@ input { padding:5px 10px; }
     -ms-user-select: none;
     user-select: none;
 }
+
+#cal *, #cal *:before, #cal *:after { box-sizing: border-box;  }
 #dp table { border-collapse: collapse; cursor: default; width:100%; }
 
-#dp .r_month { width:50%; display:inline-block; }
+#dp .r_month { width:50%; display:inline-block; box-sizing: border-box; }
 #dp { transition: transform .2s ease-in-out; transform: translateZ(0); }
 #r_nav { z-index: 1; }
 
 #dp:after { clear:both; display:block; content:''; } /* temp clear */
 
-#r_cals { white-space: nowrap; overflow-x: hidden; border:1px solid #ddd; }
+#r_cals { white-space: nowrap; overflow-x: hidden; }
+#r_cals { border:1px solid #ddd; border-top: 0; }
+
+/* temp -- add line to center */
+#r_cals:after {
+	content:'';
+	display:block;
+	height:100%;
+	background: #ddd;
+	position:absolute;
+	left:50%;
+	width:1px;
+	margin-left:-1px;
+	top:0;
+}
 
 
 #cal em, #cal i { font-style:normal; }
@@ -63,13 +79,12 @@ input { padding:5px 10px; }
 /* SPECIAL td stuff */
 .notCurMonth { color: #aaa; }
 .sel1, .sel2, .range { color:#fff; }
+
 #dp td.range i { background: #8cf; }
-#dp td.sel1 i { background: #4cf; }
-#dp td.sel2 i { background: hotpink; background:orange; }
+#dp td.sel1 i { background: #42A5F5; }
+#dp td.sel2 i { background: #FF4081; }
 
 .sel1 i, .sel2 i { animation: bounce .2s ease-in-out 1; }
-
-
 
 #dp thead td { 
 	background:#fff;
@@ -110,58 +125,62 @@ input { padding:5px 10px; }
 
 
 
+
 /* TEMP */
 
-.fromTo * { display:block; font-style:normal; text-decoration:none; margin:0; padding:0; line-height:100%; font-weight:300; } /* normalize */
-
-
 .fromTo {
-	padding:15px 15px;
-	padding:20px;
-	background: #666;
-	background: #3cc;
-	background: royalblue;
-	background: hotpink;
+	width: 100%;
+	background: #F44336;
+	background: #03A9F4;
 	color: #fff;
-}
-.fromTo div {
-	vertical-align:top;
+	padding:20px 0;
 }
 
-.fromTo .r_head { font-size:12px; color: rgba(255,255,255,0.7); margin-bottom: 5px; }
+.fromTo .dateBox {
+	width:50%;
+	display: inline-block;
+	text-align: center;
+	font-size:14px;
+	line-height:150%;
+}
 
-.fromTo .dateBox { width: 200px;  width:50%; }
-.fromTo .dateBox { display: inline-block; }
-#dateTo { border:0; margin-right:0; }
+.dateBox.off { opacity: 0.5; }
 
-.r_monthYear { }
+.r_head {
+	display: block;
+	font-weight:300;
+	color: rgba(255,255,255,0.7);
+}
 
-.fromTo:after { content:''; clear:both; display:block; }
-
-.r_date, .r_space {
-	font-size: 42px;
-	float:left;
-	display:block;
+.r_date, .r_days {
+	font-size: 16px;
 	font-weight: 300;
-	letter-spacing:-2px;
-	margin-right:10px; 
 }
 
-#dateTo .r_date {}
+.fromTo { position: relative; }
+.fromTo .dateBox.days {
+	width: 120px;
+	position: absolute; 
+	
 
-.r_space { /* min-height spacer */
-	float:right;
-	width:1px;
-	overflow:hidden;
-	display:inline-block;
+	left:50%;
+	margin-left:-60px;
+
+	z-index:999999999999999999999;
+	_color:black !important;
+	display: inline-block;
+
 }
 
-.r_monthYear { font-size:18px; margin: 8px 0 2px 0; font-weight: 400; }
-.r_day { color: rgba(255,255,255,0.7); font-size: 14px; }
+.days .r_days em { margin:0 8px; }
 
-
-.dateBox.off i { color: rgba(255,255,255,0.5); }
-
+.r_dots {
+	font-size: 32px;
+	color: rgba(255,255,255,0.7);
+	letter-spacing: 1px;
+	vertical-align: middle;
+	_display: none;
+}
 
 
 @keyframes bounce {
@@ -177,15 +196,16 @@ input { padding:5px 10px; }
 
 #r_nav {
 	position:absolute;
-	top:2px;
-	font-size:24px;
+	top:0px;
+	font-size:42px;
+	line-height:42px;
 	width:100%;
 	color:#aaa;
 }
 
-#r_nav i { display: inline-block; padding:9px 10px; line-height:100%; cursor: default; }
-#r_nav .prev { }
+#r_nav i { display: block; padding:0px 10px; cursor: default; }
+#r_nav .prev { float:left; }
 #r_nav .next { float:right; }
 #r_nav i:hover { color:#333; }
 #r_nav i:active { transform:scale(0.9); }
-#r_nav i.off { color:#ccc; cursor: not-allowed; }
+#r_nav i.off { color:#ddd; cursor: not-allowed; }

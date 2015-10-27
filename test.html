@@ -12,7 +12,7 @@ html {  font-size:62.5%; }
 body { padding:40px 0; background: #fafafa; font-size:1.6rem; color:#333; }
 #c { width: 720px; padding:60px; padding-right:0; margin:0 auto; min-height:1000px; background:#fff; border:1px solid #eee; border-top-width:2px; }
 h1 { margin:0; font-size: 3.7rem; font-weight:200; line-height:100%; }
-h1 b { font-weight: 300; }
+h1 b { font-weight: 800; }
 p { line-height:150%; }
 p.sub { margin:5px 0 40px; color:#aaa; font-weight:300; text-transform: uppercase; border-bottom:1px dashed #ddd; padding-bottom:20px; }
 span { font-weight: 300; }
@@ -33,13 +33,18 @@ span { font-weight: 300; }
 td { position:relative; }
 #cal p { text-align:center; color:#aaa; font-size:12px; padding-top: 40px; clear:both; line-height: 200%; }
 #cal p em { font-size:11px; font-style:normal; color:#bbb; display: block; margin:0; padding:0; }
+
+
+/* TEMP : REMOVE PREV/NEXT MONTH DISPLAY */
+_#cal td.notCurMonth { opacity:0 !important; }
+
 </style>
 <link href='test.css' rel='stylesheet' type='text/css'>
 </head>
 <body>
 <div id="c">
 
-<h1><b>LightRange</h1>
+<h1><b>jade</b> LightRange</h1>
 <p class="sub">Responsive date range selection under 5kb</p>
 
 <!--<input type="text" class="date">-->
@@ -47,36 +52,33 @@ td { position:relative; }
 <div id="cal">
 
 	<div class="fromTo" id="fromTo">
-		<div id="dateFrom" class="dateBox">
-			<i class="r_head">DEPARTURE</i>
-			<i class="r_date"></i>
-			<i class="r_space">&nbsp;</i><!-- spacer class to keep min-height of elem -->
-			<div>
-				<i class="r_monthYear">Select a date</i>
-				<i class="r_day"></i>
-			</div>
-			
-			
-			
-		</div><div id="dateTo" class="dateBox off">
-			<i class="r_head">ARRIVAL</i>
-			<i class="r_date"></i>
-			<div>
-				<i class="r_monthYear">Select a date</i>
-				<i class="r_day"></i>
-			</div>
-		</div>
+	
+		<div class="dateBox" id="dateFrom">
+			<i class="r_head">Departure</i>
+			<!--<i class="r_date">Wed<span class="hideSmall">nesday</span>, 24 Nov 2015</i>-->
+			<i class="r_date">Please select a date</i>
+		</div><div class="dateBox days off" id="daysNum">
+			<i class="r_head">Days</i>
+			<i class="r_days"><span class="r_dots">&middot;&middot;&middot;&middot;</span><em>0</em><span class="r_dots">&middot;&middot;&middot;&middot;</span></i>
+		</div><div class="dateBox off" id="dateTo">
+			<i class="r_head">Arrival</i>
+			<i class="r_date">Please select a date</i>
+		</div>		
+	
 	</div>
 	
+	<i class="clear" style="clear:both;"></i>
+	
+	<!-- the calendars -->
 	<div id="r_cals">
 		<div id="r_nav">
-			<i class="nav next" id="next">►</i>
-			<i class="nav prev off" id="prev">◄</i>
+			<i class="nav next" id="next">&rsaquo;</i>
+			<i class="nav prev off" id="prev">&lsaquo;</i>
 		</div>
 		<div id="dp"></div>
 	</div>
 	
-	<p><em>KEYBOARD NAV</em>◄ MONTHS ►</p>
+	<p><em>KEYBOARD/MOUSE NAV</em>◄ KEYBOARD ►<br>▲ MOUSE ▼</p>
 </div>
 
 

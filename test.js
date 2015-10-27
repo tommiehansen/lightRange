@@ -27,7 +27,7 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 	function lurker(date,fromTo){
 		
 		var main = _id('fromTo'),
-			y, m, d, day, cur, mNice, dayNice;
+			y, m, d, day, cur, monthNice, dayNice, str='';
 		
 		
 		// check if we're not resetting the texts
@@ -43,7 +43,7 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 			d = date.getDate().toString();
 			day = date.getDay();
 			
-			mNice = monthArr[m] + ' ' + y;
+			monthNice = monthArr[m].substr(0,3);
 			dayNice = dayLongArr[day];
 			
 			if( fromTo == 'from' ){
@@ -51,28 +51,44 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 				_id('dateTo').classList.remove('off');
 			} else { cur = _id('dateTo'); }
 			
-		}
-		else {
-			cur = main;
-			d='';
-			mNice = 'Select a date'; // make this multi-lang capable via data-attributes
-			dayNice = '';
+			str = dayNice + ', ' + d + ' ' + monthNice + ' ' + y;
 			
+		}
+		
+		// reset
+		else {
+			cur = main;			
+			str = 'Select a date'; // make this multi-lang capable via data-attributes
 			_id('dateTo').classList.add('off');
+			_id('daysNum').classList.add('off');
+			_id('daysNum').querySelector('em').innerHTML = 0;
 		}
 		
 		// Text selectors
 		var $cur = $(cur);
-		var r_date 		= $cur.find('.r_date'),
-			r_monthYear = $cur.find('.r_monthYear'),
-			r_day		= $cur.find('.r_day');
+		var r_date = $cur.find('.r_date');			
 			
-			
-		// Set texts
-		r_date.text(d);
-		r_monthYear.text(mNice);
-		r_day.text(dayNice);
+		// Set text		
+		r_date.text(str);
 		
+	}
+	
+	
+	// returns total selected days
+	function showDateDiff(date1,date2,sel2){
+		
+		// Create dates
+		var dmy1 = new Date(date1),
+			dmy2 = new Date(date2);
+			
+		var days = Math.abs(Math.ceil( dmy1.getTime() / (3600*24*1000)) - Math.ceil( dmy2.getTime() / (3600*24*1000)));
+		days++;
+		
+		
+		//if(days < 30) log('You selected ' + days + ' days');
+		//else log('You selected ' + days + ' days, this is quite a lot. Are you sure?');
+		
+		return days;
 		
 	}
 	
@@ -92,17 +108,26 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 		// first selection doesn't exist
 		if( sel1 === null ){
 			e.id = 'sel1';
-			e.classList.add('sel1');
-			lurker( e.getAttribute('data-date'));
+			sel1 = e;
+			sel1.classList.add('sel1');
+			lurker( sel1.getAttribute('data-date'));
 		}
 		
 		// first exist but not second
 		else if( sel2 === null && e.id !== 'sel1' ){ // prevent making #2 to #1
 			e.id = 'sel2';
-			e.classList.add('sel2');
+			sel2 = e;
+			sel2.classList.add('sel2');
 			
 			// set texts
-			lurker( e.getAttribute('data-date'), 'to');
+			lurker( sel2.getAttribute('data-date'), 'to');
+			
+			// show total selected days
+			var numDays = showDateDiff( sel1.getAttribute('data-date'), sel2.getAttribute('data-date') );
+			
+			_id('daysNum').querySelector('em').innerHTML = numDays;
+			_id('daysNum').classList.remove('off');
+
 				
 			// selection is complete
 			var par = e.parentNode,			// tr
@@ -115,6 +140,7 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 					s1i=0,
 					s2i=999;
 			
+			// add classes to td's between selections
 			_for(td, function(e){
 				i++;
 				
@@ -126,7 +152,7 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 				} 
 				if(stop){ go=0; }
 				
-			})			
+			})
 			
 			
 		}
@@ -308,68 +334,6 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 		} // end loop
 		
 		$('#dp').html(out);
-		
-		/*
-		
-		var days = m.days,
-			startDay = m.startDay,
-			endDay = m.endDay,
-			totalDays = m.totalDays,
-			nextMonthStart = m.nextMonthStart,
-			len = days.length,
-			key, str = '', i=0;
-		
-		
-		// weekdays
-		str += '<table>';	
-		str += '<thead><tr>';
-		_for(dayArr, function(e){ str += '<td>' + e + '</td>'; })
-		str += '</tr></thead></tbody>'
-		
-		// table cells
-		var curDate;
-		for(key in days){
-			i++;
-			
-			curDate = nextYear + '-' + nextMonth + '-' + days[key];
-
-			if(i === 1) str += '<tr>';
-			
-			// not in current month
-			if( key < startDay || ( key >= nextMonthStart ) )  {
-				
-				switch(true){
-					case key < startDay && nextMonth != 1:
-						curDate = nextYear + '-' + (nextMonth-1) + '-' + days[key];		// previous month = month-1
-						break;
-					case key < startDay && nextMonth == 1:
-						curDate = (nextYear-1) + '-' + 12 + '-' + days[key];		// previous month is december the year before
-						break;
-					case key >= nextMonthStart && nextMonth != 12:
-						curDate = nextYear + '-' + (nextMonth+1) + '-' + days[key];		// next month = month+1
-						break;
-					case key >= nextMonthStart && nextMonth == 12:
-						curDate = nextYear+1 + '-' + 1 + '-' + days[key];			// next month is january next year
-						break;
-				}
-				
-				str += '<td class="notCurMonth" data-date="'+ curDate +'"><i>'+days[key]+'</i></td>';
-			}
-			
-			// the rest
-			else { str += '<td data-date="'+ curDate +'"><i>'+days[key]+'</i></td>'; }
-			
-			if(i === 7) { str += '</tr>'; i=0; }
-
-		}
-		str += '</tbody></table>';
-		
-		
-		var table = main.querySelectorAll('table');
-		
-		$(main).html(str);
-	
-	*/
 	
 	} // getMonth() end
 	
@@ -465,6 +429,17 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 
 	})
 	
+	
+	
+	
+	/*-----------------------------------------------------
+
+	Keyboard/mouse navigation
+
+	-----------------------------------------------------*/
+	
+	
+	
 	$(document).on('keydown', function(e){
 		
 		var keyCode = e.keyCode || e.which,
@@ -486,6 +461,59 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 		}
 		
 	})
+	
+   
+    // Important option
+    // timer delay in ms, higher = better perf but less responsive ui
+    var menuTimer = 60,
+		timerId,
+		navPrev = $(_id('prev')),
+		navNext = $(_id('next')),
+		collectUp = 0,
+		collectDown = 0;
+
+    // VARs
+    var win = $(window);    
+    
+    // Evil window scroll function	
+	win.on('mousewheel DOMMouseScroll', function (event) {
+		clearTimeout(timerId);
+		
+		//var delta = event.originalEvent.wheelDelta;
+		if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
+			// up
+			collectUp++;
+			collectDown = 0;
+			
+		}
+		else {
+			// down
+			collectDown++;
+			collectUp = 0;
+		}
+		
+		
+		timerId = setTimeout(function(){
+			
+			if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
+				if(collectUp < 2) collectUp = 1;
+				//up
+				while(collectUp--){ navPrev.trigger('click'); } // navPrev/next should be a function that takes X interations in order to multiple value when scrolling fast instead of firing 10x times etc.
+			}
+			else {
+			  //down
+			  if(collectDown < 2) collectDown = 1;
+			  while(collectDown--){ navNext.trigger('click'); }
+			}
+		
+		}, menuTimer);
+		
+		event.preventDefault();
+	 
+	});
+	
+	
+
 	
 	
 	
