@@ -1,3 +1,23 @@
+/* colors */
+td:hover i { background: #eee; }
+.fromTo, #dp td.sel1 i, td.range i {
+	background: #42A5F5;
+	background: #3bb;
+	*background: #0c0;
+	*background: #f60;
+	*background: #222;
+}
+
+td.range i { _background: #8cf; _background: #8dd; opacity:.6; }
+td.sel1 i { opacity:1; }
+td.sel2 i { background: #FF4081; background: hotpink; opacity:1; }
+
+
+
+
+
+/* OTHER */
+
 .clear { clear: both; }
 #cal { width: 640px; margin-top:60px; }
 #cal {
@@ -38,7 +58,6 @@
 #cal em, #cal i { font-style:normal; }
 
 #dp td { text-align:center; vertical-align:middle; }
-#dp td:hover i { background: #eee; }
 #dp td i { font-weight:300; }
 #dp td i {
 	display:block;
@@ -80,9 +99,7 @@
 .notCurMonth { color: #aaa; }
 .sel1, .sel2, .range { color:#fff; }
 
-#dp td.range i { background: #8cf; }
-#dp td.sel1 i { background: #42A5F5; }
-#dp td.sel2 i { background: #FF4081; }
+
 
 .sel1 i, .sel2 i { animation: bounce .2s ease-in-out 1; }
 
@@ -105,23 +122,7 @@
 
 
 
-/* desktop / mobile classes */
-.hideDesk { display:none; }
-.hideSmall {}
 
-
-
-/* Media queries */
-@media(max-width: 800px){
-	.hideSmall { display:none; }
-	.hideDesk { display:inline; }
-	/*
-	#dp table { width:100%; }
-	_#dp table:nth-child(2) { display:none; }
-	#cal { width:320px; }
-	*/
-	
-}
 
 
 
@@ -130,8 +131,6 @@
 
 .fromTo {
 	width: 100%;
-	background: #F44336;
-	background: #03A9F4;
 	color: #fff;
 	padding:20px 0;
 }
@@ -157,19 +156,29 @@
 	font-weight: 300;
 }
 
+.r_date {
+	animation: fadeInOut 2s ease-in-out infinite;
+}
+
+
+.dateBox.off .r_date { animation: none; }
+.dateBox.active .r_date { animation: none; }
+.dateBox.active { animation: slide .5s ease-in-out 1; }
+@keyframes slide {
+	0% { transform: translateY(0); }
+	50% { transform: translateY(50px); opacity:0; }
+	100% { transform: translateY(0); opacity: 1; }
+}
+
 .fromTo { position: relative; }
 .fromTo .dateBox.days {
 	width: 120px;
 	position: absolute; 
-	
-
 	left:50%;
 	margin-left:-60px;
 
-	z-index:999999999999999999999;
-	_color:black !important;
+	z-index: 2;
 	display: inline-block;
-
 }
 
 .days .r_days em { margin:0 8px; }
@@ -179,15 +188,20 @@
 	color: rgba(255,255,255,0.7);
 	letter-spacing: 1px;
 	vertical-align: middle;
-	_display: none;
 }
 
+@keyframes fadeInOut {
+	0% { opacity:0; }
+	50% { opacity: 1; }
+	100% { opacity:0; }
+}
 
 @keyframes bounce {
 	0% { transform: translateY(0); }
-	20% { transform: translateY(-3px); }
-	50% { transform: translateY(3px); }
-	100% { transform: translateY(0px); }
+	20% { transform: translateY(5px); }
+	40% { transform: translateY(-5px); }
+	60% { transform: translateY(0); }
+	100% { transform: translateY(0); }
 }
 
 
@@ -197,15 +211,63 @@
 #r_nav {
 	position:absolute;
 	top:0px;
-	font-size:42px;
-	line-height:42px;
+	font-size:50px;
+	line-height:40px;
 	width:100%;
 	color:#aaa;
 }
 
-#r_nav i { display: block; padding:0px 10px; cursor: default; }
+#r_nav i { display: block; padding:0px 15px; padding-bottom:3px; cursor: default; width:50%; }
 #r_nav .prev { float:left; }
-#r_nav .next { float:right; }
+#r_nav .next { float:right; text-align:right; }
 #r_nav i:hover { color:#333; }
-#r_nav i:active { transform:scale(0.9); }
+#r_nav i:active { opacity:.5; }
 #r_nav i.off { color:#ddd; cursor: not-allowed; }
+
+
+/*
+	MEDIA QUERIES
+*/
+
+/* desktop / mobile classes */
+.hideDesk { display:none; }
+.hideSmall {}
+
+
+
+/* Media queries */
+@media(max-width: 800px){
+	.hideSmall { display:none; }
+	.hideDesk { display:inline; }	
+	
+	#c { width:95% !important; }
+	
+	#cal { width:320px; }
+	#cal .r_month { width:100%; }
+	#r_cals:after { display: none; } /* temp middle line */
+
+	.r_date { font-size:14px; }
+	.r_head { font-size: 12px; }
+
+
+	.fromTo .r_dots { display: none; }
+	
+	.fromTo .dateBox.days { width: auto; line-height:100%; }
+
+	.dateBox.days em { font-size: 12px; margin:0; margin-right:5px; float:right; display:inline-block; _font-weight: 300; color: rgba(255,255,255,0.7); }
+	.dateBox.days .r_head {  float:right; font-size: 12px; display:inline-block; }
+
+	#cal .dateBox.days {
+		margin:0; left:auto; right: auto;
+		left:50%;
+		top:10px;
+		transform: translateX(-50%);
+	}
+	
+
+	h1,h2,.sub { text-align:center; }
+	#c .sub { font-size: 14px; letter-spacing:1px; color:#ccc; line-height:200%; }
+	#cal { position:relative; margin: 0 auto; }
+
+
+}

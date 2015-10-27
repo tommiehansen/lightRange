@@ -1,5 +1,5 @@
 if(window.ActiveXObject || "ActiveXObject" in window){
-	alert('bad browser detected.');
+	alert('bad browser detected, this will not work properly.');
 }
 
 // INIT
@@ -46,12 +46,18 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 			monthNice = monthArr[m].substr(0,3);
 			dayNice = dayLongArr[day];
 			
+			// Split day
+			var dayNice1 = dayNice.substr(0,3),
+				dayNice2 = dayNice.substr(3, 20);
+			
 			if( fromTo == 'from' ){
 				cur = _id('dateFrom');
 				_id('dateTo').classList.remove('off');
 			} else { cur = _id('dateTo'); }
 			
-			str = dayNice + ', ' + d + ' ' + monthNice + ' ' + y;
+			cur.classList.add('active');
+			
+			str = dayNice1 + '<span class="hideSmall">' + dayNice2 + '</span>, ' + d + ' ' + monthNice + ' ' + y;
 			
 		}
 		
@@ -62,6 +68,9 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 			_id('dateTo').classList.add('off');
 			_id('daysNum').classList.add('off');
 			_id('daysNum').querySelector('em').innerHTML = 0;
+			
+			_id('dateTo').classList.remove('active');
+			_id('dateFrom').classList.remove('active');
 		}
 		
 		// Text selectors
@@ -69,7 +78,9 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 		var r_date = $cur.find('.r_date');			
 			
 		// Set text		
-		r_date.text(str);
+		setTimeout(function(){
+			r_date.html(str);
+		}, 250); //must sync with animation time
 		
 	}
 	
@@ -158,16 +169,20 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 		}
 		
 		// both selections exist
+		// this should select 1 again instead...
 		else {
 			lurker('reset');
 			var td = main.querySelectorAll('td');
 			_for(td, function(e){ e.classList.remove('range'); })
 			sel1.classList.remove('sel1');
-			sel1.id='';
+			sel1.removeAttribute('id');
 			if(sel2 !== null){
 				sel2.classList.remove('sel2');
-				sel2.id='';
+				sel2.removeAttribute('id');
 			}
+			
+			
+			$(e).trigger('click'); // this isn't super nice...
 		}
 		
 	}
@@ -318,18 +333,6 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 			out += '</table>';
 			out += '</div>'; // end r_month
 			
-
-			
-			
-			
-			
-			
-			// LOG LOG LOG
-			if(ni<4){
-				
-				//console.log( monthNice );
-				//console.log(m);
-			}
 			
 		} // end loop
 		
@@ -366,7 +369,7 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 	var month = now.getMonth(),
 		date = now.getDate(),
 		year = now.getFullYear(),
-		totalMonths = 24;
+		totalMonths = 14;
 		
 	// getmonth year, month, mainSelector, number of months
 	getMonth(year, month, main, totalMonths);
@@ -391,7 +394,8 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 	rNav.on('click', '.nav', function(e){
 		
 		var curX,
-			curId = this.id;
+			curId = this.id,
+			calWidth = dp.offsetWidth;
 			
 		if( dp.className == '' ) { curX = 0; dp.className = 0; }
 		else {
@@ -404,7 +408,9 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 			len = '-' + len
 		
 		if(curId == 'next' && curX > len ){
-			curX = curX-50;
+			if(calWidth < 500) { curX = curX-100; }
+			else { curX = curX-50; }
+			
 			_id('prev').classList.remove('off');
 		}
 		else if(curId == 'next' && curX <= len) {
@@ -412,7 +418,8 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 		}
 		
 		if(curId == 'prev' && curX < 0 ){
-			curX = curX+50;
+			if(calWidth < 500) { curX = curX+100; }
+			else { curX = curX+50; }
 			_id('next').classList.remove('off');
 			
 		}
