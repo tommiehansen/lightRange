@@ -8,6 +8,7 @@ Everything alpha for now.
 
 ##### Preview
 Version 2015.10.18: http://cdn.rawgit.com/tommiehansen/lightRange/master/test.html
+
 This version has a lot of testing-stuff littering test.html for things such as testing different colors etc via colorPicker (html5) or Google Material Design etc.
 
 -
