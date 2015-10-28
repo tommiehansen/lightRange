@@ -403,9 +403,11 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 			curX = parseInt(curX);
 		}
 		
+		// calculate max percentage
 		var len = totalMonths;
-			len = (len/2)-1+'00';
-			len = '-' + len
+		if(calWidth > 500) { len = len/2; 	}
+		len = len-1+'00';
+		len = '-' + len;
 		
 		if(curId == 'next' && curX > len ){
 			if(calWidth < 500) { curX = curX-100; }
@@ -435,6 +437,63 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 		dp.className = curX;
 
 	})
+	
+	
+	// show selection on hover
+	
+	var tbody = main.querySelectorAll('tbody');
+	$(tbody).on('mouseenter', 'td', function(ee){
+		
+		var sel1 = _id('sel1'),
+			sel2 = _id('sel2'),
+			td = document.querySelectorAll('tbody td'),
+			i=0, s1i=0, s2i=0, sel2, sel1data,
+			t = this;
+			//_for(td, function(e){ e.classList.remove('selCur','range'); })
+			//this.classList.add('selCur');
+			
+		if( sel1 !== null && sel2 == null ){
+			
+			_for(td, function(e){
+				i++;
+				
+				e.classList.remove('selCur','range');
+				t.classList.add('selCur');
+				
+				
+				
+				if( e.id == 'sel1' ) { s1i = i;  sel1 = e.getAttribute('data-date'); }		// get index of selection 1 and start from this <td>				
+				if( e.className.indexOf("selCur") > -1 ) { s2i = i; sel2 = e.getAttribute('data-date'); }
+				
+				
+				//if(i > s1i && s1i !== 0 && i < s2i ) { e.classList.add('range'); }
+				
+				var dateDiff = showDateDiff(sel1, sel2);
+				
+				_id('daysNum').querySelector('em').innerText = dateDiff;
+				_id('daysNum').classList.remove('off');
+				
+				
+			}) // end for-loop
+			
+			i=0;
+			_for(td, function(e){
+				i++;
+				if(i > s1i && i < s2i ) { e.classList.add('range'); }
+				
+			})
+			
+		
+			
+
+			//$(td).removeClass('range');
+			//var tr = $(tbody).find('tr');
+			//var tds = $(tbody).find('td');
+			//tds.addClass('range');
+			
+		}
+		
+	});
 	
 	
 	
@@ -480,10 +539,11 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 		collectDown = 0;
 
     // VARs
-    var win = $(window);    
+    var win = $(window),
+		rcal = $('#r_cals');
     
     // Evil window scroll function	
-	win.on('mousewheel DOMMouseScroll', function (event) {
+	rcal.on('mousewheel DOMMouseScroll', function (event) {
 		clearTimeout(timerId);
 		
 		//var delta = event.originalEvent.wheelDelta;

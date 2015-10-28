@@ -2,7 +2,7 @@
 td:hover i { background: #eee; }
 .fromTo, #dp td.sel1 i, td.range i {
 	background: #42A5F5;
-	background: #3bb;
+	*background: #3bb;
 	*background: #0c0;
 	*background: #f60;
 	*background: #222;
@@ -68,7 +68,7 @@ td.sel2 i { background: #FF4081; background: hotpink; opacity:1; }
 	line-height:34px;
 	
 	border-radius:50%;
-	transition: all .2s ease;
+	_transition: all .2s ease;
 }
 
 
