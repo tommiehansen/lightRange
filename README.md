@@ -5,6 +5,7 @@ Date range picker under 5kb (compiled, non-gzip) specifically for flight- and ho
 Everything alpha for now.
 
 Preview of 2015.10.28:
+
 http://cdn.rawgit.com/tommiehansen/lightRange/master/test.html
 
 Current:
