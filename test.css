@@ -1,16 +1,18 @@
 /* colors */
 td:hover i { background: #eee; }
-.fromTo, #dp td.sel1 i, td.range i {
-	background: #42A5F5;
-	*background: #3bb;
+.fromTo, #dp #sel1 i, td.range i {
+	*background: #42A5F5;
+	background: #3bb;
+	*background: hotpink;
 	*background: #0c0;
 	*background: #f60;
+	*background: orange;
 	*background: #222;
 }
 
-td.range i { _background: #8cf; _background: #8dd; opacity:.6; }
-td.sel1 i { opacity:1; }
-td.sel2 i { background: #FF4081; background: hotpink; opacity:1; }
+td.range i { opacity:.6; }
+#sel1 i { opacity:1; }
+#sel2 i { background: #FF4081; background: hotpink; opacity:1; }
 
 
 
@@ -97,11 +99,10 @@ td.sel2 i { background: #FF4081; background: hotpink; opacity:1; }
 
 /* SPECIAL td stuff */
 .notCurMonth { color: #aaa; }
-.sel1, .sel2, .range { color:#fff; }
+#sel1, #sel2, .range { color:#fff; }
 
 
-
-.sel1 i, .sel2 i { animation: bounce .2s ease-in-out 1; }
+#sel1 i, #sel2 i { animation: bounce .2s ease-in-out 1; }
 
 #dp thead td { 
 	background:#fff;
@@ -117,13 +118,6 @@ td.sel2 i { background: #FF4081; background: hotpink; opacity:1; }
 #cal table:last-child td { border:0; }
 
 #cal td.notCurMonth { background: #fafafa; }
-
-
-
-
-
-
-
 
 
 

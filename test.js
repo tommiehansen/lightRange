@@ -439,20 +439,38 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 	})
 	
 	
-	// show selection on hover
 	
-	var tbody = main.querySelectorAll('tbody');
-	$(tbody).on('mouseenter', 'td', function(ee){
+	/*-----------------------------------------------------
+
+		EXTRAS
+		Todo: Have this be plugins/extensions
+		Current @ 1.5kb uncompressed
+
+	-----------------------------------------------------*/
+	
+	
+	// show selection on hover
+	// add this as some sort of plugin, adds ~0.6kb to total
+	
+	var hoverTimer = 20,
+		hoverId;
+	
+	$(main).on('mouseenter', 'tbody td', function(){
+		clearTimeout(hoverId);
+		hoverId = setTimeout(hoverRange, hoverTimer, this); // use throttling for perf reasons
+	});
+	
+	
+	function hoverRange(t){
 		
-		var sel1 = _id('sel1'),
-			sel2 = _id('sel2'),
-			td = document.querySelectorAll('tbody td'),
-			i=0, s1i=0, s2i=0, sel2, sel1data,
-			t = this;
-			//_for(td, function(e){ e.classList.remove('selCur','range'); })
-			//this.classList.add('selCur');
-			
+		var sel1 = _id('sel1'), // later move all this outside of mouseenter for perf reasons; note: calendar must ofc exist *BEFORE* all binds
+			sel2 = _id('sel2');
+				
 		if( sel1 !== null && sel2 == null ){
+			
+			var td = document.querySelectorAll('tbody td'), // later move outside for perf reasons
+				i=0, s1i=0, s2i=0, sel2, sel1data,
+				t = t;
 			
 			_for(td, function(e){
 				i++;
@@ -460,13 +478,8 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 				e.classList.remove('selCur','range');
 				t.classList.add('selCur');
 				
-				
-				
 				if( e.id == 'sel1' ) { s1i = i;  sel1 = e.getAttribute('data-date'); }		// get index of selection 1 and start from this <td>				
-				if( e.className.indexOf("selCur") > -1 ) { s2i = i; sel2 = e.getAttribute('data-date'); }
-				
-				
-				//if(i > s1i && s1i !== 0 && i < s2i ) { e.classList.add('range'); }
+				if( e.className.indexOf("selCur") > -1 ) { s2i = i+1; sel2 = e.getAttribute('data-date'); }
 				
 				var dateDiff = showDateDiff(sel1, sel2);
 				
@@ -483,17 +496,9 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 				
 			})
 			
+		} // end if sel1 !== null
 		
-			
-
-			//$(td).removeClass('range');
-			//var tr = $(tbody).find('tr');
-			//var tds = $(tbody).find('td');
-			//tds.addClass('range');
-			
-		}
-		
-	});
+	};
 	
 	
 	
@@ -501,6 +506,7 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 	/*-----------------------------------------------------
 
 	Keyboard/mouse navigation
+	Adds: ~0.7kb
 
 	-----------------------------------------------------*/
 	
