@@ -10,7 +10,7 @@ td:hover i { background: #eee; }
 	*background: #222;
 }
 
-td.range i { opacity:.6; }
+td.range i { opacity:.5; }
 #sel1 i { opacity:1; }
 #sel2 i { background: #FF4081; background: hotpink; opacity:1; }
 

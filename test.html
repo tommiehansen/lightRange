@@ -30,16 +30,72 @@ span { font-weight: 300; }
 	width: 100px;
 	border-radius:3px;
 }
-td { position:relative; }
+#c, td { position:relative; }
 #cal p { text-align:center; color:#aaa; font-size:12px; padding-top: 40px; clear:both; line-height: 200%; }
 #cal p em { font-size:11px; font-style:normal; color:#bbb; display: block; margin:0; padding:0; }
+
+#color { position:absolute; right:60px; top:60px; width:120px; }
+#color i, #color em { font-style:normal; color:#aaa; font-size:12px; display:block; margin:0 0 5px; }
+#color input { width:100%; height:30px; border:0; padding:0; margin:0; outline:0; background: none; cursor: pointer; }
+#color .selColor { float:right; }
+
+/* Material colors */
+#m { font-size:12px; color:#aaa; position:absolute; z-index:10; width:250px; display:none; }
+#m i { display:inline-block; }
+#m span { padding:15px; display:block; line-height:100%; color:#fff; font-weight:600; cursor:default; }
+#m span i { float:right;  color:#fff; font-weight:300; }
+
+#c #m {
+	position: fixed;
+	width:100%;
+	height:100%;
+	background: #fff;
+	overflow-y: scroll;
+	left:0;
+	top:0;
+	text-align:center;
+	padding-top:20px;
+}
+
+#m div {
+	width:33.33%; padding:0 20px; float:left; text-align:left;
+	vertical-align:top;
+	margin-bottom:20px;
+}
+#m h3 { font-size:24px; font-weight:300;  }
+#m h3 em { font-size: 36px; position:absolute; top:0; right:0; cursor: default; line-height:100%; padding:15px 30px; }
+#m h3 em:hover { color:#333; }
+
+#m div span { display:none; }
+#m div span:nth-child(2), #m div span.on { display: block; }
+#m em { display:block; padding:2px 0; font-size:14px; font-weight:300; }
+#m em em {
+	display: block;
+	float:right; 
+	text-align:right;
+	cursor:default;
+}
+#m em em:hover { color:#333; }
+#m span:hover, #m span:hover i { text-decoration:underline; }
+body.hideScroll { overflow: hidden; }
+#color #popMaterial {
+	cursor: pointer; 
+	padding:8px 5px;
+	background:#fff;
+	border:1px solid #ddd;
+	text-align:center;
+	border-radius:3px;
+}
+
+#color #popMaterial:hover {	border-color:#ccc; }
+
 
 
 /* TEMP : REMOVE PREV/NEXT MONTH DISPLAY */
 _#cal td.notCurMonth { opacity:0 !important; }
 
 </style>
-<link href='test.css' rel='stylesheet' type='text/css'>
+<link href='test.css' rel='stylesheet' type='text/css' id='css'>
 </head>
 <body>
 <div id="c">
@@ -47,7 +103,394 @@ _#cal td.notCurMonth { opacity:0 !important; }
 <h1><b>jade</b> LightRange</h1>
 <p class="sub">Responsive date range selection under 5kb</p>
 
-<!--<input type="text" class="date">-->
+
+<script>
+window.onload = function(){
+
+	var d = document,
+		c = d.getElementById('color'),
+		input = c.querySelector('input'),
+		em = c.querySelector('em'),
+		css = d.getElementById('css');
+		
+	input.onchange = function(){
+		var val = this.value;
+		em.innerText = val;
+		$('#style').remove();
+		$(css).prepend('<style id="style">.fromTo { transition: background-color .5s ease } .fromTo, #dp #sel1 i, td.range i { background-color: '+ val +'; }</style>');
+	}
+	
+	
+	d.getElementById('popMaterial').onclick = function(){
+		$(d.getElementById('m')).toggle();
+		$(d.querySelector('body')).toggleClass('hideScroll');
+	};
+	
+	$('em').find('em').on('click', function(){
+		$(this).parent().nextAll('span').toggleClass('on');
+	});
+	
+	var m = $('#m');
+	m.on('click', 'span', function(){
+		input.value = $(this).find('i').text();
+		m.find('em').removeClass('on');
+		$(input).trigger('change');
+		m.hide();
+	})
+	
+	
+	em.onclick = function(){
+		var range = document.createRange();
+		range.selectNode(this);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);		
+	}
+	
+
+}
+</script>
+
+<div id="color">
+	<i>Base color: <em class="selColor">Default</em></i><input type="color" value="#000000">
+	
+	<i id="popMaterial">Choose Material</i>
+
+	<div id="m">
+	<h3>Google Material Colors <em onclick=" $('#m').toggle();$('body').removeClass('hideScroll')">&times;</em></h3>
+		<div>
+		<em>Red <em>Show all</em></em>
+		<span style="background:#f44336">500 <i>#f44336</i></span>
+		<span style="background:#ffebee">50 <i>#ffebee</i></span>
+		<span style="background:#ffcdd2">100 <i>#ffcdd2</i></span>
+		<span style="background:#ef9a9a">200 <i>#ef9a9a</i></span>
+		<span style="background:#e57373">300 <i>#e57373</i></span>
+		<span style="background:#ef5350">400 <i>#ef5350</i></span>
+		<span style="background:#f44336">500 <i>#f44336</i></span>
+		<span style="background:#e53935">600 <i>#e53935</i></span>
+		<span style="background:#d32f2f">700 <i>#d32f2f</i></span>
+		<span style="background:#c62828">800 <i>#c62828</i></span>
+		<span style="background:#b71c1c">900 <i>#b71c1c</i></span>
+		<span style="background:#ff8a80">A100 <i>#ff8a80</i></span>
+		<span style="background:#ff5252">A200 <i>#ff5252</i></span>
+		<span style="background:#ff1744">A400 <i>#ff1744</i></span>
+		<span style="background:#d50000">A700 <i>#d50000</i></span>
+		</div>
+		<div>
+		<em>Pink <em>Show all</em></em>
+		<span style="background:#e91e63">500 <i>#e91e63</i></span>
+		<span style="background:#fce4ec">50 <i>#fce4ec</i></span>
+		<span style="background:#f8bbd0">100 <i>#f8bbd0</i></span>
+		<span style="background:#f48fb1">200 <i>#f48fb1</i></span>
+		<span style="background:#f06292">300 <i>#f06292</i></span>
+		<span style="background:#ec407a">400 <i>#ec407a</i></span>
+		<span style="background:#e91e63">500 <i>#e91e63</i></span>
+		<span style="background:#d81b60">600 <i>#d81b60</i></span>
+		<span style="background:#c2185b">700 <i>#c2185b</i></span>
+		<span style="background:#ad1457">800 <i>#ad1457</i></span>
+		<span style="background:#880e4f">900 <i>#880e4f</i></span>
+		<span style="background:#ff80ab">A100 <i>#ff80ab</i></span>
+		<span style="background:#ff4081">A200 <i>#ff4081</i></span>
+		<span style="background:#f50057">A400 <i>#f50057</i></span>
+		<span style="background:#c51162">A700 <i>#c51162</i></span>
+		</div>
+		<div>
+		<em>Purple <em>Show all</em></em>
+		<span style="background:#9c27b0">500 <i>#9c27b0</i></span>
+		<span style="background:#f3e5f5">50 <i>#f3e5f5</i></span>
+		<span style="background:#e1bee7">100 <i>#e1bee7</i></span>
+		<span style="background:#ce93d8">200 <i>#ce93d8</i></span>
+		<span style="background:#ba68c8">300 <i>#ba68c8</i></span>
+		<span style="background:#ab47bc">400 <i>#ab47bc</i></span>
+		<span style="background:#9c27b0">500 <i>#9c27b0</i></span>
+		<span style="background:#8e24aa">600 <i>#8e24aa</i></span>
+		<span style="background:#7b1fa2">700 <i>#7b1fa2</i></span>
+		<span style="background:#6a1b9a">800 <i>#6a1b9a</i></span>
+		<span style="background:#4a148c">900 <i>#4a148c</i></span>
+		<span style="background:#ea80fc">A100 <i>#ea80fc</i></span>
+		<span style="background:#e040fb">A200 <i>#e040fb</i></span>
+		<span style="background:#d500f9">A400 <i>#d500f9</i></span>
+		<span style="background:#aa00ff">A700 <i>#aa00ff</i></span>
+		</div>
+		<div>
+		<em>Deep Purple <em>Show all</em></em>
+		<span style="background:#673ab7">500 <i>#673ab7</i></span>
+		<span style="background:#ede7f6">50 <i>#ede7f6</i></span>
+		<span style="background:#d1c4e9">100 <i>#d1c4e9</i></span>
+		<span style="background:#b39ddb">200 <i>#b39ddb</i></span>
+		<span style="background:#9575cd">300 <i>#9575cd</i></span>
+		<span style="background:#7e57c2">400 <i>#7e57c2</i></span>
+		<span style="background:#673ab7">500 <i>#673ab7</i></span>
+		<span style="background:#5e35b1">600 <i>#5e35b1</i></span>
+		<span style="background:#512da8">700 <i>#512da8</i></span>
+		<span style="background:#4527a0">800 <i>#4527a0</i></span>
+		<span style="background:#311b92">900 <i>#311b92</i></span>
+		<span style="background:#b388ff">A100 <i>#b388ff</i></span>
+		<span style="background:#7c4dff">A200 <i>#7c4dff</i></span>
+		<span style="background:#651fff">A400 <i>#651fff</i></span>
+		<span style="background:#6200ea">A700 <i>#6200ea</i></span>
+		</div>
+		<div>
+		<em>Indigo <em>Show all</em></em>
+		<span style="background:#3f51b5">500 <i>#3f51b5</i></span>
+		<span style="background:#e8eaf6">50 <i>#e8eaf6</i></span>
+		<span style="background:#c5cae9">100 <i>#c5cae9</i></span>
+		<span style="background:#9fa8da">200 <i>#9fa8da</i></span>
+		<span style="background:#7986cb">300 <i>#7986cb</i></span>
+		<span style="background:#5c6bc0">400 <i>#5c6bc0</i></span>
+		<span style="background:#3f51b5">500 <i>#3f51b5</i></span>
+		<span style="background:#3949ab">600 <i>#3949ab</i></span>
+		<span style="background:#303f9f">700 <i>#303f9f</i></span>
+		<span style="background:#283593">800 <i>#283593</i></span>
+		<span style="background:#1a237e">900 <i>#1a237e</i></span>
+		<span style="background:#8c9eff">A100 <i>#8c9eff</i></span>
+		<span style="background:#536dfe">A200 <i>#536dfe</i></span>
+		<span style="background:#3d5afe">A400 <i>#3d5afe</i></span>
+		<span style="background:#304ffe">A700 <i>#304ffe</i></span>
+		</div>
+		<div>
+		<em>Blue <em>Show all</em></em>
+		<span style="background:#2196f3">500 <i>#2196f3</i></span>
+		<span style="background:#e3f2fd">50 <i>#e3f2fd</i></span>
+		<span style="background:#bbdefb">100 <i>#bbdefb</i></span>
+		<span style="background:#90caf9">200 <i>#90caf9</i></span>
+		<span style="background:#64b5f6">300 <i>#64b5f6</i></span>
+		<span style="background:#42a5f5">400 <i>#42a5f5</i></span>
+		<span style="background:#2196f3">500 <i>#2196f3</i></span>
+		<span style="background:#1e88e5">600 <i>#1e88e5</i></span>
+		<span style="background:#1976d2">700 <i>#1976d2</i></span>
+		<span style="background:#1565c0">800 <i>#1565c0</i></span>
+		<span style="background:#0d47a1">900 <i>#0d47a1</i></span>
+		<span style="background:#82b1ff">A100 <i>#82b1ff</i></span>
+		<span style="background:#448aff">A200 <i>#448aff</i></span>
+		<span style="background:#2979ff">A400 <i>#2979ff</i></span>
+		<span style="background:#2962ff">A700 <i>#2962ff</i></span>
+		</div>
+		<div>
+		<em>Light Blue <em>Show all</em></em>
+		<span style="background:#03a9f4">500 <i>#03a9f4</i></span>
+		<span style="background:#e1f5fe">50 <i>#e1f5fe</i></span>
+		<span style="background:#b3e5fc">100 <i>#b3e5fc</i></span>
+		<span style="background:#81d4fa">200 <i>#81d4fa</i></span>
+		<span style="background:#4fc3f7">300 <i>#4fc3f7</i></span>
+		<span style="background:#29b6f6">400 <i>#29b6f6</i></span>
+		<span style="background:#03a9f4">500 <i>#03a9f4</i></span>
+		<span style="background:#039be5">600 <i>#039be5</i></span>
+		<span style="background:#0288d1">700 <i>#0288d1</i></span>
+		<span style="background:#0277bd">800 <i>#0277bd</i></span>
+		<span style="background:#01579b">900 <i>#01579b</i></span>
+		<span style="background:#80d8ff">A100 <i>#80d8ff</i></span>
+		<span style="background:#40c4ff">A200 <i>#40c4ff</i></span>
+		<span style="background:#00b0ff">A400 <i>#00b0ff</i></span>
+		<span style="background:#0091ea">A700 <i>#0091ea</i></span>
+		</div>
+		<div>
+		<em>Cyan <em>Show all</em></em>
+		<span style="background:#00bcd4">500 <i>#00bcd4</i></span>
+		<span style="background:#e0f7fa">50 <i>#e0f7fa</i></span>
+		<span style="background:#b2ebf2">100 <i>#b2ebf2</i></span>
+		<span style="background:#80deea">200 <i>#80deea</i></span>
+		<span style="background:#4dd0e1">300 <i>#4dd0e1</i></span>
+		<span style="background:#26c6da">400 <i>#26c6da</i></span>
+		<span style="background:#00bcd4">500 <i>#00bcd4</i></span>
+		<span style="background:#00acc1">600 <i>#00acc1</i></span>
+		<span style="background:#0097a7">700 <i>#0097a7</i></span>
+		<span style="background:#00838f">800 <i>#00838f</i></span>
+		<span style="background:#006064">900 <i>#006064</i></span>
+		<span style="background:#84ffff">A100 <i>#84ffff</i></span>
+		<span style="background:#18ffff">A200 <i>#18ffff</i></span>
+		<span style="background:#00e5ff">A400 <i>#00e5ff</i></span>
+		<span style="background:#00b8d4">A700 <i>#00b8d4</i></span>
+		</div>
+		<div>
+		<em>Teal <em>Show all</em></em>
+		<span style="background:#009688">500 <i>#009688</i></span>
+		<span style="background:#e0f2f1">50 <i>#e0f2f1</i></span>
+		<span style="background:#b2dfdb">100 <i>#b2dfdb</i></span>
+		<span style="background:#80cbc4">200 <i>#80cbc4</i></span>
+		<span style="background:#4db6ac">300 <i>#4db6ac</i></span>
+		<span style="background:#26a69a">400 <i>#26a69a</i></span>
+		<span style="background:#009688">500 <i>#009688</i></span>
+		<span style="background:#00897b">600 <i>#00897b</i></span>
+		<span style="background:#00796b">700 <i>#00796b</i></span>
+		<span style="background:#00695c">800 <i>#00695c</i></span>
+		<span style="background:#004d40">900 <i>#004d40</i></span>
+		<span style="background:#a7ffeb">A100 <i>#a7ffeb</i></span>
+		<span style="background:#64ffda">A200 <i>#64ffda</i></span>
+		<span style="background:#1de9b6">A400 <i>#1de9b6</i></span>
+		<span style="background:#00bfa5">A700 <i>#00bfa5</i></span>
+		</div>
+		<div>
+		<em>Green <em>Show all</em></em>
+		<span style="background:#4caf50">500 <i>#4caf50</i></span>
+		<span style="background:#e8f5e9">50 <i>#e8f5e9</i></span>
+		<span style="background:#c8e6c9">100 <i>#c8e6c9</i></span>
+		<span style="background:#a5d6a7">200 <i>#a5d6a7</i></span>
+		<span style="background:#81c784">300 <i>#81c784</i></span>
+		<span style="background:#66bb6a">400 <i>#66bb6a</i></span>
+		<span style="background:#4caf50">500 <i>#4caf50</i></span>
+		<span style="background:#43a047">600 <i>#43a047</i></span>
+		<span style="background:#388e3c">700 <i>#388e3c</i></span>
+		<span style="background:#2e7d32">800 <i>#2e7d32</i></span>
+		<span style="background:#1b5e20">900 <i>#1b5e20</i></span>
+		<span style="background:#b9f6ca">A100 <i>#b9f6ca</i></span>
+		<span style="background:#69f0ae">A200 <i>#69f0ae</i></span>
+		<span style="background:#00e676">A400 <i>#00e676</i></span>
+		<span style="background:#00c853">A700 <i>#00c853</i></span>
+		</div>
+		<div>
+		<em>Light Green <em>Show all</em></em>
+		<span style="background:#8bc34a">500 <i>#8bc34a</i></span>
+		<span style="background:#f1f8e9">50 <i>#f1f8e9</i></span>
+		<span style="background:#dcedc8">100 <i>#dcedc8</i></span>
+		<span style="background:#c5e1a5">200 <i>#c5e1a5</i></span>
+		<span style="background:#aed581">300 <i>#aed581</i></span>
+		<span style="background:#9ccc65">400 <i>#9ccc65</i></span>
+		<span style="background:#8bc34a">500 <i>#8bc34a</i></span>
+		<span style="background:#7cb342">600 <i>#7cb342</i></span>
+		<span style="background:#689f38">700 <i>#689f38</i></span>
+		<span style="background:#558b2f">800 <i>#558b2f</i></span>
+		<span style="background:#33691e">900 <i>#33691e</i></span>
+		<span style="background:#ccff90">A100 <i>#ccff90</i></span>
+		<span style="background:#b2ff59">A200 <i>#b2ff59</i></span>
+		<span style="background:#76ff03">A400 <i>#76ff03</i></span>
+		<span style="background:#64dd17">A700 <i>#64dd17</i></span>
+		</div>
+		<div>
+		<em>Lime <em>Show all</em></em>
+		<span style="background:#cddc39">500 <i>#cddc39</i></span>
+		<span style="background:#f9fbe7">50 <i>#f9fbe7</i></span>
+		<span style="background:#f0f4c3">100 <i>#f0f4c3</i></span>
+		<span style="background:#e6ee9c">200 <i>#e6ee9c</i></span>
+		<span style="background:#dce775">300 <i>#dce775</i></span>
+		<span style="background:#d4e157">400 <i>#d4e157</i></span>
+		<span style="background:#cddc39">500 <i>#cddc39</i></span>
+		<span style="background:#c0ca33">600 <i>#c0ca33</i></span>
+		<span style="background:#afb42b">700 <i>#afb42b</i></span>
+		<span style="background:#9e9d24">800 <i>#9e9d24</i></span>
+		<span style="background:#827717">900 <i>#827717</i></span>
+		<span style="background:#f4ff81">A100 <i>#f4ff81</i></span>
+		<span style="background:#eeff41">A200 <i>#eeff41</i></span>
+		<span style="background:#c6ff00">A400 <i>#c6ff00</i></span>
+		<span style="background:#aeea00">A700 <i>#aeea00</i></span>
+		</div>
+		<div>
+		<em>Yellow <em>Show all</em></em>
+		<span style="background:#ffeb3b">500 <i>#ffeb3b</i></span>
+		<span style="background:#fffde7">50 <i>#fffde7</i></span>
+		<span style="background:#fff9c4">100 <i>#fff9c4</i></span>
+		<span style="background:#fff59d">200 <i>#fff59d</i></span>
+		<span style="background:#fff176">300 <i>#fff176</i></span>
+		<span style="background:#ffee58">400 <i>#ffee58</i></span>
+		<span style="background:#ffeb3b">500 <i>#ffeb3b</i></span>
+		<span style="background:#fdd835">600 <i>#fdd835</i></span>
+		<span style="background:#fbc02d">700 <i>#fbc02d</i></span>
+		<span style="background:#f9a825">800 <i>#f9a825</i></span>
+		<span style="background:#f57f17">900 <i>#f57f17</i></span>
+		<span style="background:#ffff8d">A100 <i>#ffff8d</i></span>
+		<span style="background:#ffff00">A200 <i>#ffff00</i></span>
+		<span style="background:#ffea00">A400 <i>#ffea00</i></span>
+		<span style="background:#ffd600">A700 <i>#ffd600</i></span>
+		</div>
+		<div>
+		<em>Amber <em>Show all</em></em>
+		<span style="background:#ffc107">500 <i>#ffc107</i></span>
+		<span style="background:#fff8e1">50 <i>#fff8e1</i></span>
+		<span style="background:#ffecb3">100 <i>#ffecb3</i></span>
+		<span style="background:#ffe082">200 <i>#ffe082</i></span>
+		<span style="background:#ffd54f">300 <i>#ffd54f</i></span>
+		<span style="background:#ffca28">400 <i>#ffca28</i></span>
+		<span style="background:#ffc107">500 <i>#ffc107</i></span>
+		<span style="background:#ffb300">600 <i>#ffb300</i></span>
+		<span style="background:#ffa000">700 <i>#ffa000</i></span>
+		<span style="background:#ff8f00">800 <i>#ff8f00</i></span>
+		<span style="background:#ff6f00">900 <i>#ff6f00</i></span>
+		<span style="background:#ffe57f">A100 <i>#ffe57f</i></span>
+		<span style="background:#ffd740">A200 <i>#ffd740</i></span>
+		<span style="background:#ffc400">A400 <i>#ffc400</i></span>
+		<span style="background:#ffab00">A700 <i>#ffab00</i></span>
+		</div>
+		<div>
+		<em>Orange <em>Show all</em></em>
+		<span style="background:#ff9800">500 <i>#ff9800</i></span>
+		<span style="background:#fff3e0">50 <i>#fff3e0</i></span>
+		<span style="background:#ffe0b2">100 <i>#ffe0b2</i></span>
+		<span style="background:#ffcc80">200 <i>#ffcc80</i></span>
+		<span style="background:#ffb74d">300 <i>#ffb74d</i></span>
+		<span style="background:#ffa726">400 <i>#ffa726</i></span>
+		<span style="background:#ff9800">500 <i>#ff9800</i></span>
+		<span style="background:#fb8c00">600 <i>#fb8c00</i></span>
+		<span style="background:#f57c00">700 <i>#f57c00</i></span>
+		<span style="background:#ef6c00">800 <i>#ef6c00</i></span>
+		<span style="background:#e65100">900 <i>#e65100</i></span>
+		<span style="background:#ffd180">A100 <i>#ffd180</i></span>
+		<span style="background:#ffab40">A200 <i>#ffab40</i></span>
+		<span style="background:#ff9100">A400 <i>#ff9100</i></span>
+		<span style="background:#ff6d00">A700 <i>#ff6d00</i></span>
+		</div>
+		<div>
+		<em>Deep Orange <em>Show all</em></em>
+		<span style="background:#ff5722">500 <i>#ff5722</i></span>
+		<span style="background:#fbe9e7">50 <i>#fbe9e7</i></span>
+		<span style="background:#ffccbc">100 <i>#ffccbc</i></span>
+		<span style="background:#ffab91">200 <i>#ffab91</i></span>
+		<span style="background:#ff8a65">300 <i>#ff8a65</i></span>
+		<span style="background:#ff7043">400 <i>#ff7043</i></span>
+		<span style="background:#ff5722">500 <i>#ff5722</i></span>
+		<span style="background:#f4511e">600 <i>#f4511e</i></span>
+		<span style="background:#e64a19">700 <i>#e64a19</i></span>
+		<span style="background:#d84315">800 <i>#d84315</i></span>
+		<span style="background:#bf360c">900 <i>#bf360c</i></span>
+		<span style="background:#ff9e80">A100 <i>#ff9e80</i></span>
+		<span style="background:#ff6e40">A200 <i>#ff6e40</i></span>
+		<span style="background:#ff3d00">A400 <i>#ff3d00</i></span>
+		<span style="background:#dd2c00">A700 <i>#dd2c00</i></span>
+		</div>
+		<div>
+		<em>Brown <em>Show all</em></em>
+		<span style="background:#795548">500 <i>#795548</i></span>
+		<span style="background:#efebe9">50 <i>#efebe9</i></span>
+		<span style="background:#d7ccc8">100 <i>#d7ccc8</i></span>
+		<span style="background:#bcaaa4">200 <i>#bcaaa4</i></span>
+		<span style="background:#a1887f">300 <i>#a1887f</i></span>
+		<span style="background:#8d6e63">400 <i>#8d6e63</i></span>
+		<span style="background:#795548">500 <i>#795548</i></span>
+		<span style="background:#6d4c41">600 <i>#6d4c41</i></span>
+		<span style="background:#5d4037">700 <i>#5d4037</i></span>
+		<span style="background:#4e342e">800 <i>#4e342e</i></span>
+		<span style="background:#3e2723">900 <i>#3e2723</i></span>
+		</div>
+		<div>
+		<em>Grey <em>Show all</em></em>
+		<span style="background:#9e9e9e">500 <i>#9e9e9e</i></span>
+		<span style="background:#fafafa">50 <i>#fafafa</i></span>
+		<span style="background:#f5f5f5">100 <i>#f5f5f5</i></span>
+		<span style="background:#eeeeee">200 <i>#eeeeee</i></span>
+		<span style="background:#e0e0e0">300 <i>#e0e0e0</i></span>
+		<span style="background:#bdbdbd">400 <i>#bdbdbd</i></span>
+		<span style="background:#9e9e9e">500 <i>#9e9e9e</i></span>
+		<span style="background:#757575">600 <i>#757575</i></span>
+		<span style="background:#616161">700 <i>#616161</i></span>
+		<span style="background:#424242">800 <i>#424242</i></span>
+		<span style="background:#212121">900 <i>#212121</i></span>
+		</div>
+		<div>
+		<em>Blue Grey <em>Show all</em></em>
+		<span style="background:#607d8b">500 <i>#607d8b</i></span>
+		<span style="background:#eceff1">50 <i>#eceff1</i></span>
+		<span style="background:#cfd8dc">100 <i>#cfd8dc</i></span>
+		<span style="background:#b0bec5">200 <i>#b0bec5</i></span>
+		<span style="background:#90a4ae">300 <i>#90a4ae</i></span>
+		<span style="background:#78909c">400 <i>#78909c</i></span>
+		<span style="background:#607d8b">500 <i>#607d8b</i></span>
+		<span style="background:#546e7a">600 <i>#546e7a</i></span>
+		<span style="background:#455a64">700 <i>#455a64</i></span>
+		<span style="background:#37474f">800 <i>#37474f</i></span>
+		<span style="background:#263238">900 <i>#263238</i></span>
+		</div>
+	</div>
+	
+</div>
+
 
 <div id="cal">
 
@@ -55,7 +498,6 @@ _#cal td.notCurMonth { opacity:0 !important; }
 	
 		<div class="dateBox" id="dateFrom">
 			<i class="r_head">Departure</i>
-			<!--<i class="r_date">Wed<span class="hideSmall">nesday</span>, 24 Nov 2015</i>-->
 			<i class="r_date">Please select a date</i>
 		</div><div class="dateBox days off" id="daysNum">
 			<i class="r_head">Days</i>
@@ -86,5 +528,6 @@ _#cal td.notCurMonth { opacity:0 !important; }
 </div><!-- /#c -->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript" src="test.js"></script>
+
 </body>
 </html>
