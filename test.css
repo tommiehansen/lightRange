@@ -238,13 +238,17 @@ td.range i { opacity:.5; }
 
 
 /* Media queries */
-@media(max-width: 700px){
+
+/* tablet */
+@media(max-width: 800px){
 	.hideSmall { display:none; }
 	.hideDesk { display:inline; }	
 	
 	body { padding:0; }
 	#c { width:100%; padding:0; padding-top:30px; height:auto; min-height:auto; border:0; }
-	#cal { width:100%; max-width: 330px; }
+	#cal { width:100%; max-width: 380px; position:relative; margin: 0 auto;  }
+	#cal #dateFrom { text-align:left; padding-left:20px; }
+	#cal #dateTo { text-align:right; padding-right:20px; }
 	#cal .r_month { width:100%; }
 	#r_cals:after { display: none; } /* temp middle line */
 
@@ -254,11 +258,14 @@ td.range i { opacity:.5; }
 	h1, .sub, p, #m span i, #m em em { display:none; }
 	
 	#color { position:relative; margin:0 auto; margin-bottom:40px; top:0; left:0; }
+}
 
+/* smaller */
+@media(max-width: 599px){
 
+	#cal { max-width: 330px; }
 
-	.fromTo .r_dots { display: none; }
-	
+	.fromTo .r_dots { display: none; }	
 	.fromTo .dateBox.days { width: auto; line-height:100%; }
 
 	.dateBox.days em { font-size: 12px; margin:0; margin-right:5px; float:right; display:inline-block; _font-weight: 300; color: rgba(255,255,255,0.7); }
@@ -270,11 +277,5 @@ td.range i { opacity:.5; }
 		top:10px;
 		transform: translateX(-50%);
 	}
-	
-
-	h1,h2,.sub { text-align:center; }
-	#c .sub { font-size: 14px; letter-spacing:1px; color:#ccc; line-height:200%; }
-	#cal { position:relative; margin: 0 auto; }
-
 
 }
