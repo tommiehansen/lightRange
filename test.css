@@ -256,6 +256,8 @@ td.range i { opacity:.5; }
 	.r_head { font-size: 12px; }
 
 	h1, .sub, p, #m span i, #m em em { display:none; }
+
+	#cal .r_dots { width:24px; overflow:hidden; display: inline-block; }
 	
 	#color { position:relative; margin:0 auto; margin-bottom:40px; top:0; left:0; }
 }
