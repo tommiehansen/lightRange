@@ -286,6 +286,7 @@ td.range i { opacity:.5; }
 	#cal .nav { display:none; }
 	#dp .r_month:nth-child(2n+1) .r_title { background: #f6f6f6; }
 	
+	#dp { transform: translateZ(0); }
 	#color input { float:left; width:30px; margin-left:2px; margin-top:1px;}
 	#color { width: 220px }
 	#color:after { content:''; clear:both; display:block; }
