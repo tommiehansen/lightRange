@@ -280,5 +280,9 @@ td.range i { opacity:.5; }
 		transform: translateX(-50%);
 	}
 
+	/* use native scroll */
+	#r_cals { overflow-x: scroll; }
+	#cal .nav { display:none; }
+	#dp .r_month:nth-child(2n+1) .r_title { background: #f6f6f6; }
 
 }
