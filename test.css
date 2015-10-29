@@ -267,9 +267,9 @@ td.range i { opacity:.5; }
 
 	#cal { max-width: 330px; }
 
-	.fromTo .r_dots { display: none; }	
 	.fromTo .dateBox.days { width: auto; line-height:100%; }
 
+	#cal .r_dots { display: none; }
 	.dateBox.days em { font-size: 12px; margin:0; margin-right:5px; float:right; display:inline-block; _font-weight: 300; color: rgba(255,255,255,0.7); }
 	.dateBox.days .r_head {  float:right; font-size: 12px; display:inline-block; }
 
@@ -279,5 +279,6 @@ td.range i { opacity:.5; }
 		top:10px;
 		transform: translateX(-50%);
 	}
+
 
 }
