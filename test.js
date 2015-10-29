@@ -510,6 +510,8 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 
 	-----------------------------------------------------*/
 	
+	/*
+	
 	
 	
 	$(document).on('keydown', function(e){
@@ -586,6 +588,7 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 	});
 	
 	
+	*/
 
 	
 	/*-----------------------------------------------------
