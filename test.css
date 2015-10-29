@@ -108,9 +108,7 @@ td.range i { opacity:.5; }
 /* SPECIAL td stuff */
 .notCurMonth { color: #aaa; }
 #sel1, #sel2, .range { color:#fff; }
-
-
-#sel1 i, #sel2 i { animation: bounce .2s ease-in-out 1; }
+#cal tbody td:active i { transform: scale(0.9); }
 
 #dp thead td { 
 	background:#fff;
@@ -165,8 +163,9 @@ td.range i { opacity:.5; }
 
 .dateBox.off .r_date { animation: none; }
 .dateBox.active .r_date { animation: none; }
-.dateBox.active { animation: slide .5s ease-in-out 1; }
-@keyframes slide {
+.dateBox.active { animation: slideOut .4s ease-in 1; }
+
+@keyframes slideOut {	
 	0% { transform: translateY(0); }
 	50% { transform: translateY(50px); opacity:0; }
 	100% { transform: translateY(0); opacity: 1; }
@@ -239,6 +238,14 @@ td.range i { opacity:.5; }
 
 /* Media queries */
 
+#dp {
+	_transform: translateX(0) !important;
+	_transform: translate3d(-600%,0,0) !important;
+	transition-duration: .3s;
+}
+
+#cal tbody td:active i { transform: scale(0.9); }
+
 /* tablet */
 @media(max-width: 800px){
 	.hideSmall { display:none; }
@@ -260,6 +267,7 @@ td.range i { opacity:.5; }
 	#cal .r_dots { width:24px; overflow:hidden; display: inline-block; }
 	
 	#color { position:relative; margin:0 auto; margin-bottom:40px; top:0; left:0; }
+
 }
 
 /* smaller */

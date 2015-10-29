@@ -22,6 +22,20 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 	var month, year;
 	
 	
+	// onCSSAnimationEnd
+	/*
+	var s = document.body || document.documentElement, s = s.style, prefixAnimation = '', prefixTransition = '';
+
+	$.fn.extend({
+		onCSSAnimationEnd: function( callback ) {
+			var $this = $( this ).eq( 0 );
+			$this.one( 'webkitAnimationEnd mozAnimationEnd oAnimationEnd oanimationend animationend', callback );
+			if( ( prefixAnimation == '' && !( 'animation' in s ) ) || $this.css( prefixAnimation + 'animation-duration' ) == '0s' ) callback();
+			return this;
+		}
+	});
+	*/
+
 	
 	// add dates to output
 	function lurker(date,fromTo){
@@ -53,9 +67,12 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 			if( fromTo == 'from' ){
 				cur = _id('dateFrom');
 				_id('dateTo').classList.remove('off');
+				cur.classList.remove('active');
 			} else { cur = _id('dateTo'); }
 			
-			cur.classList.add('active');
+		
+			setTimeout(function(){ cur.classList.add('active'); }, 0); // restart animation
+		
 			
 			str = dayNice1 + '<span class="hideSmall">' + dayNice2 + '</span>, ' + d + ' ' + monthNice + ' ' + y;
 			
@@ -74,13 +91,13 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 		}
 		
 		// Text selectors
-		var $cur = $(cur);
-		var r_date = $cur.find('.r_date');			
+		var $cur = $(cur); 
+		var r_date = $cur.find('.r_date');
 			
 		// Set text		
 		setTimeout(function(){
 			r_date.html(str);
-		}, 250); //must sync with animation time
+		}, 200); //must sync with animation time
 		
 	}
 	
