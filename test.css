@@ -14,7 +14,15 @@ td.range i { opacity:.5; }
 #sel1 i { opacity:1; }
 #sel2 i { background: #FF4081; background: hotpink; opacity:1; }
 
+/* PERF */
 
+#r_cals:after,
+#dp,
+#fromTo,
+.dateBox
+{ backface-visibility: hidden; }
+
+#cal #r_nav .nav { opacity:1 !important; }
 
 
 
