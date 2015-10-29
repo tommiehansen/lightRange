@@ -281,7 +281,7 @@ td.range i { opacity:.5; }
 		transform: translateX(-50%);
 	}
 
-	/* use native scroll */
+	/* use native scroll 
 	#r_cals { overflow-x: scroll; }
 	#cal .nav { display:none; }
 	#dp .r_month:nth-child(2n+1) .r_title { background: #f6f6f6; }
@@ -290,5 +290,6 @@ td.range i { opacity:.5; }
 	#color input { float:left; width:30px; margin-left:2px; margin-top:1px;}
 	#color { width: 220px }
 	#color:after { content:''; clear:both; display:block; }
+	*/
 
 }
