@@ -238,18 +238,23 @@ td.range i { opacity:.5; }
 
 
 /* Media queries */
-@media(max-width: 800px){
+@media(max-width: 700px){
 	.hideSmall { display:none; }
 	.hideDesk { display:inline; }	
 	
-	#c { width:95% !important; }
-	
-	#cal { width:320px; }
+	body { padding:0; }
+	#c { width:100%; padding:0; padding-top:30px; height:auto; min-height:auto; border:0; }
+	#cal { width:100%; max-width: 330px; }
 	#cal .r_month { width:100%; }
 	#r_cals:after { display: none; } /* temp middle line */
 
 	.r_date { font-size:14px; }
 	.r_head { font-size: 12px; }
+
+	h1, .sub, p, #m span i, #m em em { display:none; }
+	
+	#color { position:relative; margin:0 auto; margin-bottom:40px; top:0; left:0; }
+
 
 
 	.fromTo .r_dots { display: none; }
