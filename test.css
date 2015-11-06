@@ -157,7 +157,7 @@ td.range i { opacity:.5; }
 }
 
 .r_date {
-	animation: fadeInOut 2s ease-in-out infinite;
+	animation: fadeInOut 1s ease-in-out infinite;
 }
 
 
