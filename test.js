@@ -377,7 +377,7 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 	-----------------------------------------------------*/
 	
 
-	$(main).on('click', 'tbody td', function(){ userSelect(this, main); });
+	$(main).on('click touchend', 'tbody td', function(){ userSelect(this, main); });
 	
 	var rNav = $('#r_nav'),
 		dp = _id('dp');
