@@ -108,10 +108,6 @@ td.range i { opacity:.5; }
 .notCurMonth { color: #aaa; }
 #sel1, #sel2, .range { color:#fff; }
 
-@media(min-width:1200px){
-	#cal tbody td:active i { transform: scale(0.9); }
-}
-
 #dp thead td { 
 	background:#fff;
 	color:#aaa;
@@ -244,11 +240,10 @@ td.disabled:hover i { background: none; }
 	transition-duration: .3s;
 }
 
-#cal tbody td:active i { transform: scale(0.9); }
-
 
 /* remove next/prev-months for double calendar view */
 @media(min-width:800px){
+	#cal tbody td:active i { transform: scale(0.9); }
 	#cal td.notCurMonth { visibility: hidden; }
 }
 
