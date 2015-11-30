@@ -15,7 +15,6 @@ td.range i { opacity:.5; }
 #sel2 i { background: #FF4081; background: hotpink; opacity:1; }
 
 /* PERF */
-
 #r_cals:after,
 #dp,
 #fromTo,
@@ -125,6 +124,9 @@ td.range i { opacity:.5; }
 
 #cal td.notCurMonth { background: #fafafa; }
 
+td.disabled { opacity: 0.4; }
+td.disabled:hover i { background: none; }
+
 
 
 /* TEMP */
@@ -163,13 +165,6 @@ td.range i { opacity:.5; }
 
 .dateBox.off .r_date { animation: none; }
 .dateBox.active .r_date { animation: none; }
-.dateBox.active { animation: slideOut .4s ease-in 1; }
-
-@keyframes slideOut {	
-	0% { transform: translateY(0); }
-	50% { transform: translateY(50px); opacity:0; }
-	100% { transform: translateY(0); opacity: 1; }
-}
 
 .fromTo { position: relative; }
 .fromTo .dateBox.days {
@@ -226,6 +221,8 @@ td.range i { opacity:.5; }
 #r_nav i.off { color:#ddd; cursor: not-allowed; }
 
 
+
+
 /*
 	MEDIA QUERIES
 */
@@ -245,6 +242,12 @@ td.range i { opacity:.5; }
 }
 
 #cal tbody td:active i { transform: scale(0.9); }
+
+
+/* remove next/prev-months for double calendar view */
+@media(min-width:800px){
+	#cal td.notCurMonth { visibility: hidden; }
+}
 
 /* tablet */
 @media(max-width: 800px){

@@ -67,13 +67,12 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 			if( fromTo == 'from' ){
 				cur = _id('dateFrom');
 				_id('dateTo').classList.remove('off');
-				cur.classList.remove('active');
-			} else { cur = _id('dateTo'); }
+			}
+			else {
+				cur = _id('dateTo');
+			}
 			
-		
-			setTimeout(function(){ cur.classList.add('active'); }, 0); // restart animation
-		
-			
+			cur.classList.add('active');
 			str = dayNice1 + '<span class="hideSmall">' + dayNice2 + '</span>, ' + d + ' ' + monthNice + ' ' + y;
 			
 		}
@@ -82,22 +81,28 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 		else {
 			cur = main;			
 			str = 'Select a date'; // make this multi-lang capable via data-attributes
-			_id('dateTo').classList.add('off');
-			_id('daysNum').classList.add('off');
-			_id('daysNum').querySelector('em').innerHTML = 0;
 			
-			_id('dateTo').classList.remove('active');
+			var dateTo = _id('dateTo'),
+				daysNum = _id('daysNum');
+			
+			dateTo.classList.add('off');
+			daysNum.classList.add('off');
+			daysNum.querySelector('em').innerHTML = 0;
+			
+			dateTo.classList.remove('active');
 			_id('dateFrom').classList.remove('active');
+			
+			dateTo.querySelector('.r_date').innerText = str;
+			
+			
 		}
 		
 		// Text selectors
 		var $cur = $(cur); 
-		var r_date = $cur.find('.r_date');
+		var r_date = $cur.children('.r_date');
 			
-		// Set text		
-		setTimeout(function(){
-			r_date.html(str);
-		}, 200); //must sync with animation time
+		// Set text (date)
+		r_date.html(str);
 		
 	}
 	
@@ -139,10 +144,23 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 			sel1 = e;
 			sel1.classList.add('sel1');
 			lurker( sel1.getAttribute('data-date'));
+			
+			// mark all previous as disabled			
+			var td = main.querySelectorAll('tbody td'),
+				i=0, s1i = 9999;
+				
+			_for(td, function(e){
+				i++;
+				if( e.id == 'sel1' ) { s1i = i; }
+				if(i < s1i){ e.classList.add('disabled'); }
+			})
+			
+			//console.log( e.index );
+			
 		}
 		
 		// first exist but not second
-		else if( sel2 === null && e.id !== 'sel1' ){ // prevent making #2 to #1
+		else if( sel2 === null && e.id !== 'sel1' && e.className.indexOf('disabled') === -1 ){ // prevent making #2 to #1
 			e.id = 'sel2';
 			sel2 = e;
 			sel2.classList.add('sel2');
@@ -190,14 +208,13 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 		else {
 			lurker('reset');
 			var td = main.querySelectorAll('td');
-			_for(td, function(e){ e.classList.remove('range'); })
+			_for(td, function(e){ e.classList.remove('range','disabled'); })
 			sel1.classList.remove('sel1');
 			sel1.removeAttribute('id');
 			if(sel2 !== null){
 				sel2.classList.remove('sel2');
 				sel2.removeAttribute('id');
 			}
-			
 			
 			$(e).trigger('click'); // this isn't super nice...
 		}
@@ -223,32 +240,6 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 
 	// month info,fork off of github
 	var monthData=function(year,month){var date=new Date(year,month,0);this.totalDays=date.getDate();this.endDay=date.getDay();date.setDate(0);this.startDay=date.getDay(0);this.days=[];this.nextMonthStart=false;var prevMonthDays=0;if(this.startDay!==0)prevMonthDays=(new Date(year,month-1,0)).getDate()-this.startDay;var count=0;for(var i=0;i<42;i++){var day={};if(i<this.startDay)day.date=prevMonthDays=prevMonthDays+1;else if(i>this.totalDays+(this.startDay-1)){day.date=count=count+1;if(!this.nextMonthStart)this.nextMonthStart=i}else day.date=i-this.startDay+1;this.days[this.days.length]=day.date}};
-	
-	
-	/* monthdata wihout previous/next months 
-	var monthData = function(year, month) {
-		var date = new Date(year, month, 0);
-		this.totalDays = date.getDate();
-		this.endDay = date.getDay();
-		date.setDate(0);
-		this.startDay = date.getDay(0);
-		this.days = [];
-		this.nextMonthStart = false;
-		var prevMonthDays = 0;
-		//if (this.startDay !== 0) prevMonthDays = (new Date(year, month - 1, 0)).getDate() - this.startDay;
-		var count = 0;
-		for (var i = 0; i < 42; i++) {
-			var day = {};
-			if (i < this.startDay) day.date = ''; //day.date = prevMonthDays = prevMonthDays + 1;
-			else if (i > this.totalDays + (this.startDay - 1)) {
-				//day.date = count = count + 1;
-				day.date='';
-				if (!this.nextMonthStart) this.nextMonthStart = i
-			} else day.date = i - this.startDay + 1;
-			this.days[this.days.length] = day.date
-		}
-	};
-	*/
 	
 	// year, month, mainSelector to append to
 	function getMonth(year, month, main, numCalendar){
@@ -386,7 +377,7 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 	var month = now.getMonth(),
 		date = now.getDate(),
 		year = now.getFullYear(),
-		totalMonths = 14;
+		totalMonths = 12;
 		
 	// getmonth year, month, mainSelector, number of months
 	getMonth(year, month, main, totalMonths);
@@ -527,8 +518,6 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 
 	-----------------------------------------------------*/
 	
-	/*
-	
 	
 	
 	$(document).on('keydown', function(e){
@@ -604,9 +593,6 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 	 
 	});
 	
-	
-	*/
-
 	
 	/*-----------------------------------------------------
 
