@@ -382,7 +382,7 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 	var rNav = $('#r_nav'),
 		dp = _id('dp');
 
-	rNav.on('click touchend', '.nav', function(e){
+	rNav.on('click', '.nav', function(e){
 		
 		var curX,
 			curId = this.id,
