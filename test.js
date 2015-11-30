@@ -21,22 +21,6 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 	var dayLongArr	= ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 	var month, year;
 	
-	
-	// onCSSAnimationEnd
-	/*
-	var s = document.body || document.documentElement, s = s.style, prefixAnimation = '', prefixTransition = '';
-
-	$.fn.extend({
-		onCSSAnimationEnd: function( callback ) {
-			var $this = $( this ).eq( 0 );
-			$this.one( 'webkitAnimationEnd mozAnimationEnd oAnimationEnd oanimationend animationend', callback );
-			if( ( prefixAnimation == '' && !( 'animation' in s ) ) || $this.css( prefixAnimation + 'animation-duration' ) == '0s' ) callback();
-			return this;
-		}
-	});
-	*/
-
-	
 	// add dates to output
 	function lurker(date,fromTo){
 		
@@ -132,7 +116,6 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 
 	-----------------------------------------------------*/
 	
-	var firstSelect = {};
 	function userSelect(e,main){
 		
 		var	sel1 = _id('sel1'),
@@ -398,8 +381,8 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 	
 	var rNav = $('#r_nav'),
 		dp = _id('dp');
-	
-	rNav.on('click', '.nav', function(e){
+
+	rNav.on('click touchend', '.nav', function(e){
 		
 		var curX,
 			curId = this.id,
@@ -518,7 +501,7 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 
 	-----------------------------------------------------*/
 	
-	
+	/*
 	
 	$(document).on('keydown', function(e){
 		
@@ -593,6 +576,8 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 	 
 	});
 	
+	*/
+	
 	
 	/*-----------------------------------------------------
 
@@ -603,7 +588,6 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 	
 	
 	/*
-	
 	var tip=null;
 	// TEMP HOVER TO SHOW DATA-DATE
 	$(main).on('mouseenter', 'tbody td', function(){
