@@ -107,7 +107,10 @@ td.range i { opacity:.5; }
 /* SPECIAL td stuff */
 .notCurMonth { color: #aaa; }
 #sel1, #sel2, .range { color:#fff; }
-#cal tbody td:active i { transform: scale(0.9); }
+
+@media(min-width:1200px){
+	#cal tbody td:active i { transform: scale(0.9); }
+}
 
 #dp thead td { 
 	background:#fff;
