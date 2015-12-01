@@ -418,6 +418,7 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 		}
 		else if(curId == 'prev' && curX > len) {
 			this.classList.add('off');
+			console.log('adding off class');
 		}
 		
 		// 12/2 = 6 views total.

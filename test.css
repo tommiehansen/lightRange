@@ -2,12 +2,13 @@
 td:hover i { background: #eee; }
 .fromTo, #dp #sel1 i, td.range i {
 	*background: #42A5F5;
-	background: #3bb;
+	*background: #3bb;
 	*background: hotpink;
 	*background: #0c0;
 	*background: #f60;
 	*background: orange;
 	*background: #222;
+	background: #2196f3;
 }
 
 td.range i { opacity:.5; }
@@ -67,17 +68,20 @@ td.range i { opacity:.5; }
 #cal em, #cal i { font-style:normal; }
 
 #dp td { text-align:center; vertical-align:middle; }
-#dp td i { font-weight:300; }
 #dp td i {
-	display:block;
-	position:relative;
+	font-weight:300; 
+	display:inline-block;
 	
-	width:34px;
-	height:34px;
-	line-height:34px;
-	
+	/*
+	width: 34px;
+	height: 34px;
+	line-height: 34px;
+	*/
+
+	width: 36px;
+	height: 36px;
+	line-height: 36px;
 	border-radius:50%;
-	_transition: all .2s ease;
 }
 
 
@@ -87,7 +91,6 @@ td.range i { opacity:.5; }
 	text-align: center;
 	font-size: 14px;
 	text-transform: uppercase;
-	padding: 15px 0;
 	line-height:100%;
 	font-weight:400;
 	background: #fafafa;
@@ -99,8 +102,18 @@ td.range i { opacity:.5; }
 	color:#aaa;
 }
 
-/* PADDING */
-#dp td { padding: 5px; }
+
+/* PADDINGS / MARGINS */
+
+.fromTo { padding:20px 0; }
+#r_nav i { padding:0 15px; padding-bottom:3px;  }
+.r_title { padding: 15px 0; }
+.days .r_days em { margin:0 8px; }
+
+#dp td { padding: 4px; }
+#dp thead td { padding-top:10px; padding-bottom:10px; }
+#cal td:first-child { padding-left: 7px; }
+#cal td:last-child { padding-right: 7px; }
 
 
 
@@ -112,8 +125,6 @@ td.range i { opacity:.5; }
 	background:#fff;
 	color:#aaa;
 	font-size:12px;
-	padding-top:10px;
-	padding-bottom:10px;
 	font-weight: 300; 
 	text-transform: uppercase;
 }
@@ -127,13 +138,12 @@ td.disabled { opacity: 0.4; }
 td.disabled:hover i { background: none; }
 
 
-
 /* TEMP */
 
 .fromTo {
 	width: 100%;
 	color: #fff;
-	padding:20px 0;
+	
 }
 
 .fromTo .dateBox {
@@ -176,8 +186,6 @@ td.disabled:hover i { background: none; }
 	display: inline-block;
 }
 
-.days .r_days em { margin:0 8px; }
-
 .r_dots {
 	font-size: 32px;
 	color: rgba(255,255,255,0.7);
@@ -212,7 +220,7 @@ td.disabled:hover i { background: none; }
 	color:#aaa;
 }
 
-#r_nav i { display: block; padding:0px 15px; padding-bottom:3px; cursor: default; width:50%; }
+#r_nav i { display: block; cursor: default; width:50%; }
 #r_nav .prev { float:left; }
 #r_nav .next { float:right; text-align:right; }
 #r_nav i:hover { color:#333; }
