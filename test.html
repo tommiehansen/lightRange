@@ -521,8 +521,23 @@ window.onload = function(){
 		<button class="dbtn red">Cancel</button><button class="dbtn green">Apply</button>
 	</div>
 	
-	<p><em>KEYBOARD/MOUSE NAV</em>◄ KEYBOARD ►<br>▲ MOUSE ▼</p>
+	<!--<p><em>KEYBOARD/MOUSE NAV</em>◄ KEYBOARD ►<br>▲ MOUSE ▼</p>-->
 </div>
+
+
+
+<form id="form" style="display:none">
+
+	<!-- LOCALE: month and day-array -->
+	<input type="hidden" id="dateLocale" data-days="" data-months="">
+	
+	<!-- FIELDS -->
+	<input id="date1" type="text" value="Wednesday, 9 Dec 2016" data-before="Wednesday, 9 Dec 2016">
+	<input id="date1hidden" type="hidden" value="2016-26-12" data-before="2016-09-12">
+	<input id="date2" type="text" value="Wednesday, 9 Dec 2016" data-before="Saturday, 26 Dec 2016">
+	<input id="date2hidden" type="hidden" value="2016-26-12" data-before="2016-26-12">
+
+</form>
 
 
 

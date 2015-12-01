@@ -431,6 +431,35 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 	})
 	
 	
+	/*-----------------------------------------------------
+
+	OK / CANCEL BUTTONS
+	Only thing this should be doing is
+	
+	1. Reset dates
+	2. Close datepicker
+	
+	Dates are set at selection
+	
+	..or is this bad because no way of then resetting form?
+
+	-----------------------------------------------------*/	
+	$('#dactions').on('click', 'button', function(){
+		
+		// Cancel button
+		if( this.className.indexOf('red') > -1 ){
+			// reset form and close
+		}
+		
+		// OK button
+		else {
+			// close the datepicker
+		}
+		
+	})
+		
+	
+	
 	
 	/*-----------------------------------------------------
 
