@@ -1,3 +1,7 @@
+/* main #dp transition animation */
+#dp { transition: transform .2s ease-in-out; transform: translateZ(0); }
+
+
 /* colors */
 td:hover i { background: #eee; }
 .fromTo, #dp #sel1 i, td.range i {
@@ -43,7 +47,6 @@ td.range i { opacity:.5; }
 #dp table { border-collapse: collapse; cursor: default; width:100%; }
 
 #dp .r_month { width:50%; display:inline-block; box-sizing: border-box; }
-#dp { transition: transform .2s ease-in-out; transform: translateZ(0); }
 #r_nav { z-index: 1; }
 
 #dp:after { clear:both; display:block; content:''; } /* temp clear */
@@ -227,6 +230,20 @@ td.disabled:hover i { background: none; }
 #r_nav i:active { opacity:.5; }
 #r_nav i.off { color:#ddd; cursor: not-allowed; }
 
+#dactions { text-align: right; }
+.dbtn {
+	display: inline-block;
+	position: relative;
+	border:0;
+	padding: 10px 15px;
+	line-height: 200%;
+	background: none;
+	text-transform: uppercase;
+	font-weight: 500;
+	cursor: pointer;
+	color: #03A9F4;
+}
+
 
 
 
@@ -241,13 +258,6 @@ td.disabled:hover i { background: none; }
 
 
 /* Media queries */
-
-#dp {
-	_transform: translateX(0) !important;
-	_transform: translate3d(-600%,0,0) !important;
-	transition-duration: .3s;
-}
-
 
 /* remove next/prev-months for double calendar view */
 @media(min-width:800px){
@@ -318,6 +328,3 @@ td.disabled:hover i { background: none; }
 	*/
 
 }
-
-
-
