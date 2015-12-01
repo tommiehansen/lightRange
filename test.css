@@ -251,8 +251,16 @@ td.disabled:hover i { background: none; }
 
 /* remove next/prev-months for double calendar view */
 @media(min-width:800px){
-	#cal tbody td:active i { transform: scale(0.9); }
+	
 	#cal td.notCurMonth { visibility: hidden; }
+
+	#sel1,#sel2 { animation: push .1s ease-out 1; }
+	@keyframes push {
+		0% { transform: scale(1); }
+		50% { transform: scale(0.8); }
+		100% { transform: scale(1); }
+	}
+
 }
 
 /* tablet */
@@ -310,3 +318,6 @@ td.disabled:hover i { background: none; }
 	*/
 
 }
+
+
+
