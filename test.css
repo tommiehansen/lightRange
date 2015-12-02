@@ -74,13 +74,6 @@ td.range i { opacity:.5; }
 #dp td i {
 	font-weight:300; 
 	display:inline-block;
-	
-	/*
-	width: 34px;
-	height: 34px;
-	line-height: 34px;
-	*/
-
 	width: 36px;
 	height: 36px;
 	line-height: 36px;
@@ -299,9 +292,9 @@ td.disabled:hover i { background: none; }
 }
 
 /* smaller */
-@media(max-width: 599px){
+@media(max-width: 600px){
 
-	#cal { max-width: 330px; }
+	#cal { width:100%; max-width: 360px; }
 
 	.fromTo .dateBox.days { width: auto; line-height:100%; }
 	body { overflow:hidden !important; }
@@ -335,13 +328,9 @@ td.disabled:hover i { background: none; }
 
 
 
-
 /* UNRELATED */
 @media(max-width: 1200px){
 	#c { padding-top:0; padding-bottom: 300px; }
 	form, #color { display:none; }
 	
 }
-
-
-
