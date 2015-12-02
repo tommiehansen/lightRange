@@ -96,7 +96,7 @@ body.hideScroll { overflow: hidden; }
 <body>
 <div id="c">
 
-<h1><b>jade</b> LightRange</h1>
+<h1><b>Light</b>Range</h1>
 <p class="sub">Responsive date range selection under 5kb</p>
 
 
@@ -526,16 +526,39 @@ window.onload = function(){
 
 
 
-<form id="form" style="display:none">
-
-	<!-- LOCALE: month and day-array -->
-	<input type="hidden" id="dateLocale" data-days="" data-months="">
+<form id="form" style="display:">
 	
 	<!-- FIELDS -->
-	<input id="date1" type="text" value="Wednesday, 9 Dec 2016" data-before="Wednesday, 9 Dec 2016">
-	<input id="date1hidden" type="hidden" value="2016-26-12" data-before="2016-09-12">
-	<input id="date2" type="text" value="Wednesday, 9 Dec 2016" data-before="Saturday, 26 Dec 2016">
-	<input id="date2hidden" type="hidden" value="2016-26-12" data-before="2016-26-12">
+	<!--
+	<input
+		id="dateInput"
+		type="text"
+		value="Wednesday, 9 Dec 2016 &ndash; Friday 22 Dec 2016"
+		data-lang="{ 'days' : 'Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday', 'months' : 'January,February,March,April,May,June,Juli,August,September,November,December'}"
+		style="width:100%; text-align: center; padding: 15px"
+	>
+	-->
+	
+	<style>
+		#lightRange {
+			width:100%;
+			max-width:800px;
+			text-align: center;
+			padding:15px;
+			border: 1px solid #aaa;
+		}
+		#lightRange b i { font-weight: 600; }
+		#lightRange i { font-style: normal; }
+	</style>
+	<div
+		id="lightRange"
+		data-lang="{ 'days' : 'Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday', 'months' : 'January,February,March,April,May,June,Juli,August,September,November,December'}"
+	>
+	<b>Wed<i class="hideSmall">nesday</i></b>, 9 Dec<i class="hideSmall">ember</i> 2016 &ndash; <b>Fri<i class="hideSmall">day</i></b> 22 Dec<i class="hideSmall">ember</i> 2016
+	</div>
+	
+	<input id="date1" type="hidden" value="2016-26-12">
+	<input id="date2" type="hidden" value="2016-26-12">
 
 </form>
 

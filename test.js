@@ -418,7 +418,6 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 		}
 		else if(curId == 'prev' && curX > len) {
 			this.classList.add('off');
-			console.log('adding off class');
 		}
 		
 		// 12/2 = 6 views total.
@@ -442,8 +441,10 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 	Dates are set at selection
 	
 	..or is this bad because no way of then resetting form?
+	.. creates horrible markup since we then need to have extra vals @ input
 
 	-----------------------------------------------------*/	
+	
 	$('#dactions').on('click', 'button', function(){
 		
 		// Cancel button
