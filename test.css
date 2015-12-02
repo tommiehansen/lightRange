@@ -338,20 +338,9 @@ td.disabled:hover i { background: none; }
 
 /* UNRELATED */
 @media(max-width: 1200px){
-	
-	#c #color {
-		position:absolute;
-		top:auto;
-		bottom:0;
-		margin:0;
-		text-align:center;
-		width:100%;
-		padding:0 40px;
-		padding-bottom:20px;
-	}
-
-	body { overflow: visible !important; }
 	#c { padding-top:0; padding-bottom: 300px; }
+	form, #color { display:none; }
+	
 }
 
 
