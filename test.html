@@ -59,9 +59,11 @@ span { font-weight: 300; }
 }
 
 #m div {
-	width:33.33%; padding:0 20px; float:left; text-align:left;
+	width:33.33%; padding:0 20px; text-align:left;
+	max-width:250px;
 	vertical-align:top;
 	margin-bottom:20px;
+	display:inline-block;
 }
 #m h3 { font-size:24px; font-weight:300;  }
 #m h3 em { font-size: 36px; position:absolute; top:0; right:0; cursor: default; line-height:100%; padding:15px 30px; }
@@ -69,12 +71,14 @@ span { font-weight: 300; }
 
 #m div span { display:none; }
 #m div span:nth-child(2), #m div span.on { display: block; }
-#m em { display:block; padding:2px 0; font-size:14px; font-weight:300; }
+#m em { display:block; padding:2px 0; font-size:14px; font-weight:400; }
 #m em em {
 	display: block;
 	float:right; 
 	text-align:right;
 	cursor:default;
+	font-size:12px;
+	font-weight:300;
 }
 #m em em:hover { color:#333; }
 #m span:hover, #m span:hover i { text-decoration:underline; }
@@ -89,6 +93,7 @@ body.hideScroll { overflow: hidden; }
 }
 
 #color #popMaterial:hover {	border-color:#ccc; }
+
 </style>
 <link href='test.css' rel='stylesheet' type='text/css' id='css'>
 </head>
