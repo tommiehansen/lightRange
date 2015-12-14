@@ -432,16 +432,16 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 	
 	/*-----------------------------------------------------
 
-	OK / CANCEL BUTTONS
-	Only thing this should be doing is
-	
-	1. Reset dates
-	2. Close datepicker
-	
-	Dates are set at selection
-	
-	..or is this bad because no way of then resetting form?
-	.. creates horrible markup since we then need to have extra vals @ input
+		OK / CANCEL BUTTONS
+		Only thing this should be doing is
+		
+		1. Reset dates
+		2. Close datepicker
+		
+		Dates are set at selection
+		
+		..or is this bad because no way of then resetting form?
+		.. creates horrible markup since we then need to have extra vals @ input
 
 	-----------------------------------------------------*/	
 	
@@ -458,7 +458,7 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 		}
 		
 	})
-		
+
 	
 	
 	
@@ -634,6 +634,30 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 	*/
 	
 	
+	/*-----------------------------------------------------
+
+		SWIPE
+		0.55kb
+		use: wipeLeft, wipeRight, wipeUp, wipeDown
+
+	-----------------------------------------------------*/	
+	
+$.fn.swipe=function(b){var m=$(this),c=b.left,d=b.right,e=b.up,f=b.down,g=b.requiredDist||100,n=b.allowedTime||500,h=0,k=0,l=0;m.on({touchstart:function(a){a.preventDefault();a=a.originalEvent.changedTouches[0];k=a.pageX;l=a.pageY;h=(new Date).getTime()},touchmove:function(a){a.preventDefault()},touchend:function(a){a.preventDefault();var b=a.originalEvent.changedTouches[0];a=b.pageX-k;b=b.pageY-l;(new Date).getTime()-h<n&&(Math.abs(a)>=g&&(0<a&&d&&d.call(this),0>a&&c&&c.call(this)),Math.abs(b)>=
+g&&(0<b&&f&&f.call(this),0>b&&e&&e.call(this)))}})};
+
+	// test
+	var cal = $('#cal');
+	
+	
+	cal.swipe({
+        left:           function (evt) { console.log('Left swipe');  },
+        right:          function (evt) { console.log('Right swipe'); },
+        up:             function (evt) { console.log('Up swipe');    },
+        down:           function (evt) { console.log('Down swipe');  },
+		
+        requiredDist:   30, // Required distance to trigger swipe. Optional, defaults to 100
+        allowedTime:    300 // Distance must be covered in this time. Optional, defaults to 500
+    });
 	
 
 
