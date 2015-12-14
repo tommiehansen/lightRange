@@ -646,7 +646,7 @@ $.fn.swipe=function(b){var m=$(this),c=b.left,d=b.right,e=b.up,f=b.down,g=b.requ
 g&&(0<b&&f&&f.call(this),0>b&&e&&e.call(this)))}})};
 
 	// test
-	var cal = $('#cal');
+	var cal = $('#dp');
 	
 	
 	cal.swipe({
