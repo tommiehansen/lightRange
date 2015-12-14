@@ -642,20 +642,73 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 
 	-----------------------------------------------------*/	
 	
-$.fn.swipe=function(b){var m=$(this),c=b.left,d=b.right,e=b.up,f=b.down,g=b.requiredDist||100,n=b.allowedTime||500,h=0,k=0,l=0;m.on({touchstart:function(a){a.preventDefault();a=a.originalEvent.changedTouches[0];k=a.pageX;l=a.pageY;h=(new Date).getTime()},touchmove:function(a){a.preventDefault()},touchend:function(a){a.preventDefault();var b=a.originalEvent.changedTouches[0];a=b.pageX-k;b=b.pageY-l;(new Date).getTime()-h<n&&(Math.abs(a)>=g&&(0<a&&d&&d.call(this),0>a&&c&&c.call(this)),Math.abs(b)>=
-g&&(0<b&&f&&f.call(this),0>b&&e&&e.call(this)))}})};
+	$.fn.swipe = function(o) {
+		
+		var el              = $(this),
+			left            = o.left,
+			right           = o.right,
+			up              = o.up,
+			down            = o.down,
+			requiredDist    = o.requiredDist || 100,
+			allowedTime     = o.allowedTime  || 500,  
+			startTime       = 0,
+			distX			= 0,
+			distY			= 0,
+			startX          = 0,
+			startY          = 0;
+
+		el.on({
+
+			touchstart: function (e) {
+
+				//e.preventDefault(); // causes clicks not to work
+
+				var touch   = e.originalEvent.changedTouches[0];
+				
+				startX      = touch.pageX;
+				startY      = touch.pageY;
+				distX       = 0;
+				distY       = 0;
+				startTime   = new Date().getTime();
+				
+			},
+
+			touchmove: function (e) { e.preventDefault(); },
+
+			touchend: function (e) {
+
+				var touch   = e.originalEvent.changedTouches[0],
+					distX   = touch.pageX - startX,
+					distY   = touch.pageY - startY,
+					time    = new Date().getTime() - startTime;
+
+				if (time < allowedTime) {  
+
+					if (Math.abs(distX) >= requiredDist) {
+						if (distX > 0 && right) right.call(this);
+						if (distX < 0 && left)  left.call(this);
+						e.preventDefault();
+					}  
+
+					if (Math.abs(distY) >= requiredDist) {
+						if (distY > 0 && down)  down.call(this);
+						if (distY < 0 && up)    up.call(this);
+						e.preventDefault();
+					}
+				}
+			}
+		});
+	};
 
 	// test
-	var cal = $('#dp');
+	var cal = $('#cal');
 	
 	
 	cal.swipe({
         left:           function (evt) { console.log('Left swipe');  $(_id('next')).trigger('click'); },
         right:          function (evt) { console.log('Right swipe'); $(_id('prev')).trigger('click'); },
-        //up:             function (evt) { console.log('Up swipe');    },
-        //down:           function (evt) { console.log('Down swipe');  },
 		
-        requiredDist:   30, // Required distance to trigger swipe. Optional, defaults to 100
+        requiredDist:   50, // Required distance to trigger swipe. Optional, defaults to 100
         allowedTime:    300 // Distance must be covered in this time. Optional, defaults to 500
     });
 	
