@@ -616,8 +616,6 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 
 	-----------------------------------------------------*/	
 	
-	
-	
 	/*
 	var tip=null;
 	// TEMP HOVER TO SHOW DATA-DATE
@@ -632,6 +630,9 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 		$(tip).remove();
 	});
 	*/
+	
+	
+	
 	
 	
 	/*-----------------------------------------------------
@@ -700,15 +701,16 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 		});
 	};
 
-	// test
+	
+	
+	// init swipe gestures
 	var cal = $('#cal');
 	
-	
 	cal.swipe({
-        left:           function (evt) { console.log('Left swipe');  $(_id('next')).trigger('click'); },
-        right:          function (evt) { console.log('Right swipe'); $(_id('prev')).trigger('click'); },
+        left:           function (evt) { $(_id('next')).trigger('click'); },
+        right:          function (evt) { $(_id('prev')).trigger('click'); },
 		
-        requiredDist:   50, // Required distance to trigger swipe. Optional, defaults to 100
+        requiredDist:   30, // Required distance to trigger swipe. Optional, defaults to 100
         allowedTime:    300 // Distance must be covered in this time. Optional, defaults to 500
     });
 	

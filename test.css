@@ -130,8 +130,10 @@ td.range i { opacity:.5; }
 
 #cal td.notCurMonth { background: #fafafa; }
 
+/*
 td.disabled { opacity: 0.4; }
 td.disabled:hover i { background: none; }
+*/
 
 
 /* TEMP */
@@ -257,7 +259,6 @@ td.disabled:hover i { background: none; }
 @media(min-width:800px){
 	
 	#cal td.notCurMonth { visibility: hidden; }
-
 	#sel1,#sel2 { animation: push .1s ease-out 1; }
 	@keyframes push {
 		0% { transform: scale(1); }
@@ -295,15 +296,19 @@ td.disabled:hover i { background: none; }
 @media(max-width: 600px){
 
 	#cal { width:100%; max-width: 360px; }
-
-	.fromTo .dateBox.days { width: auto; line-height:100%; }
 	body { overflow:hidden !important; }
+	/* days */
+	#cal .r_dots {
+	width: 14px; letter-spacing: 0px;
+	_outline:red solid 1px;
+	font-size: 28px;
+	}
 
-	#cal .r_dots { display: none; }
-	.dateBox.days em { font-size: 12px; margin:0; margin-right:5px; float:right; display:inline-block; _font-weight: 300; color: rgba(255,255,255,0.7); }
-	.dateBox.days .r_head {  float:right; font-size: 12px; display:inline-block; }
-
-	#cal .dateBox.days {
+	_#cal .r_dots { display: none; }
+	_.fromTo .dateBox.days { width: auto; line-height:100%; }
+	_.dateBox.days em { font-size: 12px; margin:0; margin-right:5px; float:right; display:inline-block; _font-weight: 300; color: rgba(255,255,255,0.7); }
+	_.dateBox.days .r_head {  float:right; font-size: 12px; display:inline-block; }
+	_#cal .dateBox.days {
 		margin:0; left:auto; right: auto;
 		left:50%;
 		top:10px;
