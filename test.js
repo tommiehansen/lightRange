@@ -650,10 +650,10 @@ g&&(0<b&&f&&f.call(this),0>b&&e&&e.call(this)))}})};
 	
 	
 	cal.swipe({
-        left:           function (evt) { console.log('Left swipe');  },
-        right:          function (evt) { console.log('Right swipe'); },
-        up:             function (evt) { console.log('Up swipe');    },
-        down:           function (evt) { console.log('Down swipe');  },
+        left:           function (evt) { console.log('Left swipe');  $(_id('next')).trigger('click'); },
+        right:          function (evt) { console.log('Right swipe'); $(_id('prev')).trigger('click'); },
+        //up:             function (evt) { console.log('Up swipe');    },
+        //down:           function (evt) { console.log('Down swipe');  },
 		
         requiredDist:   30, // Required distance to trigger swipe. Optional, defaults to 100
         allowedTime:    300 // Distance must be covered in this time. Optional, defaults to 500
