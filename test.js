@@ -22,6 +22,7 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 	var month, year;
 	
 	// add dates to output
+	// rename this func to something sane
 	function lurker(date,fromTo){
 		
 		var main = _id('fromTo'),
@@ -99,20 +100,16 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 			dmy2 = new Date(date2);
 			
 		var days = Math.abs(Math.ceil( dmy1.getTime() / (3600*24*1000)) - Math.ceil( dmy2.getTime() / (3600*24*1000)));
-		days++;
-		
-		
-		//if(days < 30) log('You selected ' + days + ' days');
-		//else log('You selected ' + days + ' days, this is quite a lot. Are you sure?');
+		days++;		
 		
 		return days;
-		
 	}
 	
 	
 	/*-----------------------------------------------------
 
 	USER SELECT ACTION
+	1 kb
 
 	-----------------------------------------------------*/
 	
@@ -121,7 +118,8 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 		var	sel1 = _id('sel1'),
 			sel2 = _id('sel2');
 			
-		// first selection doesn't exist
+		/* first selection does not exist */
+		
 		if( sel1 === null ){
 			e.id = 'sel1';
 			sel1 = e;
@@ -142,7 +140,8 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 			
 		}
 		
-		// first exist but not second
+		/* first exist but not second */
+		
 		else if( sel2 === null && e.id !== 'sel1' && e.className.indexOf('disabled') === -1 ){ // prevent making #2 to #1
 			e.id = 'sel2';
 			sel2 = e;
@@ -153,9 +152,11 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 			
 			// show total selected days
 			var numDays = showDateDiff( sel1.getAttribute('data-date'), sel2.getAttribute('data-date') );
+			var daysNum = _id('daysNum');
 			
-			_id('daysNum').querySelector('em').innerHTML = numDays;
-			_id('daysNum').classList.remove('off');
+			daysNum.querySelector('em').innerHTML = numDays;
+			daysNum.classList.remove('off');
+			daysNum.classList.add('bounce');
 
 				
 			// selection is complete
@@ -186,14 +187,15 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 			
 		}
 		
-		// both selections exist
-		// this should select 1 again instead...
+		/* both selections exist */
+		
 		else {
 			lurker('reset');
 			var td = main.querySelectorAll('td');
 			_for(td, function(e){ e.classList.remove('range','disabled'); })
 			sel1.classList.remove('sel1');
 			sel1.removeAttribute('id');
+			_id('daysNum').classList.remove('bounce');
 			if(sel2 !== null){
 				sel2.classList.remove('sel2');
 				sel2.removeAttribute('id');
@@ -216,6 +218,7 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 	/*-----------------------------------------------------
 		
 		GET MONTH DATA
+		1.26kb
 		Fork of github thingy
 		
 	-----------------------------------------------------*/

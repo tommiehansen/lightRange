@@ -240,6 +240,18 @@ td.disabled:hover i { background: none; }
 }
 
 
+/* anim daysNum */
+@keyframes tada {
+	0% {transform: scale(1);} 
+    10%, 20% {transform: scale(0.9) rotate(-3deg);} 
+    30%, 50%, 70%, 90% {transform: scale(1.4) rotate(3deg);} 
+    40%, 60%, 80% {transform: scale(1.4) rotate(-3deg);} 
+    100% {transform: scale(1) rotate(0);} 
+}
+
+#daysNum.bounce em {
+	animation: tada 1s ease 1;
+}
 
 
 
@@ -339,3 +351,4 @@ td.disabled:hover i { background: none; }
 	form, #color { display:none; }
 	
 }
+
