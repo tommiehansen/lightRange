@@ -250,7 +250,7 @@ td.disabled:hover i { background: none; }
 }
 
 #daysNum.bounce em {
-	animation: tada 1s ease 1;
+	animation: tada 1s 0.5s ease 1;
 }
 
 
@@ -351,4 +351,3 @@ td.disabled:hover i { background: none; }
 	form, #color { display:none; }
 	
 }
-
