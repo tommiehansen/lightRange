@@ -357,7 +357,8 @@ td.disabled:hover i { background: none; }
 	padding:0;
 	z-index: 9999;
 	transform: translate(-50%,-50%);
-	-webkit-filter: blur(0);
+	backface-visibility:hidden;
+	/*-webkit-filter: blur(0);*/ /* PERF-problem on mobile */
 }
 
 #cal.show {}

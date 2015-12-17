@@ -128,6 +128,8 @@ var rangeCal = {
 			clearTimeout(hoverId);
 			hoverId = setTimeout(rangeCal.hoverRange, hoverTimer, this);
 		})
+		
+		
 		// button actions
 		$('#dactions').on('click', 'button', function(){
 			
@@ -145,8 +147,9 @@ var rangeCal = {
 			
 		})
 		
-		$('#r_nav').on('click', '.nav', function(){ rangeCal.nav(this); } )
 		
+		// date navigation
+		$('#r_nav').on('click', '.nav', function(){ rangeCal.nav(this); } )
 		
 		// check if swipe available
 		if ($.fn.swipe) {
