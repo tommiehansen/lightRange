@@ -145,9 +145,11 @@ var rangeCal = {
 			
 		})
 		
+		$('#r_nav').on('click', '.nav', function(){ rangeCal.nav(this); } )
+		
 		
 		// check if swipe available
-		if ($.swipe) {
+		if ($.fn.swipe) {
 			
 			$(main).swipe({
 				
@@ -238,7 +240,7 @@ var rangeCal = {
 		.on('focus', function(){ rangeCal.show(monthsNum) })
 		//.on('blur', function(){ rangeCal.hide() });
 		
-		$('#r_nav').on('click', '.nav', function(){ rangeCal.nav(this); } )
+		
 		
 	},
 	
