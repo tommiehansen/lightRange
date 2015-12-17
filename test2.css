@@ -333,6 +333,16 @@ td.disabled:hover i { background: none; }
 	#color { width: 220px }
 	#color:after { content:''; clear:both; display:block; }
 	*/
+	
+	
+	#cal {
+		backface-visibility:hidden;
+		-webkit-filter: none;
+	}
+	
+	#dp {
+		backface-visibility:hidden;
+	}
 
 }
 
@@ -357,8 +367,7 @@ td.disabled:hover i { background: none; }
 	padding:0;
 	z-index: 9999;
 	transform: translate(-50%,-50%);
-	backface-visibility:hidden;
-	/*-webkit-filter: blur(0);*/ /* PERF-problem on mobile */
+	-webkit-filter: blur(0);
 }
 
 #cal.show {}
