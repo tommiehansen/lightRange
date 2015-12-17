@@ -91,7 +91,13 @@ span { font-weight: 300; }
 </div>
 
 
-
+<style>
+form i, form p { font-style:normal; color: 888; }
+form div { width:49%; float:left; }
+form div:first-child { margin-right:2%; }
+form div:last-of-type { width:100%; }
+input { width:100%; margin:0;padding:10px;}
+</style>
 <form id="form">
 	
 	<!--
@@ -99,17 +105,28 @@ span { font-weight: 300; }
 	value="Wednesday, 9 Dec 2016 &ndash; Friday 22 Dec 2016"
 	-->
 	
-	<p>Date selection</p>
+	<div>
+	<p>From</p>
+	<input type="text" value="Stockholm">
+	</div>
+	<div>
+	<p>To</p>
+	<input type="text" value="Bangkok">
+	</div>
+	
+	<div>
+	<br>
+	<p>Choose a date</p>
 	<input
 		id="dateField"
 		type="text"
 		value=""
-		placeholder="Set deperature and arrival date"
+		placeholder="Push me"
 		data-days = "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday"
 		data-months = "January,February,March,April,May,June,Juli,August,September,October,November,December"
 		data-monthsNum = "12"
-		style="width:100%; text-align: center; padding: 15px"
 	>
+	</div>
 	
 	
 	<style>
@@ -148,8 +165,7 @@ span { font-weight: 300; }
 var dateInput = $('#dateField');	
 rangeCal.init(dateInput);
 
-
-dateInput.trigger('focus'); // temp auto-focus
+//dateInput.trigger('focus'); // temp auto-focus
 </script>
 
 </body>

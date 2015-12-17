@@ -48,7 +48,7 @@ td.range i { opacity:.5; }
 }
 
 #cal *, #cal *:before, #cal *:after { box-sizing: border-box;  }
-#dp table { border-collapse: collapse; cursor: default; width:100%; }
+#dp table { border-collapse: collapse; cursor: default; width:100%; background:#fff; }
 
 #dp .r_month { width:50%; display:inline-block; box-sizing: border-box; }
 #r_nav { z-index: 1; }
@@ -291,6 +291,8 @@ td.disabled:hover i { background: none; }
 	
 	body { padding:0; }
 	#c { width:100%; padding:0; padding-top:30px; height:auto; min-height:auto; border:0; }
+	#c { padding-top:20px !important; }
+	form {  padding: 0 2%; }
 	#cal { width:100%; max-width: 380px; position:relative; margin: 0 auto;  }
 	#cal #dateFrom { text-align:left; padding-left:20px; }
 	#cal #dateTo { text-align:right; padding-right:20px; }
