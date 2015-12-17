@@ -1,3 +1,7 @@
+/* main calendar */
+#cal { display: none; }
+#cal.show { display: block; }
+
 /* main #dp transition animation */
 #dp { transition: transform .2s ease-in-out; transform: translateZ(0); }
 
@@ -316,17 +320,6 @@ td.disabled:hover i { background: none; }
 	font-size: 28px;
 	}
 
-	_#cal .r_dots { display: none; }
-	_.fromTo .dateBox.days { width: auto; line-height:100%; }
-	_.dateBox.days em { font-size: 12px; margin:0; margin-right:5px; float:right; display:inline-block; _font-weight: 300; color: rgba(255,255,255,0.7); }
-	_.dateBox.days .r_head {  float:right; font-size: 12px; display:inline-block; }
-	_#cal .dateBox.days {
-		margin:0; left:auto; right: auto;
-		left:50%;
-		top:10px;
-		transform: translateX(-50%);
-	}
-
 	/* use native scroll 
 	#r_cals { overflow-x: scroll; }
 	#cal .nav { display:none; }
@@ -348,6 +341,26 @@ td.disabled:hover i { background: none; }
 /* UNRELATED */
 @media(max-width: 1200px){
 	#c { padding-top:0; padding-bottom: 300px; }
-	form, #color { display:none; }
 	
+}
+
+/* TEMP TEMP TEMP */
+#cal {
+	position:fixed;
+	top:50%;
+	left:50%;
+	right:0;
+	margin:0;
+	padding:0;
+	z-index: 9999;
+	transform: translate(-50%,-50%);
+	-webkit-filter: blur(0);
+}
+
+#cal.show {}
+
+#dp { background:#fff; }
+
+@media(max-width: 450px){
+	#cal { top:0; transform:translateX(-50%); }
 }

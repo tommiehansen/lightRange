@@ -529,18 +529,18 @@ window.onload = function(){
 
 
 
-<form id="form" style="display:none">
+<form id="form">
 	
 	<!-- FIELDS -->
-	<!--
+	
 	<input
-		id="dateInput"
+		id="dateField"
 		type="text"
 		value="Wednesday, 9 Dec 2016 &ndash; Friday 22 Dec 2016"
 		data-lang="{ 'days' : 'Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday', 'months' : 'January,February,March,April,May,June,Juli,August,September,November,December'}"
 		style="width:100%; text-align: center; padding: 15px"
 	>
-	-->
+	
 	
 	<style>
 		#lightRange {
@@ -553,12 +553,6 @@ window.onload = function(){
 		#lightRange b i { font-weight: 600; }
 		#lightRange i { font-style: normal; }
 	</style>
-	<div
-		id="lightRange"
-		data-lang="{ 'days' : 'Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday', 'months' : 'January,February,March,April,May,June,Juli,August,September,November,December'}"
-	>
-	<b>Wed<i class="hideSmall">nesday</i></b>, 9 Dec<i class="hideSmall">ember</i> 2016 &ndash; <b>Fri<i class="hideSmall">day</i></b> 22 Dec<i class="hideSmall">ember</i> 2016
-	</div>
 	
 	<input id="date1" type="hidden" value="2016-26-12">
 	<input id="date2" type="hidden" value="2016-26-12">
@@ -570,6 +564,5 @@ window.onload = function(){
 </div><!-- /#c -->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript" src="test.js"></script>
-
 </body>
 </html>

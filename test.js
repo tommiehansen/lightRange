@@ -366,8 +366,8 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 		totalMonths = 12;
 		
 	// getmonth year, month, mainSelector, number of months
+	// renders all the month data
 	getMonth(year, month, main, totalMonths);
-	
 	
 	
 	
@@ -385,6 +385,8 @@ if(window.ActiveXObject || "ActiveXObject" in window){
 	var rNav = $('#r_nav'),
 		dp = _id('dp');
 
+	
+	/* NAVIGATE */
 	rNav.on('click', '.nav', function(e){
 		
 		var curX,
