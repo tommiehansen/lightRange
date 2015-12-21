@@ -104,6 +104,7 @@ var rangeCal = {
 	// show calendar
 	show: function(monthsNum){
 		main.className = 'show';
+		//_id('lrovr').classList.add('on');
 		
 		if(!isInit) { 
 			isInit = 1;
@@ -114,6 +115,11 @@ var rangeCal = {
 		}
 	},
 	
+	// error messages
+	err: function(txt){
+		alert(txt); // fix better error handling @ future
+	},
+	
 	// bind events
 	binds: function(){
 		
@@ -121,9 +127,10 @@ var rangeCal = {
 		$(main).on('click', 'tbody td', function(){ rangeCal.select(this, main); });
 		
 		// hover + throttle
-		var hoverTimer = 20,
+		var hoverTimer = 30,
 		hoverId;
 		
+		// should check if selection made
 		$(main).on('mouseenter', 'tbody td', function(){
 			clearTimeout(hoverId);
 			hoverId = setTimeout(rangeCal.hoverRange, hoverTimer, this);
@@ -133,17 +140,23 @@ var rangeCal = {
 		// button actions
 		$('#dactions').on('click', 'button', function(){
 			
+			var ok = true;
+			
 			// Cancel button
 			if( this.className.indexOf('red') > -1 ){
 				// reset form and close
 			}
 			// OK button
 			else {
-				// close the datepicker
+				// close the datepicker 
+				
+				// trigger error if selection 2 not made
+				if( _id('sel2') == null ) { ok = false; rangeCal.err('Also choose a return date'); }
 				
 			}
 			
-			main.className = ''; // no matter what action we always close the datepicker
+			// close if OK
+			if(ok) main.className = '';
 			
 		})
 		
@@ -400,11 +413,11 @@ var rangeCal = {
 				e.classList.remove('range', 'disabled');
 			});
 			
-			sel1.className = '';
+			sel1.classList.remove('sel1');
 			sel1.id = '';
 			
 			if(sel2 !== null) {
-				sel2.className = '';
+				sel2.classList.remove('sel2');
 				sel2.id = '';
 			}
 			

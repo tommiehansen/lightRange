@@ -66,7 +66,7 @@ span { font-weight: 300; }
 			<i class="r_head">Days</i>
 			<i class="r_days"><span class="r_dots">&middot;&middot;&middot;&middot;</span><em>0</em><span class="r_dots">&middot;&middot;&middot;&middot;</span></i>
 		</div><div class="dateBox off" id="dateTo">
-			<i class="r_head">Arrival</i>
+			<i class="r_head">Return</i>
 			<i class="r_date">Select a date</i>
 		</div>		
 	
@@ -89,6 +89,7 @@ span { font-weight: 300; }
 	</div>
 	
 </div>
+<div id="lrovr"></div>
 
 
 <style>
@@ -96,7 +97,9 @@ form i, form p { font-style:normal; color: 888; }
 form div { width:49%; float:left; }
 form div:first-child { margin-right:2%; }
 form div:last-of-type { width:100%; }
-input { width:100%; margin:0;padding:10px;}
+input { width:100%; margin:0;padding:10px; border:1px solid #aaa; }
+
+form button { background:#03A9F4;color:#fff;border:0; margin-top:20px; width:auto; padding: 12px 24px; text-transform: uppercase; }
 </style>
 <form id="form">
 	
@@ -106,22 +109,19 @@ input { width:100%; margin:0;padding:10px;}
 	-->
 	
 	<div>
-	<p>From</p>
-	<input type="text" value="Stockholm">
+	<input type="text" value="Stockholm (STO)">
 	</div>
 	<div>
-	<p>To</p>
-	<input type="text" value="Bangkok">
+	<input type="text" value="Bangkok (BKK)">
 	</div>
 	
-	<div>
+	<div onclick="$(this).find('input').focus()">
 	<br>
-	<p>Select dates</p>
 	<input
 		id="dateField"
 		type="text"
 		value=""
-		placeholder="Push to choose Departure - Return"
+		placeholder="Monday, 4 Jan 2016 &ndash; Monday, 11 jan 2016"
 		data-days = "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday"
 		data-months = "January,February,March,April,May,June,Juli,August,September,October,November,December"
 		data-monthsNum = "12"
@@ -144,6 +144,9 @@ input { width:100%; margin:0;padding:10px;}
 	
 	<input id="date1" type="hidden" value="2016-07-10">
 	<input id="date2" type="hidden" value="2016-07-17">
+	
+	
+	<button>Search</button>
 
 </form>
 
