@@ -97,6 +97,9 @@ var monthArr,
 	allTD, // cache this globally (all td's in tables)
 	isInit = false,
 	daysNum;
+	
+/* temp */
+var perfStart, perfEnd;
 
 
 var rangeCal = {
@@ -113,6 +116,7 @@ var rangeCal = {
 			
 			daysNum = _id('daysNum');
 		}
+
 	},
 	
 	// error messages
@@ -165,6 +169,7 @@ var rangeCal = {
 		$('#r_nav').on('click', '.nav', function(){ rangeCal.nav(this); } )
 		
 		// check if swipe available
+		
 		if ($.fn.swipe) {
 			
 			$(main).swipe({
@@ -251,12 +256,33 @@ var rangeCal = {
 			dayArr.push( e.substring(0, 3) );
 		});
 		
+		
+		
 		// init binds
 		field
-		.on('focus', function(){ rangeCal.show(monthsNum) })
-		//.on('blur', function(){ rangeCal.hide() });
-		
-		
+		/*
+		.on('focus', function(){
+			perfStart = performance.now();
+			rangeCal.show(monthsNum);
+		})
+		*/
+		/*
+		.on('touchstart', function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			$(this).trigger('focus');
+			
+		})
+		*/
+		.on('click', function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			
+			//_id('lrovr').className = 'show';	
+			//$('#lrovr').show(); // instant = no problem with click/focus lag
+			rangeCal.show(monthsNum);
+			
+		})
 		
 	},
 	

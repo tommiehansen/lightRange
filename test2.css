@@ -23,12 +23,18 @@ td.range i { opacity:.5; }
 #sel1 i { opacity:1; }
 #sel2 i { background: #FF4081; background: hotpink; opacity:1; }
 
-/* PERF */
-#r_cals:after,
-#dp,
-#fromTo,
-.dateBox
-{ backface-visibility: hidden; }
+/* MOBILE PERF */
+@media(max-width:800px){
+	
+	#cal,
+	#r_cals:after,
+	#dp,
+	#fromTo,
+	.dateBox,
+	#dactions
+	{ backface-visibility: hidden; transform: translate3d(0,0,0); }
+	
+}
 
 #cal #r_nav .nav { opacity:1 !important; }
 
@@ -260,9 +266,6 @@ td.disabled:hover i { background: none; }
 
 
 
-
-
-
 /*
 	MEDIA QUERIES
 */
@@ -315,11 +318,10 @@ td.disabled:hover i { background: none; }
 @media(max-width: 600px){
 
 	#cal { width:100%; max-width: 360px; }
-	body { overflow:hidden !important; }
+	body { overflow:hidden !important; background: #fff; }
 	/* days */
 	#cal .r_dots {
 	width: 14px; letter-spacing: 0px;
-	_outline:red solid 1px;
 	font-size: 28px;
 	}
 
@@ -336,6 +338,7 @@ td.disabled:hover i { background: none; }
 	
 	
 	/* Fix perf on mobile */
+	/*
 	#cal {
 		backface-visibility:hidden;
 		-webkit-filter: none;
@@ -344,6 +347,7 @@ td.disabled:hover i { background: none; }
 	#dp, #fromTo {
 		backface-visibility:hidden;
 	}
+	*/
 
 }
 
@@ -353,7 +357,7 @@ td.disabled:hover i { background: none; }
 
 
 /* UNRELATED */
-@media(max-width: 1200px){
+@media(max-width: 800px){
 	#c { padding-top:0; padding-bottom: 300px; }
 	
 }
@@ -367,8 +371,11 @@ td.disabled:hover i { background: none; }
 	margin:0;
 	padding:0;
 	z-index: 9999;
-	transform: translate3d(-50%,-50%,0);
-	-webkit-filter: blur(0);
+	transform: translate3d(-50%,-50%,0);	
+}
+
+@media(min-width: 1200px){
+	#cal { -webkit-filter: blur(0); }
 }
 
 #cal.show {}
@@ -378,3 +385,23 @@ td.disabled:hover i { background: none; }
 @media(max-width: 450px){
 	#cal { top:0; transform:translateX(-50%); }
 }
+
+
+
+
+
+
+/* TEMP TEMP TEMP */
+#lrovr {
+	display:none;
+	position:fixed;
+	z-index:1;
+	backface-visibility:hidden;
+	top:0; left:0;
+	width:100%;
+	height:100%;
+	background:#000;
+	opacity:0.5;
+}
+
+#lrovr.show { display:block; }

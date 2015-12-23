@@ -3,7 +3,8 @@
 <head>
 <title># LightRange</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1" /><!-- important -->
+<!--<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1">-->
+<meta name="viewport" content="width=device-width, user-scalable=no">
 <link rel="stylesheet" href="https://cdn.rawgit.com/necolas/normalize.css/master/normalize.css" />
 <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,700,100,100italic' rel='stylesheet' type='text/css'>
 <style>
@@ -40,7 +41,6 @@ span { font-weight: 300; }
 #color input { width:100%; height:30px; border:0; padding:0; margin:0; outline:0; background: none; cursor: pointer; }
 #color .selColor { float:right; }
 </style>
-<link href='test2.css' rel='stylesheet' type='text/css' id='css'>
 </head>
 <body>
 <div id="c">
@@ -162,14 +162,45 @@ form button { background:#03A9F4;color:#fff;border:0; margin-top:20px; width:aut
 
 </div><!-- /#c -->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script type="text/javascript" src="test2.js"></script>
+<div id="scripts"></div>
 <script>
-
-/* init picker */
-var dateInput = $('#dateField');	
-rangeCal.init(dateInput);
-
-//dateInput.trigger('focus'); // temp auto-focus
+	
+	
+	// script load (without caching)
+	function jsLoad(sel, uri, type){
+		
+		uri = uri + '?v=' + Math.random();
+		
+		if(type == 'js'){
+			var script = document.createElement('script');
+			script.type = 'text/javascript';
+			script.src = uri;
+		}
+		else {
+			var script = document.createElement('link');
+			script.rel = 'stylesheet';
+			script.type = 'text/css';
+			script.id = 'css';
+			<!-- <link rel="stylesheet" href="https://cdn.rawgit.com/necolas/normalize.css/master/normalize.css" /> --></link>
+			script.href = uri;
+		}
+		
+		sel.appendChild(script);
+			
+		if(type == 'js'){
+			script.onload = function(){
+				var dateInput = $('#dateField');	
+				rangeCal.init(dateInput);
+			}
+		}
+		
+	}
+	
+	var sel = document.getElementById('scripts');
+	jsLoad(sel, 'test2.js', 'js');
+	jsLoad(sel, 'test2.css', 'css');
+	
+	// <link href='test2.css' rel='stylesheet' type='text/css' id='css'>
 </script>
 
 </body>
