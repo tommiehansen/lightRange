@@ -34,6 +34,6 @@ Option #2 is to add some sort of effect to "Select a date" on arrival; have it b
 
 Another solution is to have a message close to the 1st selected date and remove the whole "header" that show the dates since the user isn't looking in that general area when selecting dates.
 
-b) User did not understand that swipe-gestures could be used but opted for the arrows
+b) User did not understand that swipe-gestures could be used and opted to use the arrows
 
 Solution: None, this is purely optional.
