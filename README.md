@@ -10,6 +10,8 @@ Everything alpha for now.
 Version 2015.12.22: http://cdn.rawgit.com/tommiehansen/lightRange/master/test2.html (popup testing + misc changes)
 Version 2015.10.18: http://cdn.rawgit.com/tommiehansen/lightRange/master/test.html
 
+Tip: Resize the browser until the calendar becomes a 'single month' and refresh to see the mobile/small screen example.
+
 This version has a lot of testing-stuff littering test.html for things such as testing different colors etc via colorPicker (html5) or Google Material Design etc.
 
 
