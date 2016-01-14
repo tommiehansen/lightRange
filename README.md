@@ -21,8 +21,7 @@ Debating showing next/prev months within a view since it can be somewhat confusi
 ##### Tests
 
 
-2015.12.22
---------------------------
+###### 2015.12.22
 USER TEST #1 (mobile):
 
 a) User did not understand that 2nd selection had to be done to select return date.
