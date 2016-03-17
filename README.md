@@ -15,10 +15,15 @@ Tip: Resize the browser until the calendar becomes a 'single month' and refresh 
 This version has a lot of testing-stuff littering test.html for things such as testing different colors etc via colorPicker (html5) or Google Material Design etc.
 
 
--
-
 Current:
-Debating showing next/prev months within a view since it can be somewhat confusing and isn't reallt needed when showing 2x calendars. It only is good when swithing to mobile (under 500px) and when 1x calendar month is visible. The next/prev-months also add a lot of additional javascript and if-statements.
+Optimizing codebase.
+
+##### Updates
+2016.03.17
+
+A lot of testing has been going on to optimize the first initialization and display. As a result the first init + display calendar of 50 months has gone from ~130ms (mobile, android galaxy s4 test phone) to ~20ms. I use the Galaxy S4 + mobile Chrome as a baseline for performance testing. It is literally 10x slower at js then my desktop which make it ideal for testing. 
+
+To achieve the performance bump i split the months into two parts and used js's native execution que to have  all 2+ months be ran after the two first. This has the effect that the user *see* the 2 first months and the UI in ~20ms time. Since users take ~100-150ms to react to a new 'view' it doesn't matter if the rest of the months take ~100ms to render since the rest of the months won't be displayed before the user interacts with the UI. In reality the script is actually slower as a total but to the user (and especially on weak devices) it will appear to be 10x faster.
 
 ##### Tests
 
