@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<htmllang="en">
+<head>
+<title># Month generation PERF tests</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="https://cdn.rawgit.com/necolas/normalize.css/master/normalize.css" />
+<style>
+html { box-sizing: border-box; font-size:62.5%; font-family: arial, helvetica, sans-serif; }
+*, *:before, *:after { box-sizing: inherit; }
+body { padding:40px 0; background: #fafafa; font-size:1.6rem; color:#333; }
+body { text-align:center; }
+i { font-style:normal; }
+#r_dpi { border:1px solid #ddd; display:inline-block; padding:10px 15px; margin-top:20px; border-bottom-color: #ccc; }
+
+#r_dp {
+	width: 95%;
+	margin:0 auto;
+	position:relative;
+	backface-visibility:hidden;
+	transform:translateZ(0);
+}
+#r_dp div { width: 280px; margin-right:20px; margin-bottom:20px; background: #fff; }
+#r_dp div { display:inline-block; float:none; }
+#r_dp { text-align:center; }
+table { width:100%; border-collapse:collapse; }
+td {
+  width:auto;
+  padding: 5px; border:1px solid #ddd; 
+  text-align:center;
+}
+
+#r_dp em {
+    padding:10px 5px;
+    text-align:center;
+    font-size:12px;
+    display:block;
+    font-style:normal;
+	width:100%;
+	background: #03A9F4;
+	color:#fff;
+	text-transform:uppercase;
+}
+#r_dp u { text-decoration:none; }
+button,h3 { margin:0 auto; position:relative; padding:10px; display: block; text-align:center; }
+button { background:hotpink; color:#fff; border:0; outline:0; padding: 15px 20px }
+h3 { margin:20px auto; }
+s { position: absolute; top:10px; text-decoration:none; width:100%; text-align:center; color: red; font-weight:bold; }
+@media(max-width: 800px){
+	s { font-size:10px; }
+
+}
+
+_#r_dp div { backface-visibility:hidden;  }
+</style>
+</head>
+<body id="body">
+
+
+	<!--
+		INPUT OPTIONS
+		-----------------------------------------------------
+		data-days: all the days (long version)
+		data-months: months, jan-dec (long version)
+		data-monthsNum: <number of months>,<start month>
+	-->
+
+	<input
+		id="r_dpi"
+		type="text"
+		value=""
+		placeholder="Select Departure and Return dates"
+		data-days = "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday"
+		data-months = "January,February,March,April,May,June,Juli,August,September,October,November,December"
+		data-monthsNum = "12,0"
+		readonly="true"
+	>
+
+
+
+<!-- Calendar container -->
+<div id="r_dp"></div>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script>
+
+// helpers
+/*
+function _id(e) { return document.getElementById(e); }
+function _for(e,f) { var i, len=e.length; for(i=0;i<len;i++){ if(f(e[i]) === false) break; }}
+function _data(e,attr) { return e.getAttribute('data-' + attr); }
+function isTouch() { return 'ontouchstart' in window || navigator.maxTouchPoints; };
+*/
+
+
+
+// START
+;(function($, window, document, undefined) {
+
+	// small helpers
+	function _id(e) { return document.getElementById(e); }
+
+
+	/* GLOBAL SCOPE / SETUP */	
+	var r_dp = _id('r_dp'),
+		r_dpi = _id('r_dpi'), // calendar input field
+		firstRun = true,
+		dayLong = r_dpi.getAttribute('data-days').split(','),
+		monthLong = r_dpi.getAttribute('data-months').split(','),
+		dayShort = [],
+		monthShort = [],
+		monthConf = r_dpi.getAttribute('data-monthsNum').split(','),
+		monthNum = monthConf[0],
+		monthStart = monthConf[1],
+		sel1 = false, // selection 1 + 2
+		sel2 = false;
+		
+	// generate short days + months
+	for(var i=0;i<7;i++){ dayShort[i] = dayLong[i].substr(0,3); }
+	for(var i=0;i<12;i++){ monthShort[i] = monthLong[i].substr(0,3); }
+
+	
+	
+	/* rangeCal */
+	var rangeCal = {
+		
+		
+		/*-----------------------------------------------------
+
+		GET/RENDER MONTH
+		Returns results as string
+
+		-----------------------------------------------------*/	
+		
+		getMonth: function(month, year, monthArr, dayArr, dayString){
+
+			var days = [];
+
+			// set days 1
+			var date = new Date(year, month, 0),
+				totalDays = date.getDate(),
+				endDay = date.getDay();
+			
+			// set days 2
+			date.setDate(0);
+			var startDay = date.getDay(0),
+				nextMonthStart = false,
+				prevMonthDays = 0;
+					
+			// check if startdate isn't 0 (startdate of current month starts at first index)
+			if( this.startDay !== 0 ) { prevMonthDays = (new Date(year,month-1,0)).getDate() - startDay; }
+
+			// Begin looping through days
+			var count = 0,
+				day,
+				i=0,
+				out='';
+				
+				for(i; i < 42; i++) {
+					day = {};
+					if(i < startDay) {
+						day.date = prevMonthDays = prevMonthDays + 1; 	// prev months days
+					}
+					else if(i > totalDays + (startDay - 1)) {
+						// days after current month
+						day.date = count = count + 1;
+						if (!nextMonthStart) nextMonthStart = i
+					}
+					else {
+						day.date = i - startDay + 1; // regular in-month days
+					}
+					
+					days[days.length] = day.date
+				
+				}; // end loop
+				
+				// BEGIN OUTPUT
+				out += '<div rel="'+ month + '/' + year +'"><em>' + monthArr[month-1] + ' <u>' + year + '</u></em><table><tr class="r_dn">';
+				out += dayString; // add pre-generated day string
+				
+				// All days (generates ~90k elements @ 1000 months)
+				i=0;
+				for(var key in days){ // 42x / month
+					i++;
+
+					// START row
+					if(i === 1) out += '<tr>';
+						
+						// not in current month
+						if( key < startDay || ( key >= nextMonthStart ) )  {
+							out += '<td>&nbsp;';
+						}
+						else {
+							out += '<td><i>'+days[key]; // USE DAY + month data
+						}
+				
+					// END row
+					if(i === 7) { i = 0; } // end row (omitting </tr>)
+					
+				}
+				
+				// push end
+				out += '</table></div>'; // end .r_table etc
+				
+				// return string
+				return out;
+		
+		}, // end getMonth
+		
+		
+		
+		// initialize month generation
+		initMonths: function(){
+		
+			// generate months
+			var out = '',
+				today = new Date(),
+				day = today.getDate(),
+				month = today.getMonth(),
+				year = today.getFullYear(),
+				totalNum = monthNum, // cache initial
+				dayString = '';
+				
+			
+			// add month offset if set
+			if( monthStart !== 0 ) month += (+monthStart);
+			
+			for(var i=0;i<7;i++){
+				dayString += '<td>' + dayShort[i];
+			}
+			
+			while(monthNum--){
+			
+				// add 1 month for each iteration
+				month++;
+				
+				// apply new year if month becomes 13, (jan = 1, dec = 12 etc)
+				if(month === 13) { year++; month = 1; }
+				
+				// add html to string
+				out += rangeCal.getMonth(month, year, monthLong, dayShort, dayString);
+				
+				// pre-push 2 first months
+				if( totalNum-monthNum === 2 ){
+					var perfStart = performance.now(); // Begin perf measure
+					r_dp.insertAdjacentHTML('beforeend', out);
+					out=''; // reset string
+					var perfEnd = performance.now();
+					console.log('getMonth perf @ 2 months: ' + Math.round((perfEnd-perfStart)*100, 2)/100 + 'ms');
+				}
+				
+			} // end while-loop
+			
+
+			// insert rest of the months, use setTimeout to push to last in que (and to pre-render 2x first)
+			setTimeout(function(){
+				var perfStart = performance.now(); // Begin perf measure
+				r_dp.insertAdjacentHTML('beforeend', out);
+				var perfEnd = performance.now();
+				console.log('getMonth perf @ rest of months: ' + Math.round((perfEnd-perfStart)*100, 2)/100 + 'ms');
+			}, 4); // 4ms = min (else ignored in some browsers)
+		
+		},
+		
+		
+		
+		showCal: function(){
+		
+			r_dp.style.display = 'block';
+			
+			if(firstRun){
+				rangeCal.initMonths(); // generate all months
+				firstRun = false;
+			}			
+		
+		},
+		
+		hideCal: function(){
+		
+			r_dp.style.display = 'none';
+		
+		},
+		
+		
+		/* dayClicks */
+		dayClick: function(){
+		
+			
+		
+		}, // end dayClick
+		
+		/* binds */
+		binds: function(){
+		
+			// bind input field
+			$(r_dpi).on('click', this.showCal);
+			
+			// bind r_dp to <td>
+			$(r_dp).on('click', 'td', this.dayClick);
+			
+		},
+	
+	
+	
+	
+	}; // end rangeCal
+	
+	
+	
+	// initialize on function ready
+	rangeCal.binds();
+
+
+
+
+})(jQuery, window, document); // end() init
+</script>
+</body>
+</html>	

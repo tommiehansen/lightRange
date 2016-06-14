@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title># LightRange</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<!--<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1">-->
+<title># 3 LightRange</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, user-scalable=no">
-<link rel="stylesheet" href="https://cdn.rawgit.com/necolas/normalize.css/master/normalize.css" />
+<link rel="stylesheet" href="https://cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
 <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,700,100,100italic' rel='stylesheet' type='text/css'>
 <style>
 html {  font-size:62.5%; }
@@ -56,23 +55,6 @@ span { font-weight: 300; }
 -->
 
 <div id="cal">
-
-	<div class="fromTo" id="fromTo">
-	
-		<div class="dateBox" id="dateFrom">
-			<i class="r_head">Departure</i>
-			<i class="r_date">Select a date</i>
-		</div><div class="dateBox days off" id="daysNum">
-			<i class="r_head">Days</i>
-			<i class="r_days"><span class="r_dots">&middot;&middot;&middot;&middot;</span><em>0</em><span class="r_dots">&middot;&middot;&middot;&middot;</span></i>
-		</div><div class="dateBox off" id="dateTo">
-			<i class="r_head">Return</i>
-			<i class="r_date">Select a date</i>
-		</div>		
-	
-	</div>
-	
-	<i class="clear" style="clear:both;"></i>
 	
 	<!-- the calendars -->
 	<div id="r_cals">
@@ -83,12 +65,13 @@ span { font-weight: 300; }
 		<div id="dp"></div>
 	</div>
 	
-	
 	<div id="dactions">
+		<i class="navTip" style="float:left;padding-top:15px;font-style:italic;font-size:14px;color:#aaa;">Tip: Use <b>scroll wheel</b> or <b>keyboard arrows</b> to navigate</i>
 		<button class="dbtn red">Cancel</button><button class="dbtn green">Apply</button>
 	</div>
 	
 </div>
+<div id="lrovr"></div><!-- overlay -->
 
 
 <style>
@@ -124,7 +107,7 @@ form button { background:#03A9F4;color:#fff;border:0; margin-top:20px; width:aut
 		placeholder="Select Departure and Return dates"
 		data-days = "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday"
 		data-months = "January,February,March,April,May,June,Juli,August,September,October,November,December"
-		data-monthsNum = "12"
+		data-monthsNum = "50"
 		readonly="true"
 	>
 	</div>
@@ -161,7 +144,7 @@ form button { background:#03A9F4;color:#fff;border:0; margin-top:20px; width:aut
 
 
 </div><!-- /#c -->
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <div id="scripts"></div>
 <script>
 	
@@ -181,6 +164,7 @@ form button { background:#03A9F4;color:#fff;border:0; margin-top:20px; width:aut
 			script.rel = 'stylesheet';
 			script.type = 'text/css';
 			script.id = 'css';
+			<!-- <link rel="stylesheet" href="https://cdn.rawgit.com/necolas/normalize.css/master/normalize.css" /> --></link>
 			script.href = uri;
 		}
 		
@@ -196,8 +180,12 @@ form button { background:#03A9F4;color:#fff;border:0; margin-top:20px; width:aut
 	}
 	
 	var sel = document.getElementById('scripts');
-	jsLoad(sel, 'test2.js', 'js');
-	jsLoad(sel, 'test2.css', 'css');
+	jsLoad(sel, 'test3.js', 'js');
+	jsLoad(sel, 'test3.css', 'css');
+	
+	$(window).on('load', function(){
+		$('#dateField').trigger('click');
+	})
 	
 	// <link href='test2.css' rel='stylesheet' type='text/css' id='css'>
 </script>

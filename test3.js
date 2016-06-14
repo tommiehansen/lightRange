@@ -4,7 +4,6 @@
 	
 	LIGHTRANGE
 	simple date range selection
-	14:44 2015-12-17
 	
 *****************************************************
 *******************************************************
@@ -19,75 +18,6 @@ function _id(e) { return document.getElementById(e); }
 //function _for(e,f) { var i, len=e.length; for(i=0;i<len;i++){ f(e[i]); }}
 function _for(e,f) { var i, len=e.length; for(i=0;i<len;i++){ if(f(e[i]) === false) break; }} // break-version for escaping loops via return false;
 
-
-/*-----------------------------------------------------
-
-	SWIPE
-	0.55kb
-	use: wipeLeft, wipeRight, wipeUp, wipeDown
-
------------------------------------------------------*/
-
-$.fn.swipe = function(o) {
-	
-	var el              = $(this),
-		left            = o.left,
-		right           = o.right,
-		up              = o.up,
-		down            = o.down,
-		requiredDist    = o.requiredDist || 100,
-		allowedTime     = o.allowedTime  || 500,  
-		startTime       = 0,
-		distX			= 0,
-		distY			= 0,
-		startX          = 0,
-		startY          = 0;
-
-	el.on({
-
-		touchstart: function (e) {
-
-			//e.preventDefault(); // causes clicks not to work
-
-			var touch   = e.originalEvent.changedTouches[0];
-			
-			startX      = touch.pageX;
-			startY      = touch.pageY;
-			distX       = 0;
-			distY       = 0;
-			startTime   = new Date().getTime();
-			
-		},
-
-		touchmove: function (e) { e.preventDefault(); },
-
-		touchend: function (e) {
-
-			var touch   = e.originalEvent.changedTouches[0],
-				distX   = touch.pageX - startX,
-				distY   = touch.pageY - startY,
-				time    = new Date().getTime() - startTime;
-
-			if (time < allowedTime) {  
-
-				if (Math.abs(distX) >= requiredDist) {
-					if (distX > 0 && right) right.call(this);
-					if (distX < 0 && left)  left.call(this);
-					e.preventDefault();
-				}  
-
-				if (Math.abs(distY) >= requiredDist) {
-					if (distY > 0 && down)  down.call(this);
-					if (distY < 0 && up)    up.call(this);
-					e.preventDefault();
-				}
-			}
-		}
-	});
-};
-
-
-
 // BASE VARs
 var monthArr,
 	dayArr = [],
@@ -97,24 +27,19 @@ var monthArr,
 	allTD, // cache this globally (all td's in tables)
 	isInit = false,
 	daysNum;
-	
-/* temp */
-var perfStart, perfEnd;
-
 
 var rangeCal = {
 	
 	// show calendar
 	show: function(monthsNum){
 		main.className = 'show';
-		//_id('lrovr').classList.add('on');
+		_id('lrovr').classList.add('on'); // show background layer
 		
 		if(!isInit) { 
 			isInit = 1;
 			this.binds();
-			this.getMonths(monthsNum);
-			
-			daysNum = _id('daysNum');
+			this.getMonths(monthsNum); // slow function
+			//daysNum = _id('daysNum');
 		}
 
 	},
@@ -160,7 +85,8 @@ var rangeCal = {
 			}
 			
 			// close if OK
-			if(ok) main.className = '';
+			//if(ok) main.className = '';
+			if(ok) rangeCal.hide();
 			
 		})
 		
@@ -168,30 +94,12 @@ var rangeCal = {
 		// date navigation
 		$('#r_nav').on('click', '.nav', function(){ rangeCal.nav(this); } )
 		
-		// check if swipe available
-		
-		if ($.fn.swipe) {
-			
-			$(main).swipe({
-				
-				left: function (evt) { $(_id('next')).trigger('click'); },
-				right: function (evt) { $(_id('prev')).trigger('click'); },
-				requiredDist:   30, // Required distance to trigger swipe. Optional, defaults to 100
-				allowedTime:    300 // Distance must be covered in this time. Optional, defaults to 500
-				
-			})
-			
-		} // end if function(swipe)
-		
 	},
 	
+	// hide and close routine
 	hide: function(){
-		//main.removeClass('show');
 		main.className = '';
-	},
-	
-	// swipe (consider having this as an extension)
-	swipe: function(o){
+		_id('lrovr').className = ''; // hide background layer
 		
 	},
 	
@@ -215,8 +123,8 @@ var rangeCal = {
 				if( e.id == 'sel1' ) { s1i = i;  sel1 = e.getAttribute('data-date'); }		// get index of selection 1 and start from this <td>				
 				if( e.className.indexOf("selCur") > -1 ) { s2i = i+1; sel2 = e.getAttribute('data-date'); }
 						
-				daysNum.querySelector('em').innerText = rangeCal.dateDiff(sel1, sel2);
-				daysNum.classList.remove('off');
+				//daysNum.querySelector('em').innerText = rangeCal.dateDiff(sel1, sel2);
+				//daysNum.classList.remove('off');
 				
 				
 			}) // end for-loop
@@ -228,19 +136,6 @@ var rangeCal = {
 			})
 			
 		}
-		
-	},
-	
-	// difference in days
-	dateDiff: function(date1, date2, sel2){
-		
-		// Create dates
-		var dmy1 = new Date(date1),
-			dmy2 = new Date(date2),
-			days = Math.abs(Math.ceil( dmy1.getTime() / (3600*24*1000)) - Math.ceil( dmy2.getTime() / (3600*24*1000)));
-		
-		days++;
-		return days;
 		
 	},
 	
@@ -361,33 +256,24 @@ var rangeCal = {
 		/* first selection does not exist */	
 		if( sel1 === null ){
 			
-			// prevent selecting disabled dates
-			if( !e.classList.contains('disabled') ){
+			e.id = 'sel1';
+			sel1 = e;
+			sel1.classList.add('sel1');
 			
-				e.id = 'sel1';
-				sel1 = e;
-				sel1.classList.add('sel1');
-				
-				// set date #1
-				this.set( sel1.getAttribute('data-date') );
-				
-				// mark all previous as disabled
-				// stupid since previous isn't/shouldn't be'disabled'
-				// but can be selected if un-selecting previous
-				/*
-				var td = main.querySelectorAll('tbody td'),
-					i=0, s1i = 9999;
-					
-				_for(td, function(e){
-					i++;
-					if( e.id == 'sel1' ) { s1i = i; }
-					if(i < s1i){ e.classList.add('disabled'); }
-				})
-				*/
-				
-				//console.log( e.index );
+			// set date #1
+			this.set( sel1.getAttribute('data-date') );
 			
-			}
+			// mark all previous as disabled			
+			var td = main.querySelectorAll('tbody td'),
+				i=0, s1i = 1500;
+				
+			_for(td, function(e){
+				i++;
+				if( e.id == 'sel1' ) { s1i = i; }
+				if(i < s1i){ e.classList.add('disabled'); }
+			})
+			
+			//console.log( e.index );
 			
 		} // end first selection exist
 		
@@ -400,25 +286,15 @@ var rangeCal = {
 			sel2.classList.add('sel2');
 			
 			// set date #2
-			this.set( sel2.getAttribute('data-date'), 'to' );
-			
-			// show total selected days
-			var numDays = this.dateDiff( sel1.getAttribute('data-date'), sel2.getAttribute('data-date') );
-				
-			
-			daysNum.querySelector('em').innerHTML = numDays; // FIX: These rows are slightly non-DRY
-			daysNum.classList.remove('off');
-			//daysNum.classList.add('bounce');
-			
+			this.set( sel2.getAttribute('data-date'), 'to' );			
+
 			// selection is complete
 			var par = e.parentNode,		// tr
 				parPar = main;		// tbody (main)
 				
 			var	go = false,
 				stop = false,
-				i=0,
-				s1i=0,
-				s2i=999;
+				i=0, s1i=0, s2i=1500;
 				
 			// add classes to td's between selections
 			// perf: this loops through all existing td's on click (slow) -- alternative way?
@@ -434,7 +310,7 @@ var rangeCal = {
 				} 
 				
 				if(stop) return false;
-			})
+			})			
 		
 		} // end first exist but not second
 		
@@ -445,7 +321,7 @@ var rangeCal = {
 			this.set('reset');
 			
 			_for( allTD, function(e) {
-				e.classList.remove('range');
+				e.classList.remove('range', 'disabled');
 			});
 			
 			sel1.classList.remove('sel1');
@@ -456,7 +332,7 @@ var rangeCal = {
 				sel2.id = '';
 			}
 			
-			daysNum.classList.remove('bounce');
+			//daysNum.classList.remove('bounce');
 			
 			// re-trigger click (make click 3 have the action of creating a new #1 selection)
 			$(e).trigger('click');
@@ -471,6 +347,7 @@ var rangeCal = {
 	*/
 	set: function(date, fromTo){
 		
+		/*
 		var cur,
 			str = '',
 			to = _id('dateTo'),
@@ -534,6 +411,8 @@ var rangeCal = {
 		
 		$(cur).find('.r_date').html(str);
 		
+		*/
+		
 		
 	},
 	
@@ -543,31 +422,31 @@ var rangeCal = {
 	*/
 	getMonths: function(monthsNum){
 		
-		// DEV: START TIME FOR RENDER CALENDAR
-		//var perfStart = performance.now();
+		// DEV: STAR TIME FOR RENDER CALENDAR
+		var perfStart = performance.now();
 		
 		var now = new Date(),
 			month = now.getMonth(),
 			year = now.getFullYear();
 		
 		// VARs
-		var ni = 0,
-			i = 0,
+		var i = 0,
 			monthNice,
 			dayNice,
 			nextMonth,
 			nextYear,
 			curDate,
 			key,
-			out = '';
+			out = [];
 			
 		// month info, fork off of github
-		// 0.44 kb
+		// 0.44 kb		
+		// Fixed version
 		var monthData=function(year,month){var date=new Date(year,month,0);this.totalDays=date.getDate();this.endDay=date.getDay();date.setDate(0);this.startDay=date.getDay(0);this.days=[];this.nextMonthStart=false;var prevMonthDays=0;if(this.startDay!==0)prevMonthDays=(new Date(year,month-1,0)).getDate()-this.startDay;var count=0;for(var i=0;i<42;i++){var day={};if(i<this.startDay)day.date=prevMonthDays=prevMonthDays+1;else if(i>this.totalDays+(this.startDay-1)){day.date=count=count+1;if(!this.nextMonthStart)this.nextMonthStart=i}else day.date=i-this.startDay+1;this.days[this.days.length]=day.date}};
-			
-			
+		
+		
 		// begin loop
-		for(ni;ni<monthsNum;ni++){
+		while(monthsNum--){
 			
 			// increase month
 			month++;
@@ -590,24 +469,22 @@ var rangeCal = {
 			
 			
 			// BEGIN out
-			out += '<div class="r_month">';
-			out += '<em class="r_title">' + monthNice + ' <span>' + year + '</span></em>';
-			out += '<table>';
+			// 4171 elems @ 40 months with <td>
+			out.push('<div class="r_month"><em class="r_title">' + monthNice + ' <span>' + year + '</span></em><table>');
 					
 				// weekdays
-				out += '<thead><tr>';
-				_for(dayArr, function(e){ out += '<td>' + e + '</td>'; })
-				out += '</tr></thead>';
+				out.push('<thead><tr>');
+				_for(dayArr, function(e){ out.push('<td>' + e + '</td>'); })
 					
-				// days
-				out += '<tbody>';
+				// days SLOW SLOW SLOW
+				out.push('</tr></thead><tbody>');
 				for(key in days){
 					
 					i++;
 					curDate = nextYear + '-' + nextMonth + '-' + days[key];
 					
 					// start row
-					if(i === 1) out += '<tr>';					
+					if(i === 1) out.push('<tr>');
 					
 						// not in current month
 						if( key < startDay || ( key >= nextMonthStart ) )  {
@@ -627,37 +504,21 @@ var rangeCal = {
 									break;
 							}
 							
-							out += '<td class="notCurMonth" data-date="'+ curDate +'"><i>'+days[key]+'</i></td>';
+							out.push('<td class="notCurMonth" data-date="'+ curDate +'"><i>'+days[key]+'</i></td>');
 							
 						}
-						
-						// check if month is the current month
-						else if( now.getMonth()+1 == month ){
-							
-							// is date under current date? add disabled class
-							if( days[key] < now.getDate() ){
-								out += '<td class="disabled" data-date="'+ curDate +'"><i>'+days[key]+'</i></td>';
-							}
-							
-							else {
-								out += '<td data-date="'+ curDate +'"><i>'+days[key]+'</i></td>';
-							}
-							
-						}
-						
-						// the rest
+						// the rest, current month
 						else {
-							out += '<td data-date="'+ curDate +'"><i>'+days[key]+'</i></td>';
+							out.push('<td data-date="'+ curDate +'"><i>'+days[key]+'</i></td>');
 						}
 					
 
 					// end row
-					if(i === 7) { out += '</tr>'; i=0; }
+					if(i === 7) { out.push('</tr>'); i=0; }
 					
 				}
-				out += '</tbody>';
-			out += '</table>';
-			out += '</div>'; // end r_month
+			
+			out.push('</tbody></table></div>'); // end .r_table etc
 			
 			
 		} // end loop
@@ -666,15 +527,105 @@ var rangeCal = {
 		allTD = main.getElementsByTagName('td');
 		
 		// set html
-		_id('dp').innerHTML = out;
+		//_id('dp').innerHTML = out;
+		_id('dp').innerHTML = out.join('');
 		
 		
 		// DEV: GET ELAPSED RENDER TIME
-		//var perfEnd = performance.now();
-		//console.log( 'getMonths func: ' + (perfStart-perfEnd) + 'ms');
-			
+		var perfEnd = performance.now();
+		var str  = 'getMonths func: ' + (perfEnd-perfStart) + 'ms';
+		//alert(str);
+		console.log(str);
 		
 	}, // end getMonths()
 	
 
 	} /* end rangeCal */
+	
+	
+	
+	
+	
+	/*-----------------------------------------------------
+
+	Keyboard/mouse navigation
+	Adds: ~0.7kb
+
+	-----------------------------------------------------*/
+	
+	
+	
+	$(document).on('keydown', function(e){
+		
+		var keyCode = e.keyCode || e.which,
+			arrow = {left: 37, up: 38, right: 39, down: 40 };
+			
+		switch (keyCode) {
+		case arrow.left:
+			$(_id('prev')).trigger('click');
+			e.preventDefault();
+			break;
+		case arrow.right:
+			$(_id('next')).trigger('click');
+			e.preventDefault();
+			break;
+		case arrow.up:
+			break;
+		case arrow.down:
+			break;
+		}
+		
+	})
+	
+   
+   // MOUSE WHEEL NAV
+   
+    // Important options
+    // timer delay in ms, higher = better perf but less responsive ui
+    var menuTimer = 30,
+		timerId,
+		navPrev = $(_id('prev')),
+		navNext = $(_id('next')),
+		collectUp = 0,
+		collectDown = 0;
+
+    // VARs
+    var win = $(window),
+		rcal = $('#r_cals');
+    
+    // Evil window scroll function	
+	rcal.on('mousewheel DOMMouseScroll', function (event) {
+		clearTimeout(timerId);
+		
+		//var delta = event.originalEvent.wheelDelta;
+		if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
+			// up
+			collectUp++;
+			collectDown = 0;
+			
+		}
+		else {
+			// down
+			collectDown++;
+			collectUp = 0;
+		}
+		
+		
+		timerId = setTimeout(function(){
+			
+			if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
+				if(collectUp < 2) collectUp = 1;
+				//up
+				while(collectUp--){ navPrev.trigger('click'); } // navPrev/next should be a function that takes X interations in order to multiple value when scrolling fast instead of firing 10x times etc.
+			}
+			else {
+			  //down
+			  if(collectDown < 2) collectDown = 1;
+			  while(collectDown--){ navNext.trigger('click'); }
+			}
+		
+		}, menuTimer);
+		
+		event.preventDefault();
+	 
+	});

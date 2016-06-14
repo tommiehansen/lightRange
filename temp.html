@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<htmllang="en">
+<head>
+<title># Month generation PERF tests</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="https://cdn.rawgit.com/necolas/normalize.css/master/normalize.css" />
+<style>
+html { box-sizing: border-box; font-size:62.5%; font-family: arial, helvetica, sans-serif; }
+*, *:before, *:after { box-sizing: inherit; }
+body { padding:40px 0; background: #fafafa; font-size:1.6rem; color:#333; }
+i { font-style:normal; }
+
+#r_dp {
+	width: 95%;
+	margin:0 auto;
+	position:relative;
+	backface-visibility:hidden;
+	transform:translateZ(0);
+}
+.r_month { width: 280px; float:left; margin-right:20px;  margin-bottom:20px; background: #fff; }
+table { width:100%; border-collapse:collapse; }
+td {
+  width:auto;
+  padding: 5px; border:1px solid #ddd; 
+  text-align:center;
+}
+
+.r_title {
+    padding:10px 5px;
+    text-align:center;
+    font-size:12px;
+    display:block;
+    font-style:normal;
+	width:100%;
+	background: #03A9F4;
+	color:#fff;
+	text-transform:uppercase;
+}
+button,h3 { margin:0 auto; position:relative; padding:10px; display: block; text-align:center; }
+button { background:hotpink; color:#fff; border:0; outline:0; padding: 15px 20px }
+h3 { margin:20px auto; }
+</style>
+</head>
+<body id="body">
+<button id="gen">Generate months</button>
+<div id="r_dp">
+</div><!-- /#r_dp -->
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script>
+
+// helpers
+function _id(e) { return document.getElementById(e); }
+function _for(e,f) { var i, len=e.length; for(i=0;i<len;i++){ if(f(e[i]) === false) break; }}
+function _data(e,attr) { return e.getAttribute('data-' + attr); }
+function isTouch() { return 'ontouchstart' in window || navigator.maxTouchPoints; };
+
+/* temp button stuff */
+var randBg = ['hotpink','#03A9F4','orange','#3c3','red','#333'];
+randBg = randBg[Math.floor(Math.random() * randBg.length)];
+
+var gen = _id('gen');
+gen.style.background = randBg;
+
+var touch = isTouch();
+if(!touch){
+	$(gen).on('click', function(e){ e.preventDefault(); $(this).trigger('ontouchstart'); })
+}
+
+
+
+// apply click handler
+gen.ontouchstart = function(){
+
+	var monthsNum = 50; // Number of months to generate
+	var totalNum = monthsNum;
+	var month = 1, // zero-based index
+		year = 2016,
+		out = '',
+		monthArr = 'January,February,March,April,May,June,Juli,August,September,October,November,December'.split(','),
+		dayArr = 'Mon,Tue,Wed,Thu,Fri,Sat,Sun'.split(','),
+		r_dp = _id('r_dp'),
+		days;
+
+	 // Begin perf measure
+	var perfStart = performance.now();
+	
+	
+	// Pre-process day output outside loop since it's static
+	var i=0, l=dayArr.length, dayString = '';
+	for(i;i<l;i++){ dayString += '<td>' + dayArr[i] + '</td>'; }
+	// #2 (i-tags)
+	//for(i;i<l;i++){ dayString += '<i>' + dayArr[i] + '</i>'; }
+		
+	while(monthsNum--){
+	
+		month++; // add 1 month for each iteration
+		
+		// apply new year if month becomes 13, (jan = 1, dec = 12 etc)
+		if(month === 13) { year++; month = 1; }
+		
+		days = [];
+		
+		// set days 1
+		var date = new Date(year, month, 0),
+			totalDays = date.getDate(),
+			endDay = date.getDay();
+		
+		// set days 2
+		date.setDate(0);
+		var startDay = date.getDay(0),
+			nextMonthStart = false,
+			prevMonthDays = 0;
+			
+		// check if startdate isn't 0 (startdate of current month starts at first index)
+		if( this.startDay !== 0 ) {
+			prevMonthDays = (new Date(year,month-1,0)).getDate() - startDay;
+		}
+		
+		
+		// Begin looping through days
+		var count = 0,
+			day,
+			i=0;
+		
+		for(i; i < 42; i++) {
+			
+			day = {};
+			
+			if(i < startDay) {
+				// prev months days
+				day.date = prevMonthDays = prevMonthDays + 1;
+			}
+			else if(i > totalDays + (startDay - 1)) {
+				// days after current month
+				day.date = count = count + 1;
+				if (!nextMonthStart) nextMonthStart = i
+			}
+			else {
+				// regular in-month days
+				day.date = i - startDay + 1;
+			}
+			
+			days[days.length] = day.date
+		
+		}; // end loop
+		
+		// BEGIN OUTPUT (type 3, slim; ~92k elements @ 1000 months)
+		out += '<div class="r_month" rel="'+ month + '/' + year +'"><em class="r_title">' + monthArr[month-1] + ' <span>' + year + '</span></em><table><thead><tr>';
+		out += dayString; // add pre-generated day string
+		//i=0, l=dayArr.length; for(i;i<l;i++){ out += '<td>' + dayArr[i] + '</td>'; } // removed and generated once outside loop as var dayString
+		
+		// end thead, begin tbody
+		out += '</tr></thead><tbody>';
+		
+		// All days (generates ~90k elements @ 1000 months)
+		i=0;
+		for(var key in days){ // 42x / month
+			i++;
+
+			// START row
+			if(i === 1) out += '<tr>';
+				
+				// not in current month
+				if( key < startDay || ( key >= nextMonthStart ) )  {
+					out += '<td class="r_nc">&nbsp;</td>';
+				}
+				else {
+					out += '<td><i>'+days[key]+'</i></td>'; // stupid to set this at each <td>, set base @ base table instead then use BASE + this.innerText instead
+				}
+		
+			// END row
+			if(i === 7) { out += '</tr>'; i=0; }
+			
+		}
+		
+		// push end
+		out += '</tbody></table></div>'; // end .r_table etc
+		
+		// pre-push output (split applying html for draw performance)
+		// problem: the whole script still iterates through everything else which makes initial screen draw slower
+		
+		if( totalNum-monthsNum === 2 ) {
+			//var a = performance.now();
+			r_dp.innerHTML = out;
+			out='';
+			//var b = performance.now();
+			//console.log(Math.round((b-a)*100)/100 + 'ms @ 2 months');
+		}
+		
+	} // end while-loop
+	
+	// output out-array to #dp
+	// add to own stack and execute last
+	setTimeout(function(){
+		r_dp.innerHTML = r_dp.innerHTML + out;
+		//r_dp.innerHTML = r_dp.innerHTML + out;
+		out = null; // clean the string
+	}, 0)
+
+	// log performance
+	var perfEnd = performance.now();
+	var log = 'getMonth perf @ '+ totalNum +' months: ' + Math.round((perfEnd-perfStart)*100)/100 + 'ms';
+	console.log(log);
+	r_dp.innerHTML = '<h3>' + log + '</h3>' + r_dp.innerHTML;
+	
+	
+	return false;
+} // end event handler
+	
+</script>
+</body>
+</html>	

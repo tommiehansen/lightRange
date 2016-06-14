@@ -1,0 +1,284 @@
+@import 'colors';
+
+/*-----------------------------------------------------
+
+    BASE
+
+-----------------------------------------------------*/
+
+@width-main: 640px; // desktops, else 100%
+@padding-main: 15px;
+@font-size-base: 10px; // base font size
+@font-size: 1.5rem;
+@td-padding: 3px 0;
+
+// border box
+#lr_cal *, #lr_cal *:before, #lr_cal *:after { box-sizing: border-box;  }
+
+// font sizes
+#lr_cal { font-size: @font-size-base; }
+#lr_fromTo, #lr_cals, #lr_actions { font-size: @font-size; color: @color-text; }
+#lr_dp div { font-size: 1.6rem; }
+
+// main calendar
+#lr_cal {
+    display: none;
+    -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
+}
+#lr_cal.show { display: block; }
+
+// main #lr_dp transition animation
+#lr_cal div { transform: translateZ(0); }
+#lr_dp {
+    transition: transform .15s ease-in-out;
+    transform: translateZ(0); backface-visibility: hidden;
+    background: @color-brightest;
+}
+#lr_dp i, #lr_dp td { transform: translateZ(0); }
+
+@media (min-width: @width-main ){
+    #lr_cal { width: @width-main }
+    #lr_dp div { width:50%; display:inline-block; }
+}
+
+// small
+#lr_cal em, #lr_cal i { font-style:normal; }
+
+#lr_cal td, #lr_nav i, .lr_btn, #lr_dp table { cursor: pointer; }
+
+
+/*-----------------------------------------------------
+
+    HERO TITLE (TOP)
+
+-----------------------------------------------------*/
+
+#lr_fromTo {
+
+    background: @color-primary;
+    padding: 20px @padding-main;
+    color: @color-brightest;
+    position:relative;
+
+    .lr_dateBox {
+        width:50%;
+        display: inline-block;
+        text-align: center;
+        line-height:150%;
+    }
+
+    .off {
+        opacity: 0.5
+    }
+
+    .lr_head {
+        display: block;
+        font-weight:300;
+        color: lighten(@color-primary, 30%);
+        font-size: 1.3rem;
+    }
+
+    .lr_date, .lr_days {
+    	font-size: 1.6rem;
+    	font-weight: 300;
+    }
+
+    .lr_date {
+    	animation: fadeInOut 1s ease-in-out infinite;
+        backface-visibility: hidden;
+    }
+
+    .off .lr_date { animation: none; }
+    .active .lr_date { animation: none; }
+
+    // days counter
+    .lr_dateBox.days {
+        width: 120px;
+        position: absolute;
+        left:50%;
+        margin-left:-60px;
+        display: inline-block;
+    }
+
+    .days em {
+        padding: 0 5px;
+    }
+
+    .lr_dots {
+        font-size: 3.2rem;
+        color: rgba(255,255,255,0.7);
+        letter-spacing: 1px;
+        vertical-align: middle;
+    }
+
+}
+
+@keyframes fadeInOut {
+	0% { opacity:0; }
+	50% { opacity: 1; }
+	100% { opacity:0; }
+}
+
+
+/*-----------------------------------------------------
+
+    CALENDAR TABLE
+
+-----------------------------------------------------*/
+
+// lr_cals (container)
+
+// border
+#lr_cals:after { content:''; display:block; height:100%; background: @color-bright; position:absolute; left:50%; width:1px; margin-left:-1px; top:0; backface-visibility: hidden; }
+
+#lr_cals {
+    white-space: nowrap; overflow-x: hidden;
+    border: 1px solid @color-bright; border-top: 0;
+    position: relative;
+}
+
+// default table
+#lr_dp table {
+
+    border-collapse: collapse;
+    background: @color-brightest;
+    width:100%;
+
+    td, td i, th { font-weight:300; }
+
+    th {
+        color: @color-halfbright;
+        font-size: 1.2rem;
+        text-transform: uppercase;
+    }
+
+    th, td {
+        width: auto;
+        text-align: center;
+        vertical-align: middle;
+        padding: @td-padding;
+    }
+
+    th { padding: 10px 0 5px; }
+
+    td i {
+    	display:inline-block;
+    	width: 38px;
+    	height: 38px;
+    	line-height: 38px;
+    	border-radius:50%;
+    }
+
+}
+
+@media (min-width: @width-main ){
+    #lr_dp td:hover i { background-color: lighten(@color-bright, 7%); }
+}
+
+// disabled, not current month etc classes
+#lr_dp {
+    .nc { background: @color-brighter } // Not Current month
+
+    .nc.ld { } // Not Current month + disabled (past month)
+    .today { color: @color-primary; } // today
+
+    .ld { color: @color-halfbright } // Disabled
+    .ld i:before {
+        position: absolute;
+        content: "";
+        top: 50%;
+        width:50%;
+        right: 0;
+        left:0;
+        left: 50%;
+        margin-left:-25%;
+        border-top: 1px solid #f44336;
+        transform: rotate(-25deg);
+        backface-visibility: hidden;
+    }
+
+    @media (min-width: @width-main ){
+        .ld:hover i {  background: none; }
+    }
+}
+
+
+
+/*-----------------------------------------------------
+
+    MONTH TITLES + NAV
+
+-----------------------------------------------------*/
+
+// month title
+@line-height-title: 21px; // base value
+
+#lr_dp em {
+
+    padding: @padding-main;
+	display: block;
+	text-align: center;
+	text-transform: uppercase;
+	line-height: @line-height-title;
+	background: @color-brighter;
+	color: lighten(@color-text, 20%);
+    font-size: 1.4rem;
+
+    u {
+        font-weight: 300;
+    	color: lighten(@color-text, 40%);
+        text-decoration: none;
+    }
+
+}
+
+// nav
+#lr_nav {
+
+    position:absolute;
+    z-index: 1;
+	top: 0;
+	font-size: 5rem;
+	width: 100%;
+    vertical-align: top;
+
+    i {
+        padding: @padding-main; color: lighten(@color-text, 30%);
+        display: block;
+        width: 50%;
+        line-height: @line-height-title;
+        margin-top:-2px; /* ugly hack */
+    }
+
+    @media (min-width: @width-main ){
+        i:hover { color: @color-text; }
+    }
+
+    i.off { color: @color-bright; }
+    .prev { float:left; }
+    .next { float:right; text-align:right; }
+}
+
+
+/*-----------------------------------------------------
+
+    BUTTONS
+
+-----------------------------------------------------*/
+
+#lr_actions {
+    text-align: right;
+
+    .lr_btn {
+    	display: inline-block;
+    	position: relative;
+    	border:0;
+    	padding: 10px 15px;
+    	line-height: 200%;
+    	background: none;
+    	text-transform: uppercase;
+    	font-weight: 500;
+    	color: #03A9F4;
+    }
+
+}

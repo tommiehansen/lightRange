@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title># LightRange</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<!--<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1">-->
+<title># 5 LightRange</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, user-scalable=no">
-<link rel="stylesheet" href="https://cdn.rawgit.com/necolas/normalize.css/master/normalize.css" />
+<link rel="stylesheet" href="https://cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
 <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,700,100,100italic' rel='stylesheet' type='text/css'>
 <style>
 html {  font-size:62.5%; }
@@ -33,8 +32,8 @@ span { font-weight: 300; }
 	border-radius:3px;
 }
 #c, td { position:relative; }
-#cal p { text-align:center; color:#aaa; font-size:12px; padding-top: 40px; clear:both; line-height: 200%; }
-#cal p em { font-size:11px; font-style:normal; color:#bbb; display: block; margin:0; padding:0; }
+#lr_main p { text-align:center; color:#aaa; font-size:12px; padding-top: 40px; clear:both; line-height: 200%; }
+#lr_main p em { font-size:11px; font-style:normal; color:#bbb; display: block; margin:0; padding:0; }
 
 #color { position:absolute; right:60px; top:60px; width:120px; }
 #color i, #color em { font-style:normal; color:#aaa; font-size:12px; display:block; margin:0 0 5px; }
@@ -49,46 +48,6 @@ span { font-weight: 300; }
 <p class="sub">Responsive date range selection under 5kb</p>
 
 
-<!--
-	REQUIRED HTML
-	Instead of appending this on init
-	Also makes it easier to translate everything (serverside)
--->
-
-<div id="cal">
-
-	<div class="fromTo" id="fromTo">
-	
-		<div class="dateBox" id="dateFrom">
-			<i class="r_head">Departure</i>
-			<i class="r_date">Select a date</i>
-		</div><div class="dateBox days off" id="daysNum">
-			<i class="r_head">Days</i>
-			<i class="r_days"><span class="r_dots">&middot;&middot;&middot;&middot;</span><em>0</em><span class="r_dots">&middot;&middot;&middot;&middot;</span></i>
-		</div><div class="dateBox off" id="dateTo">
-			<i class="r_head">Return</i>
-			<i class="r_date">Select a date</i>
-		</div>		
-	
-	</div>
-	
-	<i class="clear" style="clear:both;"></i>
-	
-	<!-- the calendars -->
-	<div id="r_cals">
-		<div id="r_nav">
-			<i class="nav next" id="next">&rsaquo;</i>
-			<i class="nav prev off" id="prev">&lsaquo;</i>
-		</div>
-		<div id="dp"></div>
-	</div>
-	
-	
-	<div id="dactions">
-		<button class="dbtn red">Cancel</button><button class="dbtn green">Apply</button>
-	</div>
-	
-</div>
 
 
 <style>
@@ -104,64 +63,69 @@ form button { background:#03A9F4;color:#fff;border:0; margin-top:20px; width:aut
 	
 	<!--
 	FIELDS
-	value="Wednesday, 9 Dec 2016 &ndash; Friday 22 Dec 2016"
 	-->
 	
-	<div>
-	<input type="text" value="Stockholm (STO)">
-	</div>
-	<div>
-	<input type="text" value="Bangkok (BKK)">
-	</div>
+	<div><input type="text" value="New York (NYC)"></div>
+	<div><input type="text" value="Los Angeles (LAX)"></div>
 	
-	<div onclick="$(this).find('input').focus()">
-	<br>
+	<div>
+	<br style="clear:both">
+	
+	<!--
+	Datefield Element
+	monthsNum = <number of months>,<month offset>
+	-->
 	
 	<input
-		id="dateField"
+		id="lr_input"
 		type="text"
 		value=""
 		placeholder="Select Departure and Return dates"
 		data-days = "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday"
 		data-months = "January,February,March,April,May,June,Juli,August,September,October,November,December"
-		data-monthsNum = "12"
+		data-monthsNum = "50,0"
 		readonly="true"
 	>
 	</div>
 	
-	
-	<style>
-		#lightRange {
-			width:100%;
-			max-width:800px;
-			text-align: center;
-			padding:15px;
-			border: 1px solid #aaa;
-		}
-		#lightRange b i { font-weight: 600; }
-		#lightRange i { font-style: normal; }
-	</style>
-	
-	<input id="date1" type="hidden" value="2016-07-10">
-	<input id="date2" type="hidden" value="2016-07-17">
-	
+	<!-- hidden fields -->
+	<input id="lr_date1" type="hidden" value="2016-07-10">
+	<input id="lr_date2" type="hidden" value="2016-07-17">
 	
 	<button>Search</button>
 
 </form>
 
 <!--
-
-	INIT
-	1. Get data-text
-	2. Bind dateField to action
-
+	REQUIRED HTML MARKUP
+	Instead of appending this on init
+	Also makes it easier to translate everything (serverside)
 -->
+
+<div id="lr_main">
+	<!-- the calendars -->
+	<div id="lr_cals">
+		<div id="lr_nav">
+			<i class="nav next" id="next">&rsaquo;</i>
+			<i class="nav prev off" id="prev">&lsaquo;</i>
+		</div>
+		<div id="lr_dp"></div>
+	</div>
+	
+	<div id="lr_actions">
+		<button class="dbtn red">Cancel</button><button class="dbtn green">Apply</button>
+	</div>
+	
+</div>
+
+<!-- overlay -->
+<div id="lr_ovr"></div>
+
 
 
 
 </div><!-- /#c -->
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 <div id="scripts"></div>
 <script>
 	
@@ -181,6 +145,7 @@ form button { background:#03A9F4;color:#fff;border:0; margin-top:20px; width:aut
 			script.rel = 'stylesheet';
 			script.type = 'text/css';
 			script.id = 'css';
+			<!-- <link rel="stylesheet" href="https://cdn.rawgit.com/necolas/normalize.css/master/normalize.css" /> --></link>
 			script.href = uri;
 		}
 		
@@ -189,15 +154,21 @@ form button { background:#03A9F4;color:#fff;border:0; margin-top:20px; width:aut
 		if(type == 'js'){
 			script.onload = function(){
 				var dateInput = $('#dateField');	
-				rangeCal.init(dateInput);
+				//rangeCal.init(dateInput);
 			}
 		}
 		
 	}
 	
 	var sel = document.getElementById('scripts');
-	jsLoad(sel, 'test2.js', 'js');
-	jsLoad(sel, 'test2.css', 'css');
+	jsLoad(sel, 'test5.js', 'js');
+	jsLoad(sel, 'test5.css', 'css');
+	
+	
+	$(window).on('load', function(){
+		$('#dateField').trigger('click');
+	})
+	
 	
 	// <link href='test2.css' rel='stylesheet' type='text/css' id='css'>
 </script>

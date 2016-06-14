@@ -55,19 +55,19 @@ span { font-weight: 300; }
 	Also makes it easier to translate everything (serverside)
 -->
 
-<div id="cal">
+<div id="lr_cal">
 
-	<div class="fromTo" id="fromTo">
+	<div id="lr_fromTo">
 	
-		<div class="dateBox" id="dateFrom">
-			<i class="r_head">Departure</i>
-			<i class="r_date">Select a date</i>
-		</div><div class="dateBox days off" id="daysNum">
-			<i class="r_head">Days</i>
-			<i class="r_days"><span class="r_dots">&middot;&middot;&middot;&middot;</span><em>0</em><span class="r_dots">&middot;&middot;&middot;&middot;</span></i>
-		</div><div class="dateBox off" id="dateTo">
-			<i class="r_head">Return</i>
-			<i class="r_date">Select a date</i>
+		<div class="lr_dateBox" id="lr_dateFrom">
+			<i class="lr_head">Departure</i>
+			<i class="lr_date">Select a date</i>
+		</div><div class="lr_dateBox days off" id="lr_daysNum">
+			<i class="lr_head">Days</i>
+			<i class="lr_days"><span class="lr_dots">&middot;&middot;&middot;</span><em>0</em><span class="lr_dots">&middot;&middot;&middot;</span></i>
+		</div><div class="lr_dateBox off" id="lr_dateTo">
+			<i class="lr_head">Return</i>
+			<i class="lr_date">Select a date</i>
 		</div>		
 	
 	</div>
@@ -75,20 +75,21 @@ span { font-weight: 300; }
 	<i class="clear" style="clear:both;"></i>
 	
 	<!-- the calendars -->
-	<div id="r_cals">
-		<div id="r_nav">
+	<div id="lr_cals">
+		<div id="lr_nav">
 			<i class="nav next" id="next">&rsaquo;</i>
 			<i class="nav prev off" id="prev">&lsaquo;</i>
 		</div>
-		<div id="dp"></div>
+		<div id="lr_dp"></div>
 	</div>
 	
 	
-	<div id="dactions">
-		<button class="dbtn red">Cancel</button><button class="dbtn green">Apply</button>
+	<div id="lr_actions">
+		<button class="lr_btn red">Cancel</button><button class="lr_btn green">Apply</button>
 	</div>
 	
 </div>
+<div id="lr_ovr"></div>
 
 
 <style>
@@ -118,29 +119,16 @@ form button { background:#03A9F4;color:#fff;border:0; margin-top:20px; width:aut
 	<br>
 	
 	<input
-		id="dateField"
+		id="lr_input"
 		type="text"
 		value=""
 		placeholder="Select Departure and Return dates"
 		data-days = "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday"
 		data-months = "January,February,March,April,May,June,Juli,August,September,October,November,December"
-		data-monthsNum = "12"
+		data-monthsNum = "12,0"
 		readonly="true"
 	>
 	</div>
-	
-	
-	<style>
-		#lightRange {
-			width:100%;
-			max-width:800px;
-			text-align: center;
-			padding:15px;
-			border: 1px solid #aaa;
-		}
-		#lightRange b i { font-weight: 600; }
-		#lightRange i { font-style: normal; }
-	</style>
 	
 	<input id="date1" type="hidden" value="2016-07-10">
 	<input id="date2" type="hidden" value="2016-07-17">
@@ -187,17 +175,16 @@ form button { background:#03A9F4;color:#fff;border:0; margin-top:20px; width:aut
 		sel.appendChild(script);
 			
 		if(type == 'js'){
-			script.onload = function(){
-				var dateInput = $('#dateField');	
-				rangeCal.init(dateInput);
+			script.onload = function(){	
+				lightRange.init();
 			}
 		}
 		
 	}
 	
 	var sel = document.getElementById('scripts');
-	jsLoad(sel, 'test2.js', 'js');
-	jsLoad(sel, 'test2.css', 'css');
+	jsLoad(sel, 'test2.2.js', 'js');
+	jsLoad(sel, 'test2.2.css', 'css');
 	
 	// <link href='test2.css' rel='stylesheet' type='text/css' id='css'>
 </script>
