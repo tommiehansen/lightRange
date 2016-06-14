@@ -1,4 +1,34 @@
-@import 'colors';
+/*-----------------------------------------------------
+
+    COLORS
+
+-----------------------------------------------------*/
+
+
+@import 'material.less';
+
+// Primary colors
+//@color-primary: @blue-500;
+//@color-primary: @amber-700;
+//@color-primary: @indigo-400;
+//@color-primary: @cyan-400;
+@color-primary: @red-600;
+//@color-primary: @light-blue-500;
+@color-secondary: @pink-400;
+@color-text: @grey-800;
+
+// others
+@color-halfbright: @grey-500;
+@color-bright: @grey-400;
+@color-bright-c: @grey-300;
+@color-bright-d: @grey-200;
+@color-bright-fa: @grey-100;
+@color-bright-fe: lighten(@grey-50, 2%);
+@color-brightest: #fff;
+
+// calc based colors *
+@color-light: lighten(@color-primary, 40%);
+
 
 /*-----------------------------------------------------
 
@@ -13,9 +43,9 @@
 @td-padding: 3px 0;
 
 // border box
-#lr_cal *, #lr_cal *:before, #lr_cal *:after { box-sizing: border-box;  }
+#lr_cal, #lr_cal *, #lr_cal *:before, #lr_cal *:after { box-sizing: border-box;  }
 
-// font sizes
+// font sizes (base)
 #lr_cal { font-size: @font-size-base; }
 #lr_fromTo, #lr_cals, #lr_actions { font-size: @font-size; color: @color-text; }
 #lr_dp div { font-size: 1.6rem; }
@@ -28,13 +58,14 @@
 #lr_cal.show { display: block; }
 
 // main #lr_dp transition animation
-#lr_cal div { transform: translateZ(0); }
 #lr_dp {
     transition: transform .15s ease-in-out;
-    transform: translateZ(0); backface-visibility: hidden;
     background: @color-brightest;
+    transform: translateX(0);
+    backface-visibility: hidden;
 }
-#lr_dp i, #lr_dp td { transform: translateZ(0); }
+
+//#lr_cals, #lr_dp, #lr_nav, #lr_fromTo { backface-visibility: hidden; trasnform: translate3d(0,0,0); }
 
 @media (min-width: @width-main ){
     #lr_cal { width: @width-main }
@@ -58,13 +89,12 @@
     background: @color-primary;
     padding: 20px @padding-main;
     color: @color-brightest;
-    position:relative;
 
     .lr_dateBox {
         width:50%;
         display: inline-block;
         text-align: center;
-        line-height:150%;
+        line-height: 150%;
     }
 
     .off {
@@ -84,8 +114,9 @@
     }
 
     .lr_date {
-    	animation: fadeInOut 1s ease-in-out infinite;
+    	animation: text_fadeInOut 1s ease-in-out infinite;
         backface-visibility: hidden;
+        transform: translateZ(0);
     }
 
     .off .lr_date { animation: none; }
@@ -93,10 +124,10 @@
 
     // days counter
     .lr_dateBox.days {
-        width: 120px;
         position: absolute;
         left:50%;
-        margin-left:-60px;
+        width: 100px;
+        margin-left:-50px;
         display: inline-block;
     }
 
@@ -106,18 +137,19 @@
 
     .lr_dots {
         font-size: 3.2rem;
-        color: rgba(255,255,255,0.7);
         letter-spacing: 1px;
         vertical-align: middle;
     }
 
 }
 
-@keyframes fadeInOut {
-	0% { opacity:0; }
-	50% { opacity: 1; }
-	100% { opacity:0; }
+@keyframes text_fadeInOut {
+    0% { color: inherit; }
+    50% { color: @color-primary; }
 }
+
+// should use opacity, but causes lag for unknown reasons
+// @keyframes text_fadeInOut { 0% { opacity: 1 } 50% { opacity: 0 } }
 
 
 /*-----------------------------------------------------
@@ -126,14 +158,26 @@
 
 -----------------------------------------------------*/
 
-// lr_cals (container)
+// checkered table
+/*
+#lr_dp { td, th {
+        border:1px dotted @color-bright-d;
+        &:last-child { border-right:0; }
+        &:first-child { border-left:0; }
+    }
+}
+*/
 
+// lr_cals (container)
 // border
-#lr_cals:after { content:''; display:block; height:100%; background: @color-bright; position:absolute; left:50%; width:1px; margin-left:-1px; top:0; backface-visibility: hidden; }
+#lr_cals:after {
+    content:''; display:block; height:100%; background: @color-bright-d; position:absolute; left:50%; width:1px; margin-left:-1px; top:0;
+    transform: translateZ(0);
+}
 
 #lr_cals {
     white-space: nowrap; overflow-x: hidden;
-    border: 1px solid @color-bright; border-top: 0;
+    border: 1px solid @color-bright-d; border-top: 0;
     position: relative;
 }
 
@@ -172,18 +216,39 @@
 }
 
 @media (min-width: @width-main ){
-    #lr_dp td:hover i { background-color: lighten(@color-bright, 7%); }
+    #lr_dp td:hover i {
+        //background-color: @color-bright-d;
+        background-color: @color-light;
+    }
+
+    #lr_dp td.ld:hover i {
+        color: inherit;
+    }
 }
 
 // disabled, not current month etc classes
 #lr_dp {
-    .nc { background: @color-brighter } // Not Current month
+    .nc { color: @color-halfbright; } // Not Current month
+    .nc.ld {} // Not Current month + disabled (past month)
+    .today { position: relative; }
+    .today {
+        color: @color-primary;
+        position: relative;
+        &:before {
+            position:absolute;
+            display: block;
+            width:100%;
+            content: '\00B7'; // unicode dot
+            font-size:5rem;
+            line-height:0;
+            bottom: 20%;
+            left:0;
+            color: @color-primary;
+        }
+    } // today
 
-    .nc.ld { } // Not Current month + disabled (past month)
-    .today { color: @color-primary; } // today
-
-    .ld { color: @color-halfbright } // Disabled
-    .ld i:before {
+    .ld { color: @color-halfbright; cursor: default; } // Disabled
+    .ld i:before { // strike-through
         position: absolute;
         content: "";
         top: 50%;
@@ -192,7 +257,7 @@
         left:0;
         left: 50%;
         margin-left:-25%;
-        border-top: 1px solid #f44336;
+        border-top: 1px solid @color-bright;
         transform: rotate(-25deg);
         backface-visibility: hidden;
     }
@@ -200,6 +265,10 @@
     @media (min-width: @width-main ){
         .ld:hover i {  background: none; }
     }
+
+    // colorize 6th + 7th item
+    // td,th { &:nth-child(7n) i , &:nth-child(6n) i { color: @color-secondary } }
+
 }
 
 
@@ -220,7 +289,7 @@
 	text-align: center;
 	text-transform: uppercase;
 	line-height: @line-height-title;
-	background: @color-brighter;
+	background: @color-bright-fa;
 	color: lighten(@color-text, 20%);
     font-size: 1.4rem;
 
@@ -273,12 +342,23 @@
     	display: inline-block;
     	position: relative;
     	border:0;
-    	padding: 10px 15px;
+        padding: @padding-main;
     	line-height: 200%;
     	background: none;
     	text-transform: uppercase;
     	font-weight: 500;
-    	color: #03A9F4;
+    	color: @color-primary;
     }
 
 }
+
+
+
+
+
+/* MISC STUFF */
+
+/* dev; toggle animation of lr_dp elem
+#lr_dp { animation: dev 5s ease-in-out infinite; }
+@keyframes dev { 0% { transform: translateX(0); } 50% { transform: translateX(-500%); } }
+*/

@@ -82,7 +82,7 @@ _#r_dp div { backface-visibility:hidden;  }
 <div id="r_dp"></div>
 
 
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script>
 
 // helpers
@@ -122,7 +122,7 @@ function isTouch() { return 'ontouchstart' in window || navigator.maxTouchPoints
 
 	
 	
-	/* rangeCal */
+	/* rangeCal namespace */
 	var rangeCal = {
 		
 		
@@ -160,7 +160,8 @@ function isTouch() { return 'ontouchstart' in window || navigator.maxTouchPoints
 				for(i; i < 42; i++) {
 					day = {};
 					if(i < startDay) {
-						day.date = prevMonthDays = prevMonthDays + 1; 	// prev months days
+						// prev months days
+						day.date = prevMonthDays = prevMonthDays + 1;
 					}
 					else if(i > totalDays + (startDay - 1)) {
 						// days after current month
@@ -168,7 +169,8 @@ function isTouch() { return 'ontouchstart' in window || navigator.maxTouchPoints
 						if (!nextMonthStart) nextMonthStart = i
 					}
 					else {
-						day.date = i - startDay + 1; // regular in-month days
+						// regular in-month days
+						day.date = i - startDay + 1;
 					}
 					
 					days[days.length] = day.date
@@ -241,25 +243,17 @@ function isTouch() { return 'ontouchstart' in window || navigator.maxTouchPoints
 				// add html to string
 				out += rangeCal.getMonth(month, year, monthLong, dayShort, dayString);
 				
-				// pre-push 2 first months
+				// Pre-push 2 first months
 				if( totalNum-monthNum === 2 ){
-					var perfStart = performance.now(); // Begin perf measure
 					r_dp.insertAdjacentHTML('beforeend', out);
-					out=''; // reset string
-					var perfEnd = performance.now();
-					console.log('getMonth perf @ 2 months: ' + Math.round((perfEnd-perfStart)*100, 2)/100 + 'ms');
+					out=''; // reset
 				}
 				
 			} // end while-loop
 			
 
 			// insert rest of the months, use setTimeout to push to last in que (and to pre-render 2x first)
-			setTimeout(function(){
-				var perfStart = performance.now(); // Begin perf measure
-				r_dp.insertAdjacentHTML('beforeend', out);
-				var perfEnd = performance.now();
-				console.log('getMonth perf @ rest of months: ' + Math.round((perfEnd-perfStart)*100, 2)/100 + 'ms');
-			}, 4); // 4ms = min (else ignored in some browsers)
+			setTimeout(function(){ r_dp.insertAdjacentHTML('beforeend', out); }, 4); // 4ms = min (else ignored in some browsers)
 		
 		},
 		
@@ -310,6 +304,11 @@ function isTouch() { return 'ontouchstart' in window || navigator.maxTouchPoints
 	
 	// initialize on function ready
 	rangeCal.binds();
+
+
+
+
+
 
 
 

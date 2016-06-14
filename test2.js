@@ -361,33 +361,24 @@ var rangeCal = {
 		/* first selection does not exist */	
 		if( sel1 === null ){
 			
-			// prevent selecting disabled dates
-			if( !e.classList.contains('disabled') ){
+			e.id = 'sel1';
+			sel1 = e;
+			sel1.classList.add('sel1');
 			
-				e.id = 'sel1';
-				sel1 = e;
-				sel1.classList.add('sel1');
-				
-				// set date #1
-				this.set( sel1.getAttribute('data-date') );
-				
-				// mark all previous as disabled
-				// stupid since previous isn't/shouldn't be'disabled'
-				// but can be selected if un-selecting previous
-				/*
-				var td = main.querySelectorAll('tbody td'),
-					i=0, s1i = 9999;
-					
-				_for(td, function(e){
-					i++;
-					if( e.id == 'sel1' ) { s1i = i; }
-					if(i < s1i){ e.classList.add('disabled'); }
-				})
-				*/
-				
-				//console.log( e.index );
+			// set date #1
+			this.set( sel1.getAttribute('data-date') );
 			
-			}
+			// mark all previous as disabled			
+			var td = main.querySelectorAll('tbody td'),
+				i=0, s1i = 9999;
+				
+			_for(td, function(e){
+				i++;
+				if( e.id == 'sel1' ) { s1i = i; }
+				if(i < s1i){ e.classList.add('disabled'); }
+			})
+			
+			//console.log( e.index );
 			
 		} // end first selection exist
 		
@@ -445,7 +436,7 @@ var rangeCal = {
 			this.set('reset');
 			
 			_for( allTD, function(e) {
-				e.classList.remove('range');
+				e.classList.remove('range', 'disabled');
 			});
 			
 			sel1.classList.remove('sel1');
@@ -543,7 +534,7 @@ var rangeCal = {
 	*/
 	getMonths: function(monthsNum){
 		
-		// DEV: START TIME FOR RENDER CALENDAR
+		// DEV: STAR TIME FOR RENDER CALENDAR
 		//var perfStart = performance.now();
 		
 		var now = new Date(),
@@ -631,21 +622,7 @@ var rangeCal = {
 							
 						}
 						
-						// check if month is the current month
-						else if( now.getMonth()+1 == month ){
-							
-							// is date under current date? add disabled class
-							if( days[key] < now.getDate() ){
-								out += '<td class="disabled" data-date="'+ curDate +'"><i>'+days[key]+'</i></td>';
-							}
-							
-							else {
-								out += '<td data-date="'+ curDate +'"><i>'+days[key]+'</i></td>';
-							}
-							
-						}
-						
-						// the rest
+						// the rest, current month
 						else {
 							out += '<td data-date="'+ curDate +'"><i>'+days[key]+'</i></td>';
 						}

@@ -553,6 +553,8 @@ var rangeCal = {
 
 	-----------------------------------------------------*/
 	
+	/*
+	
 	
 	
 	$(document).on('keydown', function(e){
@@ -580,7 +582,7 @@ var rangeCal = {
    
    // MOUSE WHEEL NAV
    
-    // Important options
+    // Important option
     // timer delay in ms, higher = better perf but less responsive ui
     var menuTimer = 30,
 		timerId,
@@ -629,3 +631,6 @@ var rangeCal = {
 		event.preventDefault();
 	 
 	});
+	
+	*/
+

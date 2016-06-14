@@ -32,8 +32,8 @@ span { font-weight: 300; }
 	border-radius:3px;
 }
 #c, td { position:relative; }
-#lr_main p { text-align:center; color:#aaa; font-size:12px; padding-top: 40px; clear:both; line-height: 200%; }
-#lr_main p em { font-size:11px; font-style:normal; color:#bbb; display: block; margin:0; padding:0; }
+#cal p { text-align:center; color:#aaa; font-size:12px; padding-top: 40px; clear:both; line-height: 200%; }
+#cal p em { font-size:11px; font-style:normal; color:#bbb; display: block; margin:0; padding:0; }
 
 #color { position:absolute; right:60px; top:60px; width:120px; }
 #color i, #color em { font-style:normal; color:#aaa; font-size:12px; display:block; margin:0 0 5px; }
@@ -48,6 +48,30 @@ span { font-weight: 300; }
 <p class="sub">Responsive date range selection under 5kb</p>
 
 
+<!--
+	REQUIRED HTML
+	Instead of appending this on init
+	Also makes it easier to translate everything (serverside)
+-->
+
+<div id="cal">
+	
+	<!-- the calendars -->
+	<div id="r_cals">
+		<div id="r_nav">
+			<i class="nav next" id="next">&rsaquo;</i>
+			<i class="nav prev off" id="prev">&lsaquo;</i>
+		</div>
+		<div id="r_dp"></div>
+	</div>
+	
+	<div id="r_actions">
+		<i class="navTip" style="float:left;padding-top:15px;font-style:italic;font-size:14px;color:#aaa;">Tip: Use <b>scroll wheel</b> or <b>keyboard arrows</b> to navigate</i>
+		<button class="dbtn red">Cancel</button><button class="dbtn green">Apply</button>
+	</div>
+	
+</div>
+<div id="r_ovr"></div><!-- overlay -->
 
 
 <style>
@@ -65,11 +89,15 @@ form button { background:#03A9F4;color:#fff;border:0; margin-top:20px; width:aut
 	FIELDS
 	-->
 	
-	<div><input type="text" value="New York (NYC)"></div>
-	<div><input type="text" value="Los Angeles (LAX)"></div>
-	
 	<div>
-	<br style="clear:both">
+	<input type="text" value="Stockholm (STO)">
+	</div>
+	<div>
+	<input type="text" value="Bangkok (BKK)">
+	</div>
+	
+	<div onclick="$(this).find('input').focus()">
+	<br>
 	
 	<!--
 	Datefield Element
@@ -77,7 +105,7 @@ form button { background:#03A9F4;color:#fff;border:0; margin-top:20px; width:aut
 	-->
 	
 	<input
-		id="lr_input"
+		id="r_dpi"
 		type="text"
 		value=""
 		placeholder="Select Departure and Return dates"
@@ -88,44 +116,38 @@ form button { background:#03A9F4;color:#fff;border:0; margin-top:20px; width:aut
 	>
 	</div>
 	
-	<!-- hidden fields -->
-	<input id="lr_date1" type="hidden" value="2016-07-10">
-	<input id="lr_date2" type="hidden" value="2016-07-17">
+	
+	<style>
+		#lightRange {
+			width:100%;
+			max-width:800px;
+			text-align: center;
+			padding:15px;
+			border: 1px solid #aaa;
+		}
+		#lightRange b i { font-weight: 600; }
+		#lightRange i { font-style: normal; }
+	</style>
+	
+	<input id="date1" type="hidden" value="2016-07-10">
+	<input id="date2" type="hidden" value="2016-07-17">
 	
 	<button>Search</button>
 
 </form>
 
 <!--
-	REQUIRED HTML MARKUP
-	Instead of appending this on init
-	Also makes it easier to translate everything (serverside)
+
+	INIT
+	1. Get data-text
+	2. Bind dateField to action
+
 -->
-
-<div id="lr_main">
-	<!-- the calendars -->
-	<div id="lr_cals">
-		<div id="lr_nav">
-			<i class="nav next" id="next">&rsaquo;</i>
-			<i class="nav prev off" id="prev">&lsaquo;</i>
-		</div>
-		<div id="lr_dp"></div>
-	</div>
-	
-	<div id="lr_actions">
-		<button class="dbtn red">Cancel</button><button class="dbtn green">Apply</button>
-	</div>
-	
-</div>
-
-<!-- overlay -->
-<div id="lr_ovr"></div>
-
 
 
 
 </div><!-- /#c -->
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <div id="scripts"></div>
 <script>
 	
