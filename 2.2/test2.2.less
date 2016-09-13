@@ -12,9 +12,15 @@
 //@color-primary: @amber-700;
 //@color-primary: @indigo-400;
 //@color-primary: @cyan-400;
+<<<<<<< HEAD
 //@color-primary: @red-600;
 @color-primary: @light-blue-400;
 @color-secondary: @indigo-400;
+=======
+@color-primary: @red-600;
+//@color-primary: @light-blue-500;
+@color-secondary: @pink-400;
+>>>>>>> origin/master
 @color-text: @grey-800;
 
 // others
@@ -28,8 +34,11 @@
 
 // calc based colors *
 @color-light: lighten(@color-primary, 40%);
+<<<<<<< HEAD
 @color-lighter: lighten(@color-primary, 45%);
 
+=======
+>>>>>>> origin/master
 
 
 /*-----------------------------------------------------
@@ -38,12 +47,20 @@
 
 -----------------------------------------------------*/
 
+<<<<<<< HEAD
 //@width-main: 600px; // desktops, else 100%
 @width-main: 600px;
 @padding-main: 15px;
 @font-size-base: 10px; // base font size
 @font-size: 1.4rem;
 @td-padding: 2px;
+=======
+@width-main: 640px; // desktops, else 100%
+@padding-main: 15px;
+@font-size-base: 10px; // base font size
+@font-size: 1.5rem;
+@td-padding: 3px 0;
+>>>>>>> origin/master
 
 // border box
 #lr_cal, #lr_cal *, #lr_cal *:before, #lr_cal *:after { box-sizing: border-box;  }
@@ -51,7 +68,11 @@
 // font sizes (base)
 #lr_cal { font-size: @font-size-base; }
 #lr_fromTo, #lr_cals, #lr_actions { font-size: @font-size; color: @color-text; }
+<<<<<<< HEAD
 #lr_dp div { font-size: @font-size; }
+=======
+#lr_dp div { font-size: 1.6rem; }
+>>>>>>> origin/master
 
 // main calendar
 #lr_cal {
@@ -90,7 +111,11 @@
 #lr_fromTo {
 
     background: @color-primary;
+<<<<<<< HEAD
     padding: @padding-main 0;
+=======
+    padding: 20px @padding-main;
+>>>>>>> origin/master
     color: @color-brightest;
 
     .lr_dateBox {
@@ -100,7 +125,25 @@
         line-height: 150%;
     }
 
+<<<<<<< HEAD
     .off { opacity: 0.5 }
+=======
+    .off {
+        opacity: 0.5
+    }
+
+    .lr_head {
+        display: block;
+        font-weight:300;
+        color: lighten(@color-primary, 30%);
+        font-size: 1.3rem;
+    }
+
+    .lr_date, .lr_days {
+    	font-size: 1.6rem;
+    	font-weight: 300;
+    }
+>>>>>>> origin/master
 
     .lr_date {
     	animation: text_fadeInOut 1s ease-in-out infinite;
@@ -111,6 +154,28 @@
     .off .lr_date { animation: none; }
     .active .lr_date { animation: none; }
 
+<<<<<<< HEAD
+=======
+    // days counter
+    .lr_dateBox.days {
+        position: absolute;
+        left:50%;
+        width: 100px;
+        margin-left:-50px;
+        display: inline-block;
+    }
+
+    .days em {
+        padding: 0 5px;
+    }
+
+    .lr_dots {
+        font-size: 3.2rem;
+        letter-spacing: 1px;
+        vertical-align: middle;
+    }
+
+>>>>>>> origin/master
 }
 
 @keyframes text_fadeInOut {
@@ -118,6 +183,12 @@
     50% { color: @color-primary; }
 }
 
+<<<<<<< HEAD
+=======
+// should use opacity, but causes lag for unknown reasons
+// @keyframes text_fadeInOut { 0% { opacity: 1 } 50% { opacity: 0 } }
+
+>>>>>>> origin/master
 
 /*-----------------------------------------------------
 
@@ -152,10 +223,18 @@
 #lr_dp table {
 
     border-collapse: collapse;
+<<<<<<< HEAD
     table-layout: fixed;
     background: @color-brightest;
     width:100%;
 
+=======
+    background: @color-brightest;
+    width:100%;
+
+    td, td i, th { font-weight:300; }
+
+>>>>>>> origin/master
     th {
         color: @color-halfbright;
         font-size: 1.2rem;
@@ -173,6 +252,7 @@
 
     td i {
     	display:inline-block;
+<<<<<<< HEAD
         @wi: 35px;
     	width: @wi;
     	height: @wi;
@@ -203,6 +283,14 @@
     0% { transform: none; }
     10% { transform: scale(0.8); }
     100% { transform: none; }
+=======
+    	width: 38px;
+    	height: 38px;
+    	line-height: 38px;
+    	border-radius:50%;
+    }
+
+>>>>>>> origin/master
 }
 
 @media (min-width: @width-main ){
@@ -211,8 +299,11 @@
         background-color: @color-light;
     }
 
+<<<<<<< HEAD
     #lr_dp .nc i { display: none; }
 
+=======
+>>>>>>> origin/master
     #lr_dp td.ld:hover i {
         color: inherit;
     }
@@ -286,7 +377,11 @@
     font-size: 1.4rem;
 
     u {
+<<<<<<< HEAD
         font-weight: 400;
+=======
+        font-weight: 300;
+>>>>>>> origin/master
     	color: lighten(@color-text, 40%);
         text-decoration: none;
     }
@@ -338,7 +433,11 @@
     	line-height: 200%;
     	background: none;
     	text-transform: uppercase;
+<<<<<<< HEAD
     	font-weight: 600;
+=======
+    	font-weight: 500;
+>>>>>>> origin/master
     	color: @color-primary;
     }
 
