@@ -68,8 +68,6 @@
     backface-visibility: hidden;
 }
 
-//#lr_cals, #lr_dp, #lr_nav, #lr_fromTo { backface-visibility: hidden; trasnform: translate3d(0,0,0); }
-
 @media (min-width: @width-main ){
     #lr_cal { width: @width-main }
     #lr_dp div { width:50%; display:inline-block; }
@@ -79,44 +77,6 @@
 #lr_cal em, #lr_cal i { font-style:normal; }
 
 #lr_cal td, #lr_nav i, .lr_btn, #lr_dp table { cursor: pointer; }
-
-
-/*-----------------------------------------------------
-
-    HERO TITLE (TOP)
-
------------------------------------------------------*/
-
-#lr_fromTo {
-
-    background: @color-primary;
-    padding: @padding-main 0;
-    color: @color-brightest;
-
-    .lr_dateBox {
-        width:50%;
-        display: inline-block;
-        text-align: center;
-        line-height: 150%;
-    }
-
-    .off { opacity: 0.5 }
-
-    .lr_date {
-    	animation: text_fadeInOut 1s ease-in-out infinite;
-        backface-visibility: hidden;
-        transform: translateZ(0);
-    }
-
-    .off .lr_date { animation: none; }
-    .active .lr_date { animation: none; }
-
-}
-
-@keyframes text_fadeInOut {
-    0% { color: inherit; }
-    50% { color: @color-primary; }
-}
 
 
 /*-----------------------------------------------------
@@ -136,9 +96,10 @@
 */
 
 // lr_cals (container)
+
 // border
 #lr_cals:after {
-    content:''; display:block; height:100%; background: @color-bright-d; position:absolute; left:50%; width:1px; margin-left:-1px; top:0;
+    content:''; display:block; height:100%; background: rgba(0,0,0,0.05); position:absolute; left:50%; width:1px; margin-left:-1px; top:0;
     transform: translateZ(0);
 }
 
@@ -186,7 +147,6 @@
 
     // selected + in-range items
     .range i {
-        //background: @color-lighter;
         background: lighten(@color-primary, 37%);
     }
     .sel1 i {
@@ -259,7 +219,7 @@
     }
 
     // colorize 6th + 7th item
-    // td,th { &:nth-child(7n) i , &:nth-child(6n) i { color: @color-secondary } }
+    //td,th { &:nth-child(7n) i , &:nth-child(6n) i { color: @color-secondary } }
 
 }
 
@@ -281,13 +241,14 @@
 	text-align: center;
 	text-transform: uppercase;
 	line-height: @line-height-title;
-	background: @color-bright-fa;
-	color: lighten(@color-text, 20%);
-    font-size: 1.4rem;
+	background: @color-primary;
+	color: #fff;
+    font-size: 1.3rem;
+    letter-spacing: .5px;
 
     u {
         font-weight: 400;
-    	color: lighten(@color-text, 40%);
+    	color: rgba(255,255,255,0.8);
         text-decoration: none;
     }
 
@@ -304,7 +265,8 @@
     vertical-align: top;
 
     i {
-        padding: @padding-main; color: lighten(@color-text, 30%);
+        padding: @padding-main;
+        color: rgba(255,255,255,0.8);
         display: block;
         width: 50%;
         line-height: @line-height-title;
@@ -312,10 +274,10 @@
     }
 
     @media (min-width: @width-main ){
-        i:hover { color: @color-text; }
+        i:hover { color: #fff }
     }
 
-    i.off { color: @color-bright; }
+    i.off { color: rgba(255,255,255,0.5); cursor: default; }
     .prev { float:left; }
     .next { float:right; text-align:right; }
 }

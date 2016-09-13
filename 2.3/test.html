@@ -57,14 +57,6 @@ span { font-weight: 300; }
 
 <div id="lr_cal">
 
-	<div id="lr_fromTo">
-		<div class="lr_dateBox" id="lr_dateFrom" data-initial="Select departure date">
-			<i class="lr_date">Select departure date</i>
-		</div><div class="lr_dateBox off" id="lr_dateTo" data-initial="Select return date">
-			<i class="lr_date">Select return date</i></i>
-		</div>
-	</div>
-
 	<!-- the calendars -->
 	<div id="lr_cals">
 		<div id="lr_nav">
@@ -96,43 +88,26 @@ form button { background:#03A9F4;color:#fff;border:0; margin-top:20px; width:aut
 	value="Wednesday, 9 Dec 2016 &ndash; Friday 22 Dec 2016"
 	-->
 
-	<div>
-	<input type="text" value="Stockholm (STO)">
-	</div>
-	<div>
-	<input type="text" value="Bangkok (BKK)">
-	</div>
-
-	<div onclick="$(this).find('input').focus()">
-	<br>
-
 	<input
 		id="lr_input"
 		type="text"
 		value=""
 		placeholder="Select Departure and Return dates"
-		data-days = "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday"
-		data-months = "January,February,March,April,May,June,Juli,August,September,October,November,December"
+		data-days="Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday"
+		data-months="January,February,March,April,May,June,Juli,August,September,October,November,December"
 		data-monthsNum = "14,0"
 		readonly="true"
 	>
-	</div>
 
-	<input id="date1" type="hidden" value="2016-07-10">
-	<input id="date2" type="hidden" value="2016-07-17">
+	<!-- hidden system inputs -->
+	<br><br>
+	<input id="date1" type="" value="2016-10-24">
+	<input id="date2" type="" value="2016-10-30">
 
 
 	<button>Search</button>
 
 </form>
-
-<!--
-
-	INIT
-	1. Get data-text
-	2. Bind dateField to action
-
--->
 
 
 
