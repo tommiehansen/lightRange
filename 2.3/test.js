@@ -250,9 +250,13 @@ var lightRange = {
 	set: function(date, fromTo){
 
 		var cur,
+<<<<<<< HEAD
 			str = '',
 			to = _id('lr_dateTo'),
 			from = _id('lr_dateFrom');
+=======
+			str = '';
+>>>>>>> origin/master
 
 		if(date !== 'reset'){
 
@@ -261,6 +265,7 @@ var lightRange = {
 			// BASE DATE + VARs
 			var date = new Date(date); // create date from user selected date
 
+<<<<<<< HEAD
 			var y = date.getFullYear().toString(),
 				m = date.getMonth(),
 				d = date.getDate().toString(),
@@ -317,6 +322,26 @@ var lightRange = {
 			from.classList.remove('active'); // Fix: Combine with above?
 
 			to.querySelector('.lr_date').innerText = str;
+=======
+			// Create format friendly date (year, month, day)
+			var str = {
+				'year': date.getFullYear(),
+				'month': date.getMonth()+1,
+				'day': date.getDate()
+			};
+
+
+			// set dates to input
+			var attr = 'data-date' + fromTo;
+			main.setAttribute(attr, JSON.stringify(str));
+
+		} // end if( date !== 'reset' )
+
+		// RESET
+		else {
+			main.removeAttribute('data-datefrom');
+			main.removeAttribute('data-dateto');
+>>>>>>> origin/master
 		}
 
 	}, // end set()
@@ -460,11 +485,16 @@ var lightRange = {
 
 			// pre-push 2 first months
 			if( totalNum-monthNum === 2 ){
+<<<<<<< HEAD
 				var perfStart = performance.now(); // Begin perf measure
 				dp.insertAdjacentHTML('beforeend', out);
 				out=''; // reset string
 				var perfEnd = performance.now();
 				//console.log('getMonth perf @ 2 months: ' + Math.round((perfEnd-perfStart)*100, 2)/100 + 'ms');
+=======
+				dp.insertAdjacentHTML('beforeend', out);
+				out=''; // reset string
+>>>>>>> origin/master
 			}
 
 		} // end while-loop
@@ -474,10 +504,14 @@ var lightRange = {
 
 		// insert rest of the months, use setTimeout to push to last in que (and to pre-render 2x first)
 		setTimeout(function(){
+<<<<<<< HEAD
 			var perfStart = performance.now(); // Begin perf measure
 			dp.insertAdjacentHTML('beforeend', out);
 			var perfEnd = performance.now();
 			//console.log('getMonth perf @ rest of months: ' + Math.round((perfEnd-perfStart)*100, 2)/100 + 'ms');
+=======
+			dp.insertAdjacentHTML('beforeend', out);
+>>>>>>> origin/master
 
 			// create array with all td's for later use
 			allTD = main.getElementsByTagName('td');
@@ -491,6 +525,7 @@ var lightRange = {
 		APPLY
 	*/
 
+<<<<<<< HEAD
 	apply: function(){
 		var from = _id('lr_dateFrom'),
 			to = _id('lr_dateTo'),
@@ -503,6 +538,29 @@ var lightRange = {
 		input.value = fromNice + ' - ' + toNice;
 
 		// set system dates
+=======
+	/*
+		# APPLY + format date(s)
+	*/
+	apply: function(){
+
+		var from = main.getAttribute('data-datefrom'), // yyyy-m-d
+			to = main.getAttribute('data-dateto');
+
+			from = JSON.parse(from);
+			to = JSON.parse(to);
+
+		// set visual 'nice' date
+		var fromNice = from.day + ' ' + monthShort[from.month];
+		var toNice = to.day + ' ' + monthShort[to.month];
+		input.value = fromNice + ' - ' + toNice;
+
+		// set system dates
+		var fromSys = from.year + '-' + from.month + '-' + from.day,
+			toSys = to.year + '-' + to.month + '-' + to.day;
+
+
+>>>>>>> origin/master
 		_id('date1').value = fromSys;
 		_id('date2').value = toSys;
 	},
@@ -536,7 +594,11 @@ var lightRange = {
 		allTD;					// all the td's in the table
 
 		// set short names; dayShort + monthShort
+<<<<<<< HEAD
 		for(var i=0;i<7;i++){ dayShort[i] = dayLong[i].substr(0,3); } // set dayShort array based on dayLong
+=======
+		for(var i=0;i<7;i++){ dayShort[i] = dayLong[i].substr(0,2); } // set dayShort array based on dayLong
+>>>>>>> origin/master
 		for(var i=0;i<12;i++){ monthShort[i] = monthLong[i].substr(0,3); } // set monthShort based on monthLong
 
 
@@ -588,6 +650,20 @@ var lightRange = {
 
 
 
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> origin/master
 /*-----------------------------------------------------
 
 	# KEYBOARD NAV ADDON
@@ -621,6 +697,11 @@ $(document).on('keydown', function(e){
 
 -----------------------------------------------------*/
 
+<<<<<<< HEAD
+=======
+/*
+
+>>>>>>> origin/master
  // Important option
  // timer delay in ms, higher = better perf but less responsive ui
  var menuTimer = 30,
@@ -670,3 +751,7 @@ $(document).on('keydown', function(e){
 	 event.preventDefault();
 
  });
+<<<<<<< HEAD
+=======
+*/
+>>>>>>> origin/master

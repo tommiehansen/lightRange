@@ -1,11 +1,25 @@
 /*-----------------------------------------------------
 *******************************************************
 *****************************************************
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/master
 
 	LIGHTRANGE
 	simple date range selection
 	2016-09-13
 
+<<<<<<< HEAD
+=======
+=======
+	
+	LIGHTRANGE
+	simple date range selection
+	14:44 2015-12-17
+	
+>>>>>>> origin/master
+>>>>>>> origin/master
 *****************************************************
 *******************************************************
 -----------------------------------------------------*/
@@ -14,6 +28,15 @@
 
 // small helpers
 function _id(e) { return document.getElementById(e); }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+//function _e(e) { return document.querySelector(e); }
+//function _ee(e) { return document.querySelectorAll(e); }
+//function _for(e,f) { var i, len=e.length; for(i=0;i<len;i++){ f(e[i]); }}
+>>>>>>> origin/master
+>>>>>>> origin/master
 function _for(e,f) { var i, len=e.length; for(i=0;i<len;i++){ if(f(e[i]) === false) break; }} // break-version for escaping loops via return false;
 
 
@@ -34,22 +57,49 @@ var main,
 	allTD;
 
 var lightRange = {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/master
 
 	// show calendar
 	show: function(monthsNum){
 		main.className = 'show';
 
+<<<<<<< HEAD
+=======
+=======
+	
+	// show calendar
+	show: function(monthsNum){
+		main.className = 'show';
+		//_id('lrovr').classList.add('on');
+		
+>>>>>>> origin/master
+>>>>>>> origin/master
 		if(firstRun) {
 			firstRun = false;
 			lightRange.initMonths();
 		}
 
 	},
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+	
+>>>>>>> origin/master
+>>>>>>> origin/master
 	// error messages
 	err: function(txt){
 		alert(txt); // fix better error handling @ future
 	},
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/master
 
 	hide: function(){
 		main.className = '';
@@ -78,11 +128,52 @@ var lightRange = {
 
 			}) // end for-loop
 
+<<<<<<< HEAD
+=======
+=======
+	
+	hide: function(){
+		//main.removeClass('show');
+		main.className = '';
+	},
+	
+	hoverRange: function(t){
+		
+		var sel1 = _id('sel1'), // later move all this outside of mouseenter for perf reasons; note: calendar must ofc exist *BEFORE* all binds
+			sel2 = _id('sel2');
+			
+		if( sel1 !== null && sel2 == null ){
+			
+			var td = allTD, // allTD created on init
+				i=0, s1i=0, s2i=0, sel2, sel1data;	
+			
+			
+			_for(td, function(e){
+				i++;
+				
+				e.classList.remove('selCur','range');
+				t.classList.add('selCur');
+				
+				if( e.id == 'sel1' ) { s1i = i;  sel1 = e.getAttribute('data-date'); }		// get index of selection 1 and start from this <td>				
+				if( e.className.indexOf("selCur") > -1 ) { s2i = i+1; sel2 = e.getAttribute('data-date'); }
+						
+				daysNum.querySelector('em').innerText = rangeCal.dateDiff(sel1, sel2);
+				daysNum.classList.remove('off');
+				
+				
+			}) // end for-loop
+			
+>>>>>>> origin/master
+>>>>>>> origin/master
 			i=0;
 			_for(td, function(e){
 				i++;
 				if(i > s1i && i < s2i ) { e.classList.add('range'); }
 			})
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/master
 
 		}
 
@@ -91,10 +182,40 @@ var lightRange = {
 	// navigation
 	nav: function(e){
 
+<<<<<<< HEAD
+=======
+=======
+			
+		}
+		
+	},
+	
+	// difference in days
+	dateDiff: function(date1, date2, sel2){
+		
+		// Create dates
+		var dmy1 = new Date(date1),
+			dmy2 = new Date(date2),
+			days = Math.abs(Math.ceil( dmy1.getTime() / (3600*24*1000)) - Math.ceil( dmy2.getTime() / (3600*24*1000)));
+		
+		days++;
+		return days;
+		
+	},
+	
+	// navigation
+	nav: function(e){
+		
+>>>>>>> origin/master
+>>>>>>> origin/master
 		var	dp = lr_dp,
 			curX,
 			curId = e.id,
 			calWidth = dp.offsetWidth;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/master
 
 		if( dp.className == '' ){  curX = 0; dp.className = 0; } // perf: change from class to something else
 		else { curX = parseInt(dp.className); }
@@ -120,39 +241,111 @@ var lightRange = {
 			e.classList.add('off');
 		}
 
+<<<<<<< HEAD
+=======
+=======
+		
+		if( dp.className == '' ){  curX = 0; dp.className = 0; } // perf: change from class to something else
+		else { curX = parseInt(dp.className); }
+		
+		// calculate max percentage
+		//var len  = monthNum; // set @ init // doesnt work
+		var len = monthNum;
+		
+		if( calWidth > 500 ) { len = len / 2; } // responsive
+		len = len-1+'00';
+		len = '-' + len;
+		
+		if( curId == 'next' && curX > len ){
+			
+			if( calWidth < 500 ) { curX = curX-100; }
+			else { curX = curX-50; }
+			
+			_id('prev').classList.remove('off');
+			
+		}
+		
+		else if( curId == 'next' && curX <= len ){
+			e.classList.add('off');
+		}
+		
+>>>>>>> origin/master
+>>>>>>> origin/master
 		if( curId == 'prev' && curX < 0 ){
 			if( calWidth < 500 ) { curX = curX+100; }
 			else { curX = curX + 50; }
 			_id('next').classList.remove('off');
 		}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/master
 
 		else if( curId == 'prev' && curX > len ){
 			e.classList.add('off');
 		}
 
 
+<<<<<<< HEAD
+=======
+=======
+		
+		else if( curId == 'prev' && curX > len ){
+			e.classList.add('off');
+		}
+		
+		
+>>>>>>> origin/master
+>>>>>>> origin/master
 		// 12/2 = 6 views total.
 		// 6 = @ 600% the views are gone!
 		// (12/2)-1+'00%' = max slide
 		dp.style.transform = 'translateX(' + curX + '%)';
 		//dp.style.transform = 'translateX(' + curX + '%)';
 		dp.className = curX;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/master
 
 	},
 
 
+<<<<<<< HEAD
+=======
+=======
+		
+	},
+	
+	
+>>>>>>> origin/master
+>>>>>>> origin/master
 	/*-----------------------------------------------------
 
 		LARGE ANNOYING FUNCTIONS
 
+<<<<<<< HEAD
 	-----------------------------------------------------*/
 
+=======
+<<<<<<< HEAD
+	-----------------------------------------------------*/
+
+=======
+	-----------------------------------------------------*/	
+	
+>>>>>>> origin/master
+>>>>>>> origin/master
 	/*
 		USER SELECT
 		1.04kb
 	*/
 	/* todo: add action for setting input 1 + hidden input 2+3 */
 	select: function(e, main){
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/master
 
 		// selection 1 + 2
 		var	sel1 = _id('sel1'),
@@ -329,19 +522,56 @@ var lightRange = {
 		var now = new Date(),
 			nowMonth = now.getMonth(),
 			nowYear = now.getFullYear(),
+<<<<<<< HEAD
+=======
+=======
+			
+	}, // end select()
+	
+	/* SET DATES */
+	set: function(date, fromTo){
+		
+		
+	},
+	
+	
+	getMonth: function(month, year, monthArr, dayArr, dayString){
+
+		var days = [];
+		
+		var now = new Date(),
+			nowMonth = now.getMonth(),
+>>>>>>> origin/master
+>>>>>>> origin/master
 			nowDay = now.getDate();
 
 		// set days 1
 		var date = new Date(year, month, 0),
 			totalDays = date.getDate(),
 			endDay = date.getDay();
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+		
+>>>>>>> origin/master
+>>>>>>> origin/master
 		// set days 2
 		date.setDate(0);
 		var startDay = date.getDay(0),
 			nextMonthStart = false,
 			prevMonthDays = 0;
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+				
+>>>>>>> origin/master
+>>>>>>> origin/master
 		// check if startdate isn't 0 (startdate of current month starts at first index)
 		if( this.startDay !== 0 ) { prevMonthDays = (new Date(year,month-1,0)).getDate() - startDay; }
 
@@ -350,7 +580,15 @@ var lightRange = {
 			day,
 			i=0,
 			out='';
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+			
+>>>>>>> origin/master
+>>>>>>> origin/master
 			for(i; i < 42; i++) {
 				day = {};
 				if(i < startDay) {
@@ -364,6 +602,10 @@ var lightRange = {
 				else {
 					day.date = i - startDay + 1; // regular in-month days
 				}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/master
 
 				days[days.length] = day.date
 
@@ -380,6 +622,27 @@ var lightRange = {
 
 			if(month-1 == nowMonth && year == nowYear ) { isCurMonth = true; }
 
+<<<<<<< HEAD
+=======
+=======
+				
+				days[days.length] = day.date
+			
+			}; // end loop
+			
+			// BEGIN OUTPUT
+			out += '<div rel="'+ month + '/' + year +'"><em>' + monthArr[month-1] + ' <u>' + year + '</u></em><table><thead><tr>';
+			out += dayString;
+			out += '</thead><tbody>';
+			
+			// check if month = current month
+			var isCurMonth = false,
+				cssClass = '';
+				
+			if(month-1 == nowMonth) { isCurMonth = true; }
+			
+>>>>>>> origin/master
+>>>>>>> origin/master
 			// All days
 			i=0;
 			for(var key in days){ // 42x / month
@@ -387,7 +650,15 @@ var lightRange = {
 
 				// START row
 				if(i === 1) out += '<tr>';
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+					
+>>>>>>> origin/master
+>>>>>>> origin/master
 					// check if prev month (in relation to current visible month)
 					if( key < startDay || key >= nextMonthStart ){
 
@@ -399,9 +670,21 @@ var lightRange = {
 							if(key => nextMonthStart ) { curMonth = month+1; } else { curMonth = month-1; }
 							out += '<td class="nc" rel="'+ curMonth +'"><i>'+days[key]+'</i></td>';
 						}
+<<<<<<< HEAD
 
 					}
 					// current month -- ERR, also marks next years month as 'ld'
+=======
+<<<<<<< HEAD
+
+					}
+					// current month -- ERR, also marks next years month as 'ld'
+=======
+						
+					}
+					// current month
+>>>>>>> origin/master
+>>>>>>> origin/master
 					else if( isCurMonth && days[key] <= nowDay ){
 						cssClass = 'ld';
 						if(days[key] == nowDay) cssClass = 'today';
@@ -411,6 +694,10 @@ var lightRange = {
 					else {
 						out += '<td><i>'+days[key]+'</i></td>'; // USE DAY + month data
 					}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/master
 
 				// END row
 				if(i === 7) { i = 0; } // end row (omitting </tr>)
@@ -420,6 +707,20 @@ var lightRange = {
 			// push end
 			out += '</tbody></table></div>'; // end div
 
+<<<<<<< HEAD
+=======
+=======
+			
+				// END row
+				if(i === 7) { i = 0; } // end row (omitting </tr>)
+				
+			}
+			
+			// push end
+			out += '</tbody></table></div>'; // end div
+			
+>>>>>>> origin/master
+>>>>>>> origin/master
 			// return string
 			return out;
 
@@ -438,6 +739,10 @@ var lightRange = {
 			year = today.getFullYear(),
 			totalNum = monthNum, // cache initial
 			dayString = '';
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/master
 
 
 		// add month offset if set
@@ -458,12 +763,41 @@ var lightRange = {
 			// add html to string
 			out += lightRange.getMonth(month, year, monthLong, dayShort, dayString);
 
+<<<<<<< HEAD
+=======
+=======
+			
+		
+		// add month offset if set
+		if( monthStart !== 0 ) month += (+monthStart);
+		
+		for(var i=0;i<7;i++){
+			dayString += '<th>' + dayShort[i];
+		}
+		
+		while(monthNum--){
+		
+			// add 1 month for each iteration
+			month++;
+			
+			// apply new year if month becomes 13, (jan = 1, dec = 12 etc)
+			if(month === 13) { year++; month = 1; }
+			
+			// add html to string
+			out += lightRange.getMonth(month, year, monthLong, dayShort, dayString);
+			
+>>>>>>> origin/master
+>>>>>>> origin/master
 			// pre-push 2 first months
 			if( totalNum-monthNum === 2 ){
 				var perfStart = performance.now(); // Begin perf measure
 				dp.insertAdjacentHTML('beforeend', out);
 				out=''; // reset string
 				var perfEnd = performance.now();
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/master
 				//console.log('getMonth perf @ 2 months: ' + Math.round((perfEnd-perfStart)*100, 2)/100 + 'ms');
 			}
 
@@ -471,12 +805,28 @@ var lightRange = {
 
 		monthNum = totalNum; // reset monthNum
 
+<<<<<<< HEAD
+=======
+=======
+				console.log('getMonth perf @ 2 months: ' + Math.round((perfEnd-perfStart)*100, 2)/100 + 'ms');
+			}
+			
+		} // end while-loop
+		
+		monthNum = totalNum; // reset monthNum
+		
+>>>>>>> origin/master
+>>>>>>> origin/master
 
 		// insert rest of the months, use setTimeout to push to last in que (and to pre-render 2x first)
 		setTimeout(function(){
 			var perfStart = performance.now(); // Begin perf measure
 			dp.insertAdjacentHTML('beforeend', out);
 			var perfEnd = performance.now();
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/master
 			//console.log('getMonth perf @ rest of months: ' + Math.round((perfEnd-perfStart)*100, 2)/100 + 'ms');
 
 			// create array with all td's for later use
@@ -517,6 +867,26 @@ var lightRange = {
 		main		= _id('lr_cal'), // main selector
 		dp			= _id('lr_dp'); // container for all datepickers
 
+<<<<<<< HEAD
+=======
+=======
+			console.log('getMonth perf @ rest of months: ' + Math.round((perfEnd-perfStart)*100, 2)/100 + 'ms');
+		}, 4); // 4ms = min (else ignored in some browsers)
+
+	},
+	
+		
+	/*	
+		INIT + BINDS
+	*/
+	init: function(){
+		
+		// main elems
+		main		= _id('lr_cal'), // main selector
+		dp			= _id('lr_dp'); // container for all datepickers
+			
+>>>>>>> origin/master
+>>>>>>> origin/master
 		// input
 		input		= _id('lr_input'),
 		config		= input.getAttribute('data-monthsNum').split(','), // split to array
@@ -524,11 +894,25 @@ var lightRange = {
 		dayShort	= [],
 		monthLong	= input.getAttribute('data-months').split(','),
 		monthShort	= [];
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/master
 
 		// config
 		monthNum	= config[0],
 		monthStart	= config[1];
 
+<<<<<<< HEAD
+=======
+=======
+			
+		// config
+		monthNum	= config[0],
+		monthStart	= config[1];
+			
+>>>>>>> origin/master
+>>>>>>> origin/master
 		// others
 		firstRun	= 1,		// if has been initialized before
 		sel1		= false,	// selection 1
@@ -538,6 +922,10 @@ var lightRange = {
 		// set short names; dayShort + monthShort
 		for(var i=0;i<7;i++){ dayShort[i] = dayLong[i].substr(0,3); } // set dayShort array based on dayLong
 		for(var i=0;i<12;i++){ monthShort[i] = monthLong[i].substr(0,3); } // set monthShort based on monthLong
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/master
 
 
 
@@ -670,3 +1058,21 @@ $(document).on('keydown', function(e){
 	 event.preventDefault();
 
  });
+<<<<<<< HEAD
+=======
+=======
+		
+		
+		
+		// init binds
+		$(input).on('click', this.show);
+		$(input).trigger('click');
+		
+		$('#lr_nav').on('click', '.nav', function(){ lightRange.nav(this); } )
+		
+	},
+	
+
+} /* end lightRange */
+>>>>>>> origin/master
+>>>>>>> origin/master

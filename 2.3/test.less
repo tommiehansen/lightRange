@@ -68,8 +68,11 @@
     backface-visibility: hidden;
 }
 
+<<<<<<< HEAD
 //#lr_cals, #lr_dp, #lr_nav, #lr_fromTo { backface-visibility: hidden; trasnform: translate3d(0,0,0); }
 
+=======
+>>>>>>> origin/master
 @media (min-width: @width-main ){
     #lr_cal { width: @width-main }
     #lr_dp div { width:50%; display:inline-block; }
@@ -83,6 +86,7 @@
 
 /*-----------------------------------------------------
 
+<<<<<<< HEAD
     HERO TITLE (TOP)
 
 -----------------------------------------------------*/
@@ -121,6 +125,8 @@
 
 /*-----------------------------------------------------
 
+=======
+>>>>>>> origin/master
     CALENDAR TABLE
 
 -----------------------------------------------------*/
@@ -136,9 +142,16 @@
 */
 
 // lr_cals (container)
+<<<<<<< HEAD
 // border
 #lr_cals:after {
     content:''; display:block; height:100%; background: @color-bright-d; position:absolute; left:50%; width:1px; margin-left:-1px; top:0;
+=======
+
+// border
+#lr_cals:after {
+    content:''; display:block; height:100%; background: rgba(0,0,0,0.05); position:absolute; left:50%; width:1px; margin-left:-1px; top:0;
+>>>>>>> origin/master
     transform: translateZ(0);
 }
 
@@ -186,7 +199,10 @@
 
     // selected + in-range items
     .range i {
+<<<<<<< HEAD
         //background: @color-lighter;
+=======
+>>>>>>> origin/master
         background: lighten(@color-primary, 37%);
     }
     .sel1 i {
@@ -259,7 +275,11 @@
     }
 
     // colorize 6th + 7th item
+<<<<<<< HEAD
     // td,th { &:nth-child(7n) i , &:nth-child(6n) i { color: @color-secondary } }
+=======
+    //td,th { &:nth-child(7n) i , &:nth-child(6n) i { color: @color-secondary } }
+>>>>>>> origin/master
 
 }
 
@@ -281,6 +301,7 @@
 	text-align: center;
 	text-transform: uppercase;
 	line-height: @line-height-title;
+<<<<<<< HEAD
 	background: @color-bright-fa;
 	color: lighten(@color-text, 20%);
     font-size: 1.4rem;
@@ -288,6 +309,16 @@
     u {
         font-weight: 400;
     	color: lighten(@color-text, 40%);
+=======
+	background: @color-primary;
+	color: #fff;
+    font-size: 1.3rem;
+    letter-spacing: .5px;
+
+    u {
+        font-weight: 400;
+    	color: rgba(255,255,255,0.8);
+>>>>>>> origin/master
         text-decoration: none;
     }
 
@@ -304,7 +335,12 @@
     vertical-align: top;
 
     i {
+<<<<<<< HEAD
         padding: @padding-main; color: lighten(@color-text, 30%);
+=======
+        padding: @padding-main;
+        color: rgba(255,255,255,0.8);
+>>>>>>> origin/master
         display: block;
         width: 50%;
         line-height: @line-height-title;
@@ -312,10 +348,17 @@
     }
 
     @media (min-width: @width-main ){
+<<<<<<< HEAD
         i:hover { color: @color-text; }
     }
 
     i.off { color: @color-bright; }
+=======
+        i:hover { color: #fff }
+    }
+
+    i.off { color: rgba(255,255,255,0.5); cursor: default; }
+>>>>>>> origin/master
     .prev { float:left; }
     .next { float:right; text-align:right; }
 }
