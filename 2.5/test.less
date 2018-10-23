@@ -40,7 +40,7 @@
 -----------------------------------------------------*/
 
 //@width-main: 600px; // desktops, else 100%
-@width-main: 530px; // width for $lr_cal container
+@width-main: 650px; // width for $lr_cal container
 @padding-main: 15px;
 @font-size-base: 10px; // base font size
 @font-size: 1.4rem;
@@ -57,7 +57,6 @@
 // main calendar
 #lr_cal {
     display: none;
-    -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
 }
 #lr_cal.show { display: block; }
 
@@ -69,11 +68,15 @@
     backface-visibility: hidden;
 }
 
-//#lr_cals, #lr_dp, #lr_nav, #lr_fromTo { backface-visibility: hidden; trasnform: translate3d(0,0,0); }
-
 @media (min-width: @width-main ){
     #lr_cal { width: @width-main }
-    #lr_dp div { width:50%; display:inline-block; }
+    #lr_dp div { width: 50%; display:inline-block; }
+}
+
+@media (max-width: @width-main){
+    #lr_cal { min-width: 320px !important; width: auto !important; max-width: 90% !important; }
+    #lr_dp div { width: 100%; }
+    #lr_cals div { border: none; }
 }
 
 // small
@@ -130,17 +133,29 @@
 
 -----------------------------------------------------*/
 
+/* TEMP CRAP */
+#lr_cal {
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translate(-50%,0%);
+}
+
+#lr_dp { transform: none !important; }
+
+
 // lr_cals (container)
-// border
-#lr_cals:after {
-    content: ' '; display:block; height:100%; background: @color-bright-d; position:absolute; left:50%; width:1px; margin-left:-1px; top:0;
-    transform: translateZ(0);
+
+// center line border
+#lr_cals div:nth-child(even){
+    border-left: 1px solid @color-bright-d;
+    // outline: red solid;
 }
 
 #lr_cals {
-    white-space: nowrap; overflow-x: hidden;
     border: 1px solid @color-bright-d; border-top: 0;
     position: relative;
+    max-height: 80vh;
+    overflow-y: auto;
 }
 
 // default table
@@ -339,14 +354,3 @@
     }
 
 }
-
-
-
-
-
-/* MISC STUFF */
-
-/* dev; toggle animation of lr_dp elem
-#lr_dp { animation: dev 5s ease-in-out infinite; }
-@keyframes dev { 0% { transform: translateX(0); } 50% { transform: translateX(-500%); } }
-*/

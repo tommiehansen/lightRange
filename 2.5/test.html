@@ -11,8 +11,8 @@
 html {  font-size:62.5%; }
 *, *:before, *:after { box-sizing: border-box; }
 * { font-family: 'Roboto', arial, helvetica, sans-serif; font-weight:400; }
-body { padding:40px 0; background: #fafafa; font-size:1.6rem; color:#333; }
-#c { width: 760px; padding:60px; margin:0 auto; min-height:1000px; background:#fff; border:1px solid #eee; border-top-width:2px; }
+body { padding:0 0; background: #fafafa; font-size:1.6rem; color:#333; }
+#c { max-width: 760px; padding:60px; margin:0 auto; min-height:1000px; background:#fff; border:1px solid #eee; border-top-width:2px; }
 h1 { margin:0; font-size: 3.7rem; font-weight:200; line-height:100%; }
 h1 b { font-weight: 800; }
 p { line-height:150%; }
@@ -56,7 +56,6 @@ span { font-weight: 300; }
 -->
 
 <div id="lr_cal">
-
 	<div id="lr_fromTo">
 		<div class="lr_dateBox" id="lr_dateFrom" data-initial="Select departure date">
 			<i class="lr_date">Select departure date</i>
@@ -67,10 +66,6 @@ span { font-weight: 300; }
 
 	<!-- the calendars -->
 	<div id="lr_cals">
-		<div id="lr_nav">
-			<i class="nav next" id="next">&rsaquo;</i>
-			<i class="nav prev off" id="prev">&lsaquo;</i>
-		</div>
 		<div id="lr_dp"></div>
 	</div>
 
