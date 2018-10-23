@@ -32,6 +32,7 @@
 
 
 
+
 /*-----------------------------------------------------
 
     BASE
@@ -39,11 +40,11 @@
 -----------------------------------------------------*/
 
 //@width-main: 600px; // desktops, else 100%
-@width-main: 600px;
+@width-main: 530px; // width for $lr_cal container
 @padding-main: 15px;
 @font-size-base: 10px; // base font size
 @font-size: 1.4rem;
-@td-padding: 2px;
+@td-padding: 0;
 
 // border box
 #lr_cal, #lr_cal *, #lr_cal *:before, #lr_cal *:after { box-sizing: border-box;  }
@@ -68,6 +69,8 @@
     backface-visibility: hidden;
 }
 
+//#lr_cals, #lr_dp, #lr_nav, #lr_fromTo { backface-visibility: hidden; trasnform: translate3d(0,0,0); }
+
 @media (min-width: @width-main ){
     #lr_cal { width: @width-main }
     #lr_dp div { width:50%; display:inline-block; }
@@ -79,27 +82,58 @@
 #lr_cal td, #lr_nav i, .lr_btn, #lr_dp table { cursor: pointer; }
 
 
+
+
+/*-----------------------------------------------------
+
+    HERO TITLE (TOP)
+
+-----------------------------------------------------*/
+
+#lr_fromTo {
+
+    background: @color-primary;
+    padding: @padding-main 0;
+    color: @color-brightest;
+
+    .lr_dateBox {
+        width:50%;
+        display: inline-block;
+        text-align: center;
+        line-height: 150%;
+    }
+
+    .off { opacity: 0.5 }
+
+    .lr_date {
+    	animation: text_fadeInOut 1s ease-in-out infinite;
+        backface-visibility: hidden;
+        transform: translateZ(0);
+    }
+
+    .off .lr_date { animation: none; }
+    .active .lr_date { animation: none; }
+
+}
+
+@keyframes text_fadeInOut {
+    0% { color: inherit; }
+    50% { color: @color-primary; }
+}
+
+
+
+
 /*-----------------------------------------------------
 
     CALENDAR TABLE
 
 -----------------------------------------------------*/
 
-// checkered table
-/*
-#lr_dp { td, th {
-        border:1px dotted @color-bright-d;
-        &:last-child { border-right:0; }
-        &:first-child { border-left:0; }
-    }
-}
-*/
-
 // lr_cals (container)
-
 // border
 #lr_cals:after {
-    content:''; display:block; height:100%; background: rgba(0,0,0,0.05); position:absolute; left:50%; width:1px; margin-left:-1px; top:0;
+    content: ' '; display:block; height:100%; background: @color-bright-d; position:absolute; left:50%; width:1px; margin-left:-1px; top:0;
     transform: translateZ(0);
 }
 
@@ -115,7 +149,14 @@
     border-collapse: collapse;
     table-layout: fixed;
     background: @color-brightest;
-    width:100%;
+    width: 100%;
+	position: relative;
+
+	@wi: 3.5rem;
+	@br: 5px;
+
+	.nc { visibility: hidden; }
+	.ld { pointer-events: none; }
 
     th {
         color: @color-halfbright;
@@ -127,36 +168,38 @@
         width: auto;
         text-align: center;
         vertical-align: middle;
-        padding: @td-padding;
+		width: @wi;
+		min-width: 14.2857%;
+		max-width: 14.2857%;
+		height: @wi;
+		line-height: 1;
     }
 
-    th { padding: 10px 0 5px; }
-
-    td i {
-    	display:inline-block;
-        @wi: 35px;
-    	width: @wi;
-    	height: @wi;
-    	line-height: @wi;
-    	border-radius:50%;
-    }
-
-    .sel1,.sel2 {
+    .sel1, .sel2 {
         animation: temp .2s ease 1;
     }
 
     // selected + in-range items
-    .range i {
+    .range {
         background: lighten(@color-primary, 37%);
     }
-    .sel1 i {
+	.selCur {
+		//background: @color-secondary;
+	}
+    .sel1 {
         background: @color-primary !important;
         color: @color-brightest;
+		border-top-left-radius: @br;
+		border-bottom-left-radius: @br;
     }
-    .sel2 i {
-        background: @color-secondary !important;
+    .sel2 {
+        background: @color-primary;
         color: @color-brightest;
+		border-top-right-radius: @br;
+		border-bottom-right-radius: @br;
     }
+
+
 }
 
 @keyframes temp {
@@ -166,14 +209,10 @@
 }
 
 @media (min-width: @width-main ){
-    #lr_dp td:hover i {
-        //background-color: @color-bright-d;
-        background-color: @color-light;
-    }
 
-    #lr_dp .nc i { display: none; }
+    #lr_dp .nc { visibility: hidden }
 
-    #lr_dp td.ld:hover i {
+    #lr_dp td.ld:hover {
         color: inherit;
     }
 }
@@ -193,29 +232,24 @@
             content: '\00B7'; // unicode dot
             font-size:5rem;
             line-height:0;
-            bottom: 20%;
+            bottom: 15%;
             left:0;
             color: @color-primary;
         }
     } // today
 
     .ld { color: @color-halfbright; cursor: default; } // Disabled
-    .ld i:before { // strike-through
+    .ld:before { // strike-through
         position: absolute;
         content: "";
-        top: 50%;
-        width:50%;
+        top: 45%;
+        width: 50%;
         right: 0;
-        left:0;
         left: 50%;
         margin-left:-25%;
         border-top: 1px solid @color-bright;
         transform: rotate(-25deg);
         backface-visibility: hidden;
-    }
-
-    @media (min-width: @width-main ){
-        .ld:hover i {  background: none; }
     }
 
     // colorize 6th + 7th item
@@ -241,14 +275,13 @@
 	text-align: center;
 	text-transform: uppercase;
 	line-height: @line-height-title;
-	background: @color-primary;
-	color: #fff;
-    font-size: 1.3rem;
-    letter-spacing: .5px;
+	background: @color-bright-fa;
+	color: lighten(@color-text, 20%);
+    font-size: 1.4rem;
 
     u {
         font-weight: 400;
-    	color: rgba(255,255,255,0.8);
+    	color: lighten(@color-text, 40%);
         text-decoration: none;
     }
 
@@ -265,8 +298,7 @@
     vertical-align: top;
 
     i {
-        padding: @padding-main;
-        color: rgba(255,255,255,0.8);
+        padding: @padding-main; color: lighten(@color-text, 30%);
         display: block;
         width: 50%;
         line-height: @line-height-title;
@@ -274,13 +306,15 @@
     }
 
     @media (min-width: @width-main ){
-        i:hover { color: #fff }
+        i:hover { color: @color-text; }
     }
 
-    i.off { color: rgba(255,255,255,0.5); cursor: default; }
+    i.off { color: @color-bright; }
     .prev { float:left; }
     .next { float:right; text-align:right; }
 }
+
+
 
 
 /*-----------------------------------------------------

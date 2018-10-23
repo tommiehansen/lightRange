@@ -250,7 +250,9 @@ var lightRange = {
 	set: function(date, fromTo){
 
 		var cur,
-			str = '';
+			str = '',
+			to = _id('lr_dateTo'),
+			from = _id('lr_dateFrom');
 
 		if(date !== 'reset'){
 
@@ -259,24 +261,62 @@ var lightRange = {
 			// BASE DATE + VARs
 			var date = new Date(date); // create date from user selected date
 
-			// Create format friendly date (year, month, day)
-			var str = {
-				'year': date.getFullYear(),
-				'month': date.getMonth()+1,
-				'day': date.getDate()
-			};
+			var y = date.getFullYear().toString(),
+				m = date.getMonth(),
+				d = date.getDate().toString(),
+				day = date.getDay(),
+				monthNice = monthLong[m].substr(0,3);
 
 
-			// set dates to input
-			var attr = 'data-date' + fromTo;
-			main.setAttribute(attr, JSON.stringify(str));
+				// shift day numbering (we start at monday)
+				if(day === 0) { day = 6; }
+				else { day = day-1;}
+
+				var dayNice = dayLong[day];
+
+			// Split day (for small screens)
+			var dayNice1 = dayNice.substr(0,3),
+				dayNice2 = dayNice.substr(3,20);
+
+
+			if( fromTo == 'from' ){
+				cur = from;
+				to.classList.remove('off'); // if has class off remove it
+			}
+			else {
+				cur = to;
+			}
+
+			cur.classList.add('active');
+			str = dayNice1 + '<span class="hideSmall">' + dayNice2 + '</span>, ' + d + ' ' + monthNice + ' ' + y;
+			cur.querySelector('.lr_date').innerHTML = str;
+
+			// set nice dates to input
+			cur.setAttribute('data-date', d + ' ' + monthNice);
+
+			// set system date @ data-date tag
+			m=m+1;
+			if(m<10) m = '0' + m; // add leading zero
+			if(d<10) d = '0' + d;
+			cur.setAttribute('data-systemdate', y + '-' + m + '-' + d);
 
 		} // end if( date !== 'reset' )
 
+
 		// RESET
 		else {
-			main.removeAttribute('data-datefrom');
-			main.removeAttribute('data-dateto');
+			cur = _id('lr_fromTo');
+			var str = to.getAttribute('data-initial'); // FIX: This is not translateable as is
+
+			to.classList.add('off');
+
+			//daysNum.classList.add('off');
+			//daysNum.querySelector('em').innerHTML = 0; // FIX: Combine with above?
+
+			to.classList.remove('active'); // FIX: Combine with classList.add above
+			from.classList.remove('active'); // Fix: Combine with above?
+
+			to.querySelector('.lr_date').innerText = str;
 		}
 
 	}, // end set()
@@ -352,12 +392,12 @@ var lightRange = {
 					if( key < startDay || key >= nextMonthStart ){
 
 						if( isCurMonth && key < nextMonthStart ) {
-							out += '<td class="nc ld"><i>'+days[key]+'</i></td>';
+							out += '<td class="nc ld">'+days[key]+'</td>';
 						}
 						else {
 							var curMonth = month;
 							if(key => nextMonthStart ) { curMonth = month+1; } else { curMonth = month-1; }
-							out += '<td class="nc" rel="'+ curMonth +'"><i>'+days[key]+'</i></td>';
+							out += '<td class="nc" rel="'+ curMonth +'">'+days[key]+'</td>';
 						}
 
 					}
@@ -365,11 +405,11 @@ var lightRange = {
 					else if( isCurMonth && days[key] <= nowDay ){
 						cssClass = 'ld';
 						if(days[key] == nowDay) cssClass = 'today';
-						out += '<td class="'+ cssClass +'"><i>'+days[key]+'</i></td>';
+						out += '<td class="'+ cssClass +'">'+days[key]+'</td>';
 					}
 					// ordinary day
 					else {
-						out += '<td><i>'+days[key]+'</i></td>'; // USE DAY + month data
+						out += '<td>'+days[key]+'</td>'; // USE DAY + month data
 					}
 
 				// END row
@@ -420,8 +460,11 @@ var lightRange = {
 
 			// pre-push 2 first months
 			if( totalNum-monthNum === 2 ){
+				var perfStart = performance.now(); // Begin perf measure
 				dp.insertAdjacentHTML('beforeend', out);
 				out=''; // reset string
+				var perfEnd = performance.now();
+				//console.log('getMonth perf @ 2 months: ' + Math.round((perfEnd-perfStart)*100, 2)/100 + 'ms');
 			}
 
 		} // end while-loop
@@ -431,7 +474,10 @@ var lightRange = {
 
 		// insert rest of the months, use setTimeout to push to last in que (and to pre-render 2x first)
 		setTimeout(function(){
+			var perfStart = performance.now(); // Begin perf measure
 			dp.insertAdjacentHTML('beforeend', out);
+			var perfEnd = performance.now();
+			//console.log('getMonth perf @ rest of months: ' + Math.round((perfEnd-perfStart)*100, 2)/100 + 'ms');
 
 			// create array with all td's for later use
 			allTD = main.getElementsByTagName('td');
@@ -445,27 +491,18 @@ var lightRange = {
 		APPLY
 	*/
 
-	/*
-		# APPLY + format date(s)
-	*/
 	apply: function(){
-
-		var from = main.getAttribute('data-datefrom'), // yyyy-m-d
-			to = main.getAttribute('data-dateto');
-
-			from = JSON.parse(from);
-			to = JSON.parse(to);
+		var from = _id('lr_dateFrom'),
+			to = _id('lr_dateTo'),
+			fromNice = from.getAttribute('data-date'),
+			toNice = to.getAttribute('data-date'),
+			fromSys = from.getAttribute('data-systemdate'),
+			toSys = to.getAttribute('data-systemdate');
 
 		// set visual 'nice' date
-		var fromNice = from.day + ' ' + monthShort[from.month];
-		var toNice = to.day + ' ' + monthShort[to.month];
 		input.value = fromNice + ' - ' + toNice;
 
 		// set system dates
-		var fromSys = from.year + '-' + from.month + '-' + from.day,
-			toSys = to.year + '-' + to.month + '-' + to.day;
-
-
 		_id('date1').value = fromSys;
 		_id('date2').value = toSys;
 	},
@@ -499,7 +536,7 @@ var lightRange = {
 		allTD;					// all the td's in the table
 
 		// set short names; dayShort + monthShort
-		for(var i=0;i<7;i++){ dayShort[i] = dayLong[i].substr(0,2); } // set dayShort array based on dayLong
+		for(var i=0;i<7;i++){ dayShort[i] = dayLong[i].substr(0,3); } // set dayShort array based on dayLong
 		for(var i=0;i<12;i++){ monthShort[i] = monthLong[i].substr(0,3); } // set monthShort based on monthLong
 
 
@@ -551,17 +588,6 @@ var lightRange = {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 /*-----------------------------------------------------
 
 	# KEYBOARD NAV ADDON
@@ -594,8 +620,6 @@ $(document).on('keydown', function(e){
 	0.58 bytes minified
 
 -----------------------------------------------------*/
-
-/*
 
  // Important option
  // timer delay in ms, higher = better perf but less responsive ui
@@ -646,4 +670,3 @@ $(document).on('keydown', function(e){
 	 event.preventDefault();
 
  });
-*/
