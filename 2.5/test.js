@@ -57,14 +57,15 @@ var lightRange = {
 
 	hoverRange: function(t){
 
-		var sel1 = _id('sel1'), // later move all this outside of mouseenter for perf reasons; note: calendar must ofc exist *BEFORE* all binds
+		// later move all this outside of mouseenter for perf reasons; note: calendar must ofc exist *BEFORE* all binds
+		var sel1 = _id('sel1'),
 			sel2 = _id('sel2');
 
+		// user has made selection 1 but not 2
 		if( sel1 !== null && sel2 == null ){
 
 			var td = allTD, // allTD created on init
 				i=0, s1i=0, s2i=0, sel2, sel1data;
-
 
 			_for(td, function(e){
 				i++;
@@ -72,73 +73,51 @@ var lightRange = {
 				e.classList.remove('selCur','range');
 				t.classList.add('selCur');
 
-				if( e.id == 'sel1' ) { s1i = i;  sel1 = e.getAttribute('data-date'); }		// get index of selection 1 and start from this <td>
-				if( e.className.indexOf("selCur") > -1 ) { s2i = i+1; sel2 = e.getAttribute('data-date'); }
+				// get index of selection 1 and start from this <td>
+				if( e.id == 'sel1' ) { s1i = i;  sel1 = e.getAttribute('data-date'); }
 
+				// current hovered item
+				if( e.className.indexOf("selCur") > -1 ){
+					s2i = i+1;
+					sel2 = e.getAttribute('data-date');
+				}
 
 			}) // end for-loop
 
-			i=0;
+			i=0; var counter=0; // day counter
 			_for(td, function(e){
 				i++;
-				if(i > s1i && i < s2i ) { e.classList.add('range'); }
+				if(i > s1i && i < s2i ) { e.classList.add('range'); counter++; }
 			})
+
+			/* day counter */
+			// send range-count + selection2 to day_counter
+			lightRange.day_counter(counter, td[s2i-2]);
 
 		}
 
 	}, // end hoverRange()
 
-	// navigation
-	nav: function(e){
+	day_counter: function(count, target){
 
-		var	dp = lr_dp,
-			curX,
-			curId = e.id,
-			calWidth = dp.offsetWidth;
+		// console.log(count);
+		// console.log(target);
 
-		if( dp.className == '' ){  curX = 0; dp.className = 0; } // perf: change from class to something else
-		else { curX = parseInt(dp.className); }
+		// get target coordinates
+		// target = $(target);
+		var y = target.offsetTop + target.parentNode.parentNode.parentNode.offsetTop - 22,
+			x = target.offsetLeft + target.parentNode.parentNode.parentNode.offsetLeft;
 
-		// calculate max percentage
-		//var len  = monthNum; // set @ init // doesnt work
-		var len = monthNum;
+		// console.log('x:'+x+',y:'+y+'');
 
-		if( calWidth > 500 ) { len = len / 2; } // responsive
-		len = len-1+'00';
-		len = '-' + len;
+		var dc = _id('day_counter');
+		dc.innerText = count + ' days';
+		dc.setAttribute('style', 'transform:translate('+ x +'px,'+ y +'px)');
 
-		if( curId == 'next' && curX > len ){
-
-			if( calWidth < 500 ) { curX = curX-100; }
-			else { curX = curX-50; }
-
-			_id('prev').classList.remove('off');
-
-		}
-
-		else if( curId == 'next' && curX <= len ){
-			e.classList.add('off');
-		}
-
-		if( curId == 'prev' && curX < 0 ){
-			if( calWidth < 500 ) { curX = curX+100; }
-			else { curX = curX + 50; }
-			_id('next').classList.remove('off');
-		}
-
-		else if( curId == 'prev' && curX > len ){
-			e.classList.add('off');
-		}
-
-
-		// 12/2 = 6 views total.
-		// 6 = @ 600% the views are gone!
-		// (12/2)-1+'00%' = max slide
-		dp.style.transform = 'translateX(' + curX + '%)';
-		//dp.style.transform = 'translateX(' + curX + '%)';
-		dp.className = curX;
-
+		// NOTE: Must also hide on re-select
 	},
+
+
 
 
 	/*-----------------------------------------------------
@@ -209,9 +188,10 @@ var lightRange = {
 			_for(allTD, function(e){
 				i++;
 
-				if( e.id == 'sel1' ) { go=1; s1i = i; }
-				if( e.id == 'sel2' ) { stop=1; s2i = i; }
+				if( e.id == 'sel1' ) { go = 1; s1i = i; }
+				if( e.id == 'sel2' ) { stop = 1; s2i = i; }
 
+				// if selection 1 under 2 and 'go' = 1 add range-class
 				if( s1i < s2i && go ){
 					if(go) e.className += ' range';
 				}
@@ -267,7 +247,6 @@ var lightRange = {
 				day = date.getDay(),
 				monthNice = monthLong[m].substr(0,3);
 
-
 				// shift day numbering (we start at monday)
 				if(day === 0) { day = 6; }
 				else { day = day-1;}
@@ -296,8 +275,8 @@ var lightRange = {
 
 			// set system date @ data-date tag
 			m=m+1;
-			if(m<10) m = '0' + m; // add leading zero
-			if(d<10) d = '0' + d;
+			if(m<10) m = '0' + m; // add leading zero to month
+			if(d<10) d = '0' + d; // add leading zero to day
 			cur.setAttribute('data-systemdate', y + '-' + m + '-' + d);
 
 		} // end if( date !== 'reset' )
@@ -460,10 +439,10 @@ var lightRange = {
 
 			// pre-push 2 first months
 			if( totalNum-monthNum === 2 ){
-				var perfStart = performance.now(); // Begin perf measure
+				// var perfStart = performance.now(); // Begin perf measure
 				dp.insertAdjacentHTML('beforeend', out);
 				out=''; // reset string
-				var perfEnd = performance.now();
+				// var perfEnd = performance.now();
 				//console.log('getMonth perf @ 2 months: ' + Math.round((perfEnd-perfStart)*100, 2)/100 + 'ms');
 			}
 
@@ -474,9 +453,9 @@ var lightRange = {
 
 		// insert rest of the months, use setTimeout to push to last in que (and to pre-render 2x first)
 		setTimeout(function(){
-			var perfStart = performance.now(); // Begin perf measure
+			// var perfStart = performance.now(); // Begin perf measure
 			dp.insertAdjacentHTML('beforeend', out);
-			var perfEnd = performance.now();
+			// var perfEnd = performance.now();
 			//console.log('getMonth perf @ rest of months: ' + Math.round((perfEnd-perfStart)*100, 2)/100 + 'ms');
 
 			// create array with all td's for later use
@@ -505,6 +484,9 @@ var lightRange = {
 		// set system dates
 		_id('date1').value = fromSys;
 		_id('date2').value = toSys;
+
+		// close datepicker
+		this.hide();
 	},
 
 
@@ -544,8 +526,6 @@ var lightRange = {
 		// init binds
 		$(input).on('click', this.show);
 		$(input).trigger('click');
-
-		$('#lr_nav').on('click', '.nav', function(){ lightRange.nav(this); } )
 
 		// click day
 		$(main).on('click', 'tbody td', function(){ lightRange.select(this, _id('lr_cal')); });
